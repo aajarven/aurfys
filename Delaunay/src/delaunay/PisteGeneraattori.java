@@ -25,8 +25,8 @@ public class PisteGeneraattori {
         ArrayList<Piste> palautus = new ArrayList<Piste>();
         for(int kerros=1; kerros<=kerroksia; kerros++){
             for(int i=0; i<kerros*4; i++){
-                double theta = i*360.0/(kerros*4);
-                double fii = 90-180.0/kerroksia;
+                double theta = i*2*Math.PI/(kerros*4);
+                double fii = Math.PI/2-kerros*Math.PI/kerroksia;
                 double r = r(a, b, c, theta, fii);
                 palautus.add(new Piste(theta, fii, r));
             }
