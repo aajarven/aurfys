@@ -6,6 +6,7 @@
 package delaunay;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import utils.TiedostoIO;
 
 /**
@@ -18,11 +19,11 @@ public class Delaunay {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(2, 1.0, 1.0, 1.0);
+        HashSet<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(2, 1.0, 1.0, 1.0);
         TiedostoIO.kirjoitaTiedostoon(valmistaTulostukseen(pisteet, ","), "testi.txt");
     }
     
-    private static String valmistaTulostukseen(ArrayList<Piste> pisteet, String erotin){
+    private static String valmistaTulostukseen(HashSet<Piste> pisteet, String erotin){
         StringBuilder csv = new StringBuilder();
         for (Piste p : pisteet){
             csv.append(p.x());

@@ -6,6 +6,7 @@
 package delaunay;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  *
@@ -21,14 +22,15 @@ public class PisteGeneraattori {
      * @param c ellipsoidin yhtälön c
      * @return 
      */
-    static ArrayList<Piste> generoiLatitudeittain(int kerroksia, double a, double b, double c){
-        ArrayList<Piste> palautus = new ArrayList<Piste>();
+    static HashSet<Piste> generoiLatitudeittain(int kerroksia, double a, double b, double c){
+        HashSet<Piste> palautus = new HashSet<Piste>();
         for(int kerros=1; kerros<=kerroksia; kerros++){
             for(int i=0; i<kerros*4; i++){
                 double theta = i*2*Math.PI/(kerros*4);
                 double fii = Math.PI/2-kerros*Math.PI/kerroksia;
                 double r = r(a, b, c, theta, fii);
-                palautus.add(new Piste(theta, fii, r));
+                Piste lisattava = new Piste(theta, fii, r);
+                palautus.add(lisattava);
             }
         }
         return palautus;

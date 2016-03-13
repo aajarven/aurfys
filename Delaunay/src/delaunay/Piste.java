@@ -44,5 +44,16 @@ public class Piste {
         return r*Math.cos(theta);
     }
     
+    public boolean equals(Object o){
+        if ( !(o instanceof Piste) ){
+            return false;
+        }
+        Piste p = (Piste) o;
+        if (p.theta == this.theta && p.fii == this.fii && p.r == this.r){
+            return true;
+        } else {
+            return false;
+        }
+    }
     
 }
