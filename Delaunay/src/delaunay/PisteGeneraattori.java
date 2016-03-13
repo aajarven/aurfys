@@ -23,14 +23,18 @@ public class PisteGeneraattori {
      * @return 
      */
     static HashSet<Piste> generoiLatitudeittain(int kerroksia, double a, double b, double c){
+        if(kerroksia%2 != 0){
+            System.out.println("Kerroksia on oltava kahdella jaollinen määrä");
+            System.exit(0);
+        }
         HashSet<Piste> palautus = new HashSet<Piste>();
-        for(int kerros=1; kerros<=kerroksia; kerros++){
+        for(int kerros=1; kerros<=kerroksia/2; kerros++){
             for(int i=0; i<kerros*4; i++){
                 double theta = i*2*Math.PI/(kerros*4);
                 double fii = Math.PI/2-kerros*Math.PI/kerroksia;
                 double r = r(a, b, c, theta, fii);
-                Piste lisattava = new Piste(theta, fii, r);
-                palautus.add(lisattava);
+                palautus.add(new Piste(theta, fii, r));
+                palautus.add(new Piste(theta, -fii, r));
             }
         }
         return palautus;

@@ -10,6 +10,7 @@ package delaunay;
  * @author anni
  */
 public class Piste {
+    private final static double kynnysarvo = 0.00000001;
     private double theta;
     private double fii;
     private double r;
@@ -49,7 +50,7 @@ public class Piste {
             return false;
         }
         Piste p = (Piste) o;
-        if (p.theta == this.theta && p.fii == this.fii && p.r == this.r){
+        if (Math.abs(p.theta - this.theta) < kynnysarvo && Math.abs(p.fii - this.fii) < kynnysarvo && Math.abs(p.r - this.r) < kynnysarvo){
             return true;
         } else {
             return false;

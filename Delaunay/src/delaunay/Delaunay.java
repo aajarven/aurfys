@@ -20,6 +20,7 @@ public class Delaunay {
      */
     public static void main(String[] args) {
         HashSet<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(2, 1.0, 1.0, 1.0);
+        tulostaPisteet(pisteet);
         TiedostoIO.kirjoitaTiedostoon(valmistaTulostukseen(pisteet, ","), "testi.txt");
     }
     
@@ -34,6 +35,12 @@ public class Delaunay {
             csv.append("\n");
         }
         return csv.toString();
+    }
+    
+    private static void tulostaPisteet(Iterable<Piste> pisteet){
+        for(Piste p: pisteet){
+            System.out.println(p.getTheta()/Math.PI + "\t" + p.getFii()/Math.PI + "\t" +p.getR());
+        }
     }
     
 }
