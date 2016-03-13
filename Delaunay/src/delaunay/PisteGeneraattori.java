@@ -1,0 +1,41 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package delaunay;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author anni
+ */
+public class PisteGeneraattori {
+    
+    /**
+     * Generoi ellipsoidin x^2/a^2 + y^2/b^2 + z^2/c^2 = 1 pinnalle pistejoukon siten, että pisteiden välille tehty Delaunayn kolmiointi tuottaa latitudeittain eteneviä kolmiorivejä
+     * @param kerroksia kuinka moneen kerrokseen pallo jaetaan
+     * @param a ellipsoidin yhtälön a
+     * @param b ellipsoidin yhtälön b
+     * @param c ellipsoidin yhtälön c
+     * @return 
+     */
+    static ArrayList<Piste> generoiLatitudeittain(int kerroksia, double a, double b, double c){
+        ArrayList<Piste> palautus = new ArrayList<Piste>();
+        for(int kerros=1; kerros<=kerroksia; kerros++){
+            for(int i=0; i<kerros*4; i++){
+                double theta = i*360.0/(kerros*4);
+                double fii = 90-180.0/kerroksia;
+                double r = r(a, b, c, theta, fii);
+                palautus.add(new Piste(theta, fii, r));
+            }
+        }
+        return palautus;
+    }
+    
+    private static double r(double a, double b, double c, double theta, double fii){
+        double sincos = Math.sin(theta)*Math.sin(theta)*Math.cos(fii)*Math.cos(fii);
+        return a*b*c/Math.sqrt(b*b*c*c*sincos+a*a*c*c*sincos+a*a*b*b*Math.cos(theta)*Math.cos(theta));
+    }
+}
