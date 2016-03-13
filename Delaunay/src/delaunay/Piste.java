@@ -10,7 +10,7 @@ package delaunay;
  * @author anni
  */
 public class Piste {
-    private final static double kynnysarvo = 0.00000001;
+    private final static double kynnysarvo = 0.00001;
     private double theta;
     private double fii;
     private double r;
@@ -45,6 +45,7 @@ public class Piste {
         return r*Math.cos(theta);
     }
     
+    @Override
     public boolean equals(Object o){
         if ( !(o instanceof Piste) ){
             return false;

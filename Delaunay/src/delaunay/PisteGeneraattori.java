@@ -22,26 +22,31 @@ public class PisteGeneraattori {
      * @param c ellipsoidin yhtälön c
      * @return 
      */
-    static HashSet<Piste> generoiLatitudeittain(int kerroksia, double a, double b, double c){
+    static ArrayList<Piste> generoiLatitudeittain(int kerroksia, double a, double b, double c){
         if(kerroksia%2 != 0){
             System.out.println("Kerroksia on oltava kahdella jaollinen määrä");
             System.exit(0);
         }
-        HashSet<Piste> palautus = new HashSet<Piste>();
+        ArrayList<Piste> palautus = new ArrayList<Piste>();
         for(int kerros=1; kerros<=kerroksia/2; kerros++){
             for(int i=0; i<kerros*4; i++){
                 double theta = i*2*Math.PI/(kerros*4);
-                double fii = Math.PI/2-kerros*Math.PI/kerroksia;
+                double fii = Math.PI/2-kerros*Math.PI/kerroksia; // mieti tämä
                 double r = r(a, b, c, theta, fii);
-                palautus.add(new Piste(theta, fii, r));
-                palautus.add(new Piste(theta, -fii, r));
+                Piste lisattava = new Piste(theta, fii, r);
+                if (!palautus.contains(lisattava)){
+                    palautus.add(lisattava);
+                }
+                lisattava = new Piste(theta, -fii, r);
+                if (!palautus.contains(lisattava)){
+                    palautus.add(lisattava);
+                }
             }
         }
         return palautus;
     }
     
     private static double r(double a, double b, double c, double theta, double fii){
-        double sincos = Math.sin(theta)*Math.sin(theta)*Math.cos(fii)*Math.cos(fii);
-        return a*b*c/Math.sqrt(b*b*c*c*sincos+a*a*c*c*sincos+a*a*b*b*Math.cos(theta)*Math.cos(theta));
+        return a*b*c/Math.sqrt(b*b*c*c*Math.pow(Math.sin(theta), 2)*Math.pow(Math.cos(fii), 2)+a*a*c*c*Math.pow(Math.sin(theta), 2)*Math.pow(Math.sin(fii), 2)+a*a*b*b*Math.pow(Math.cos(theta), 2));
     }
 }
