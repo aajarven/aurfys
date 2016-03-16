@@ -23,11 +23,13 @@ public class PisteGeneraattori {
      * @return 
      */
     static ArrayList<Piste> generoiLatitudeittain(int kerroksia, double a, double b, double c){
-        if(kerroksia%2 != 0){
-            System.out.println("Kerroksia on oltava kahdella jaollinen määrä");
+        if(kerroksia%2 != 0 || kerroksia<2){
+            System.out.println("Kerroksia on oltava kahdella jaollinen määrä ja vähintään kaksi");
             System.exit(0);
         }
         ArrayList<Piste> palautus = new ArrayList<Piste>();
+        palautus.add(new Piste(0,Math.PI, r(a,b,c, 0, Math.PI)));
+        palautus.add(new Piste(0, -Math.PI, r(a,b,c, 0, Math.PI)));
         for(int kerros=1; kerros<=kerroksia/2; kerros++){
             for(int i=0; i<kerros*4; i++){
                 double theta = i*2*Math.PI/(kerros*4);
