@@ -19,8 +19,10 @@ public class Delaunay {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(6, 1.0, 1.0, 1.0);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(2, 1.0, 1.0, 1.0);
         tulostaPisteetPerPi(pisteet);
+        System.out.println("");
+        tulostaPisteetKarteesinen(pisteet);
         TiedostoIO.kirjoitaTiedostoon(valmistaTulostukseen(pisteet, ","), "testi.txt");
     }
     
@@ -46,6 +48,12 @@ public class Delaunay {
     private static void tulostaPisteet(Iterable<Piste> pisteet){
         for(Piste p: pisteet){
             System.out.println(p.getTheta() + "\t" + p.getFii() + "\t" +p.getR());
+        }
+    }
+    
+    private static void tulostaPisteetKarteesinen(Iterable<Piste> pisteet){
+        for(Piste p: pisteet){
+            System.out.println(p.x()+"\t"+p.y()+"\t"+p.z());
         }
     }
 }
