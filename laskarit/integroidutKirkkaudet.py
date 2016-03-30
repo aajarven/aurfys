@@ -23,9 +23,10 @@ alpha = [radians(a) for a in alpha]
 ls0 = (1-sin(0.5*alpha[0])*tan(0.5*alpha[0]))
 l0 = pi
 
+
 for i in range(len(alpha)): # ei käydä ekaa läpi
     ls[i] = (1-sin(0.5*alpha[i])*tan(0.5*alpha[i])*log(1.0/tan(0.25*alpha[i])))/ls0
-    l[i] = sin(alpha[i])+(pi-alpha[i])*cos(alpha[i])/l0
+    l[i] = (sin(alpha[i])+(pi-alpha[i])*cos(alpha[i]))/l0
     fiiPieni[i] = (1.0-gPieni)*exp(-3.33*tan(0.5*alpha[i])**0.63)+gPieni*exp(-1.87*tan(0.5*alpha[i])**1.22)
     fiiIso[i] = (1.0-gIso)*exp(-3.33*tan(0.5*alpha[i])**0.63)+gIso*exp(-1.87*tan(0.5*alpha[i])**1.22)
 
