@@ -47,7 +47,8 @@ public class PisteGeneraattori {
                     palautus.add(lisattava);
                 }
                 if (Math.abs(theta - Math.PI / 2) > 0.0001) { // ekvaattorin pisteitä ei lisätä kahdesti
-                    lisattava = new Piste(-theta, fii, r);
+                    lisattava = new Piste(Math.PI - theta, fii, r);
+                    //System.out.println(lisattava);
                     if (!palautus.contains(lisattava)) {
                         palautus.add(lisattava);
                     }

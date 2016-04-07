@@ -58,4 +58,8 @@ public class Piste {
         }
     }
     
+    public String toString(){
+        return this.x()+"\t"+this.y()+"\t"+this.z();
+    }
+    
 }

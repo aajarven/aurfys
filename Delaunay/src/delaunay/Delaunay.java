@@ -19,8 +19,8 @@ public class Delaunay {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(6, 1.0, 1.0, 1.0);
-        tulostaPisteetPerPi(pisteet);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(12, 1.7, 1.0, 0.8);
+        //tulostaPisteetPerPi(pisteet);
         System.out.println("");
         tulostaPisteetKarteesinen(pisteet);
         System.out.println("\nPisteitä yhteensä: "+pisteet.size());
