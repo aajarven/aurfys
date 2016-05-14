@@ -44,27 +44,27 @@ public class Delaunay {
 
         while (!tyostettavatKolmiot.isEmpty()) {
             System.out.println("Työstettävien kolmioiden määrä: " + tyostettavatKolmiot.size());
-            QuickhullKolmio tutkittava = tyostettavatKolmiot.pop();
+            QuickhullKolmio tyostettava = tyostettavatKolmiot.pop();
             Piste kaukaisin;
             try {
-                kaukaisin = tutkittava.etsiKaukaisin();
+                kaukaisin = tyostettava.etsiKaukaisin();
             } catch (Exception ex) {
-                palautettavatKolmiot.add(tutkittava.toKolmio());
+                palautettavatKolmiot.add(tyostettava.toKolmio());
                 continue;
             }
 
-            QuickhullKolmio t1 = new QuickhullKolmio(tutkittava.getP1(), tutkittava.getP2(), kaukaisin);
-            QuickhullKolmio t2 = new QuickhullKolmio(tutkittava.getP1(), tutkittava.getP3(), kaukaisin);
-            QuickhullKolmio t3 = new QuickhullKolmio(tutkittava.getP2(), tutkittava.getP3(), kaukaisin);
+            QuickhullKolmio t1 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP2(), kaukaisin);
+            QuickhullKolmio t2 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP3(), kaukaisin);
+            QuickhullKolmio t3 = new QuickhullKolmio(tyostettava.getP2(), tyostettava.getP3(), kaukaisin);
 
-            for (Piste p : tutkittava.getNakyvatPisteet()) {
+            for (Piste p : tyostettava.getNakyvatPisteet()) {
                 if (t1.onKauempanaOrigosta(p)) {
                     t1.lisaaNakyvaPiste(p);
                 } else if (t2.onKauempanaOrigosta(p)) {
                     t2.lisaaNakyvaPiste(p);
                 } else if (t3.onKauempanaOrigosta(p)) {
                     t3.onKauempanaOrigosta(p);
-                } else if ( !(p.equals(tutkittava.getP1()) || p.equals(tutkittava.getP2()) || p.equals(tutkittava.getP3())) ){
+                } else if ( !(p.equals(tyostettava.getP1()) || p.equals(tyostettava.getP2()) || p.equals(tyostettava.getP3())) ){
                     throw new Error("Kappale ei ole konveksi");
                 }
             }
