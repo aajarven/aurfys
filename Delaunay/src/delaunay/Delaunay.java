@@ -7,6 +7,7 @@ package delaunay;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import utils.TiedostoIO;
 
 /**
@@ -19,7 +20,7 @@ public class Delaunay {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(12, 1.7, 1.0, 0.8);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
         //tulostaPisteetPerPi(pisteet);
         System.out.println("");
         tulostaPisteetKarteesinen(pisteet);
