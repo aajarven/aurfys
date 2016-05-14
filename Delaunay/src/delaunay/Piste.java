@@ -10,9 +10,24 @@ package delaunay;
  * @author anni
  */
 public class Piste {
-    private final static double kynnysarvo = 0.00001;
-    private double theta;
+    /**
+     * Maksimietäisyys pisteille, joiden katsotaan olevan sama piste
+     */
+    private final static double KYNNYSARVO = 0.00001;
+    
+    /**
+     * Latitudi
+     */
+    private double theta; 
+    
+    /**
+     * Longitudi
+     */
     private double fii;
+    
+    /**
+     * Etäisyys origosta
+     */
     private double r;
 
     public Piste(double theta, double fii, double r) {
@@ -51,7 +66,7 @@ public class Piste {
             return false;
         }
         Piste p = (Piste) o;
-        if (Math.abs(p.theta - this.theta) < kynnysarvo && Math.abs(p.fii - this.fii) < kynnysarvo && Math.abs(p.r - this.r) < kynnysarvo){
+        if (Math.abs(p.theta - this.theta) < KYNNYSARVO && Math.abs(p.fii - this.fii) < KYNNYSARVO && Math.abs(p.r - this.r) < KYNNYSARVO){
             return true;
         } else {
             return false;
@@ -60,6 +75,10 @@ public class Piste {
     
     public String toString(){
         return this.x()+"\t"+this.y()+"\t"+this.z();
+    }
+    
+    public double etaisyys(Piste p){
+        return Math.sqrt(Math.pow(this.x()-p.x(), 2)+Math.pow(this.y()-p.y(), 2) + Math.pow(this.z()-p.z(), 2));
     }
     
 }

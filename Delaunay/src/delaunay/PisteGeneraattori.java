@@ -7,6 +7,7 @@ package delaunay;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 /**
  *
@@ -23,7 +24,7 @@ public class PisteGeneraattori {
      * @param a ellipsoidin yhtälön a
      * @param b ellipsoidin yhtälön b
      * @param c ellipsoidin yhtälön c
-     * @return
+     * @return lista pisteistä
      */
     static ArrayList<Piste> generoiLatitudeittain(int kerroksia, double a, double b, double c) {
         if (kerroksia % 2 != 0 || kerroksia < 2) {
@@ -56,6 +57,59 @@ public class PisteGeneraattori {
             }
         }
         return palautus;
+    }
+    
+    /**
+     * Generoi annetun määrän pisteitä likimain tasaisesti ellipsoidin 
+     * x^2/a^2 + y^2/b^2 + z^2/c^2 = 1 pinnalle.
+     * @param pisteita generoitavien pisteiden määrä
+     * @param a ellipsoidin yhtälön a
+     * @param b ellipsoidin yhtälön b
+     * @param c ellipsoidin yhtälön c
+     * @param tasaisuuskerroin kukin piste on pallon sisällä siten, että pallon säde vastaa sädettä ympyrälle, jonka ala on ellipsin ala jaettuna pisteiden määrällä kerrottuna tasaisuuskertoimella
+     * @return 
+     */
+    static ArrayList<Piste> generoiSatunnaisesti(int pisteita, double a, double b, double c, double tasaisuuskerroin){
+        ArrayList<Piste> palautus = new ArrayList<Piste>(pisteita);
+        double minEtaisyys = Math.sqrt(ellipsoidinAla(a, b, c)/pisteita/Math.PI)*tasaisuuskerroin;
+        int pisteitaGeneroitu = 0;
+        Random rand = new Random();
+        
+        while (pisteitaGeneroitu < pisteita){
+            
+            double theta = rand.nextDouble()*Math.PI*2;
+            double fii = rand.nextDouble()*Math.PI*4;
+            double r = r(a, b, c, theta, fii);
+            Piste lisattava = new Piste(theta, fii, r);
+            boolean kelpaa = true;
+            
+            for (Piste p: palautus){
+                if(p.etaisyys(lisattava) < minEtaisyys){
+                    kelpaa = false;
+                    break;
+                }
+            }
+            
+            if (kelpaa){
+                palautus.add(lisattava);
+                pisteitaGeneroitu++;
+            }
+        }
+        
+        return palautus;
+    }
+    
+    /**
+     * Approksimoi ellipsoidin x^2/a^2 + y^2/b^2 + z^2/c^2 = 1 alaa korkeintaan
+     * 1,061% virheellä.
+     * @param a ellipsoidin yhtälön a
+     * @param b ellipsoidin yhtälön b
+     * @param c ellipsoidin yhtälön c
+     * @return ellipsoidin pinta-ala
+     */
+    private static double ellipsoidinAla(double a, double b, double c){
+        double p = 1.6;
+        return 4*Math.PI*Math.pow((Math.pow(a*b, p) + Math.pow(a*c, p) +  Math.pow(b*c, p))/3, 1/p);
     }
 
     private static double r(double a, double b, double c, double theta, double fii) {
