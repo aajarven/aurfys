@@ -81,4 +81,8 @@ public class Piste {
         return Math.sqrt(Math.pow(this.x()-p.x(), 2)+Math.pow(this.y()-p.y(), 2) + Math.pow(this.z()-p.z(), 2));
     }
     
+    public Vektori3D vektoriPisteeseen(Piste p){
+        return new Vektori3D(p.x()-this.x(), p.y()-this.y(), p.z()-this.z());
+    }
+    
 }
