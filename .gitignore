@@ -4,3 +4,5 @@
 /Delaunay_damaged/build/
 /Delaunay_damaged/dist/
 *.fuse_hidden*
+/JavaPlot-0.5.0/demo/dist/
+/JavaPlot-0.5.0/dist/
