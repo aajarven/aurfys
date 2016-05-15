@@ -61,28 +61,6 @@ public class Delaunay {
                 }
             }
             
-            ArrayList<QuickhullKolmio> uudet = new ArrayList<>();
-            QuickhullKolmio kasiteltavaNaapuri = valoisat.get(0);
-            valoisat.remove(0);
-            ArrayList<Piste> erillisetPisteet;
-            while(!valoisat.isEmpty()){
-                erillisetPisteet = tyostettava.erillisetPisteet(kasiteltavaNaapuri);
-                if (erillisetPisteet.size()==2){
-                    uudet.add(new QuickhullKolmio(kaukaisin, erillisetPisteet.get(0), erillisetPisteet.get(1)));
-                }
-                
-                boolean loytyiNaapuri = false;
-                for(QuickhullKolmio naapuri: kasiteltavaNaapuri.getNaapurit()){
-                    if (tyostettava.getNaapurit().contains(naapuri)){
-                        loytyiNaapuri = true;
-                        kasiteltavaNaapuri = naapuri;
-                        break;
-                    }
-                }
-                if(!loytyiNaapuri){
-                    
-                }
-            }
             
 //            QuickhullKolmio t1 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP2(), kaukaisin);
 //            QuickhullKolmio t2 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP3(), kaukaisin);
