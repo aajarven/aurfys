@@ -126,6 +126,12 @@ public class QuickhullKolmio extends Kolmio{
         return naapurit;
     }
     
-    
+    public ArrayList<Sivu> getSivut(){
+        ArrayList<Sivu> palautus = new ArrayList();
+        palautus.add(new Sivu(super.getP1(), super.getP2()));
+        palautus.add(new Sivu(super.getP1(), super.getP3()));
+        palautus.add(new Sivu(super.getP2(), super.getP3()));
+        return palautus;
+    }
     
 }
