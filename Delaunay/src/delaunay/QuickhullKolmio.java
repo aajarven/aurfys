@@ -64,7 +64,7 @@ public class QuickhullKolmio extends Kolmio {
      * Kertoo, onko piste samalla puolella kolmion virittämää tasoa kuin origo
      *
      * @param p tutkittava piste
-     * @return true jos piste on kauempana origosta kuin taso, muuten false
+     * @return true jos piste on lähempänä origoa kuin taso, muuten false
      */
     public boolean onKauempanaOrigosta(Piste p) {
         double[] kertoimet = tasonYhtalo();
