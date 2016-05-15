@@ -14,14 +14,20 @@ import java.util.ArrayList;
 public class QuickhullKolmio extends Kolmio{
     
     private ArrayList<Piste> nakyvatPisteet;
+    private ArrayList<QuickhullKolmio> naapurit;
     
     public QuickhullKolmio(Piste p1, Piste p2, Piste p3) {
         super(p1, p2, p3);
         this.nakyvatPisteet = new ArrayList<>();
+        this.naapurit = new ArrayList<>();
     }
     
     public void lisaaNakyvaPiste(Piste p){
         nakyvatPisteet.add(p);
+    }
+    
+    public void lisaaNaapuri(QuickhullKolmio n){
+        naapurit.add(n);
     }
     
     /**
@@ -53,7 +59,7 @@ public class QuickhullKolmio extends Kolmio{
         return new Kolmio(super.getP1(), super.getP2(), super.getP3());
     }
     
-        /**
+    /**
      * Kertoo, onko piste samalla puolella kolmion virittämää tasoa kuin origo
      * @param p tutkittava piste
      * @return true jos piste on kauempana origosta kuin taso, muuten false
@@ -99,5 +105,27 @@ public class QuickhullKolmio extends Kolmio{
         
         return Math.abs(a*p.x()+b*p.y()+c*p.z()+d)/Math.sqrt(a*a+b*b+c*c);
     }
+    
+    /**
+     * Palauttaa annetun kolmion pisteet, jotka eivät ole osa tätä kolmiota
+     * @param k kolmio
+     * @return ArrayList jossa 0-3 pistettä
+     */
+    public ArrayList<Piste> erillisetPisteet(QuickhullKolmio k){
+        ArrayList<Piste> yhteiset = new ArrayList<>();
+        ArrayList<Piste> omat = super.getPisteet();
+        for(Piste p: k.getPisteet()){
+            if (! omat.contains(p)){
+                yhteiset.add(p);
+            }
+        }
+        return yhteiset;
+    }
+
+    public ArrayList<QuickhullKolmio> getNaapurit() {
+        return naapurit;
+    }
+    
+    
     
 }

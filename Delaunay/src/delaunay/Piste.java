@@ -77,12 +77,36 @@ public class Piste {
         return this.x()+"\t"+this.y()+"\t"+this.z();
     }
     
+    /**
+     * Palauttaa pisteen etäisyyden annetusta pisteestä
+     * @param p toinen piste
+     * @return pisteiden välinen etäisyys
+     */
     public double etaisyys(Piste p){
         return Math.sqrt(Math.pow(this.x()-p.x(), 2)+Math.pow(this.y()-p.y(), 2) + Math.pow(this.z()-p.z(), 2));
     }
     
+    /**
+     * Palauttaa vektorin tästä pisteestä annettuun pisteeseen
+     * @param p kohdepiste
+     * @return vektori tästä pisteestä kohdepisteeseen
+     */
     public Vektori3D vektoriPisteeseen(Piste p){
         return new Vektori3D(p.x()-this.x(), p.y()-this.y(), p.z()-this.z());
+    }
+    
+    /**
+     * Palauttaa pisteen kohtisuoran etäisyyden parametrina annettujen pisteiden
+     * virittämästä suorasta.
+     * @param p1 ensimmäinen piste suoralla
+     * @param p2 toinen piste suoralla
+     * @return pisteen etäisyys kahden muun pisteen määräämästä suorasta
+     */
+    public double etaisyysSuorasta(Piste p1, Piste p2){
+        Vektori3D suuntavektori = p1.vektoriPisteeseen(p2);
+        Vektori3D v = this.vektoriPisteeseen(p1);
+        Vektori3D ristitulo = suuntavektori.ristitulo(v);
+        return ristitulo.pituus()/suuntavektori.pituus();
     }
     
 }

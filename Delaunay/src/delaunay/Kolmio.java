@@ -5,6 +5,8 @@
  */
 package delaunay;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author anni
@@ -19,7 +21,6 @@ public class Kolmio {
         this.p2 = p2;
         this.p3 = p3;
     }
-    
    
     public Piste getP1() {
         return p1;
@@ -31,5 +32,13 @@ public class Kolmio {
 
     public Piste getP3() {
         return p3;
+    }
+    
+    public ArrayList<Piste> getPisteet(){
+        ArrayList<Piste> pisteet = new ArrayList<>();
+        pisteet.add(p1);
+        pisteet.add(p2);
+        pisteet.add(p3);
+        return pisteet;
     }
 }

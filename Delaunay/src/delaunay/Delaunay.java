@@ -7,6 +7,7 @@ package delaunay;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Random;
@@ -38,9 +39,9 @@ public class Delaunay {
 
     private static ArrayList<Kolmio> modifiedQuickhull(ArrayList<Piste> pisteet) {
         ArrayList<Kolmio> palautettavatKolmiot = new ArrayList<>();
-        Deque<QuickhullKolmio> tyostettavatKolmiot = new ArrayDeque<>();
+        Deque<QuickhullKolmio> tyostettavatKolmiot;
 
-        tyostettavatKolmiot = luoEnsimmainenTetraedri(new ArrayDeque<>(pisteet));
+        tyostettavatKolmiot = luoEnsimmainenTetraedri(pisteet);
 
         while (!tyostettavatKolmiot.isEmpty()) {
             System.out.println("Työstettävien kolmioiden määrä: " + tyostettavatKolmiot.size());
@@ -52,75 +53,154 @@ public class Delaunay {
                 palautettavatKolmiot.add(tyostettava.toKolmio());
                 continue;
             }
-
-            QuickhullKolmio t1 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP2(), kaukaisin);
-            QuickhullKolmio t2 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP3(), kaukaisin);
-            QuickhullKolmio t3 = new QuickhullKolmio(tyostettava.getP2(), tyostettava.getP3(), kaukaisin);
-
-            for (Piste p : tyostettava.getNakyvatPisteet()) {
-                if (t1.onKauempanaOrigosta(p)) {
-                    t1.lisaaNakyvaPiste(p);
-                } else if (t2.onKauempanaOrigosta(p)) {
-                    t2.lisaaNakyvaPiste(p);
-                } else if (t3.onKauempanaOrigosta(p)) {
-                    t3.onKauempanaOrigosta(p);
-                } else if ( !(p.equals(tyostettava.getP1()) || p.equals(tyostettava.getP2()) || p.equals(tyostettava.getP3())) ){
-                    throw new Error("Kappale ei ole konveksi");
+            
+            ArrayList<QuickhullKolmio> valoisat = new ArrayList<>();
+            for(QuickhullKolmio k: tyostettava.getNaapurit()){
+                if (k.onKauempanaOrigosta(kaukaisin)){
+                    valoisat.add(k);
                 }
             }
+            
+            ArrayList<QuickhullKolmio> uudet = new ArrayList<>();
+            QuickhullKolmio kasiteltavaNaapuri = valoisat.get(0);
+            valoisat.remove(0);
+            ArrayList<Piste> erillisetPisteet;
+            while(!valoisat.isEmpty()){
+                erillisetPisteet = tyostettava.erillisetPisteet(kasiteltavaNaapuri);
+                if (erillisetPisteet.size()==2){
+                    uudet.add(new QuickhullKolmio(kaukaisin, erillisetPisteet.get(0), erillisetPisteet.get(1)));
+                }
+                
+                boolean loytyiNaapuri = false;
+                for(QuickhullKolmio naapuri: kasiteltavaNaapuri.getNaapurit()){
+                    if (tyostettava.getNaapurit().contains(naapuri)){
+                        loytyiNaapuri = true;
+                        kasiteltavaNaapuri = naapuri;
+                        break;
+                    }
+                }
+                if(!loytyiNaapuri){
+                    
+                }
+            }
+            
+//            QuickhullKolmio t1 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP2(), kaukaisin);
+//            QuickhullKolmio t2 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP3(), kaukaisin);
+//            QuickhullKolmio t3 = new QuickhullKolmio(tyostettava.getP2(), tyostettava.getP3(), kaukaisin);
 
-            if (t1.getNakyvatPisteet().isEmpty()) {
-                palautettavatKolmiot.add(t1.toKolmio());
-            } else {
-                tyostettavatKolmiot.add(t1);
-            }
-            if (t2.getNakyvatPisteet().isEmpty()) {
-                palautettavatKolmiot.add(t2.toKolmio());
-            } else {
-                tyostettavatKolmiot.add(t2);
-            }
-            if (t3.getNakyvatPisteet().isEmpty()) {
-                palautettavatKolmiot.add(t3.toKolmio());
-            } else {
-                tyostettavatKolmiot.add(t3);
-            }
+//            for (Piste p : tyostettava.getNakyvatPisteet()) {
+//                if (t1.onKauempanaOrigosta(p)) {
+//                    t1.lisaaNakyvaPiste(p);
+//                } else if (t2.onKauempanaOrigosta(p)) {
+//                    t2.lisaaNakyvaPiste(p);
+//                } else if (t3.onKauempanaOrigosta(p)) {
+//                    t3.onKauempanaOrigosta(p);
+//                } else if (!(p.equals(tyostettava.getP1()) || p.equals(tyostettava.getP2()) || p.equals(tyostettava.getP3()))) {
+//                    throw new Error("Kappale ei ole konveksi");
+//                }
+//            }
+
+//            if (t1.getNakyvatPisteet().isEmpty()) {
+//                palautettavatKolmiot.add(t1.toKolmio());
+//            } else {
+//                tyostettavatKolmiot.add(t1);
+//            }
+//            if (t2.getNakyvatPisteet().isEmpty()) {
+//                palautettavatKolmiot.add(t2.toKolmio());
+//            } else {
+//                tyostettavatKolmiot.add(t2);
+//            }
+//            if (t3.getNakyvatPisteet().isEmpty()) {
+//                palautettavatKolmiot.add(t3.toKolmio());
+//            } else {
+//                tyostettavatKolmiot.add(t3);
+//            }
         }
 
         return palautettavatKolmiot;
     }
 
-    private static Deque<QuickhullKolmio> luoEnsimmainenTetraedri(Deque<Piste> jaettavatPisteet) throws Error {
+    private static Deque<QuickhullKolmio> luoEnsimmainenTetraedri(ArrayList<Piste> jaettavatPisteet) throws Error {
 
-        ArrayDeque ensimmaisetKasiteltavat = new ArrayDeque();
+        ArrayDeque<QuickhullKolmio> ensimmaisetKasiteltavat = new ArrayDeque();
 
-        // Generoidaan ensimmäinen tetraedri
-        Piste p1 = jaettavatPisteet.pop();
-        Piste p2 = jaettavatPisteet.pop();
-        Piste p3 = jaettavatPisteet.pop();
-        Piste p4 = jaettavatPisteet.pop();
-        QuickhullKolmio tahko1 = new QuickhullKolmio(p1, p2, p3);
-        QuickhullKolmio tahko2 = new QuickhullKolmio(p1, p2, p4);
-        QuickhullKolmio tahko3 = new QuickhullKolmio(p1, p3, p4);
-        QuickhullKolmio tahko4 = new QuickhullKolmio(p2, p3, p4);
-        // Jaetaan kukin piste jollekin tetraedrin tahkolle
-        for (Piste p : jaettavatPisteet) {
-            if (tahko1.onKauempanaOrigosta(p)) {
-                tahko1.lisaaNakyvaPiste(p);
-            } else if (tahko2.onKauempanaOrigosta(p)) {
-                tahko2.lisaaNakyvaPiste(p);
-            } else if (tahko3.onKauempanaOrigosta(p)) {
-                tahko3.lisaaNakyvaPiste(p);
-            } else if (tahko4.onKauempanaOrigosta(p)) {
-                tahko4.lisaaNakyvaPiste(p);
-            } else {
-                throw new Error("Kappale ei ole konveksi");
+        // Generoidaan ensimmäisen tetraedrin tahkot
+        ArrayList<Piste> kaukaisimmat = kaukaisimmatPisteet(jaettavatPisteet);
+
+        Piste p1 = kaukaisimmat.get(0);
+        Piste p2 = kaukaisimmat.get(1);
+        Piste p3;
+        Piste p4;
+
+        // etsitään kaukaisin pistepari
+        double suurinEtaisyys = p1.etaisyys(p2);
+        for (Piste tutkittava1 : kaukaisimmat) {
+            for (Piste tutkittava2 : kaukaisimmat) {
+                if (tutkittava1.etaisyys(tutkittava2) > suurinEtaisyys) {
+                    p1 = tutkittava1;
+                    p2 = tutkittava2;
+                    suurinEtaisyys = p1.etaisyys(p2);
+                }
             }
         }
+        kaukaisimmat.remove(p1);
+        kaukaisimmat.remove(p2);
 
-        ensimmaisetKasiteltavat.add(tahko1);
-        ensimmaisetKasiteltavat.add(tahko2);
-        ensimmaisetKasiteltavat.add(tahko3);
-        ensimmaisetKasiteltavat.add(tahko4);
+        // etsitään piste, joka on kauimpana p1 ja p2 määräämästä suorasta
+        p3 = kaukaisimmat.get(0);
+        suurinEtaisyys = p3.etaisyysSuorasta(p1, p2);
+        for (Piste tutkittava : kaukaisimmat) {
+            if (tutkittava.etaisyysSuorasta(p1, p2) > suurinEtaisyys) {
+                p3 = tutkittava;
+                suurinEtaisyys = tutkittava.etaisyysSuorasta(p1, p2);
+            }
+        }
+        kaukaisimmat.remove(p3);
+
+        QuickhullKolmio tahko1 = new QuickhullKolmio(p1, p2, p3);
+        for (Piste p : kaukaisimmat) {
+            tahko1.lisaaNakyvaPiste(p);
+        }
+        
+        try {
+            p4 = tahko1.etsiKaukaisin();
+            QuickhullKolmio tahko2 = new QuickhullKolmio(p1, p2, p4);
+            QuickhullKolmio tahko3 = new QuickhullKolmio(p1, p3, p4);
+            QuickhullKolmio tahko4 = new QuickhullKolmio(p2, p3, p4);
+
+            // Jaetaan kukin piste jollekin tetraedrin tahkolle
+            for (Piste p : jaettavatPisteet) {
+                if (tahko1.onKauempanaOrigosta(p)) {
+                    tahko1.lisaaNakyvaPiste(p);
+                } else if (tahko2.onKauempanaOrigosta(p)) {
+                    tahko2.lisaaNakyvaPiste(p);
+                } else if (tahko3.onKauempanaOrigosta(p)) {
+                    tahko3.lisaaNakyvaPiste(p);
+                } else if (tahko4.onKauempanaOrigosta(p)) {
+                    tahko4.lisaaNakyvaPiste(p);
+                } else {
+                    throw new Error("Kappale ei ole konveksi");
+                }
+            }
+
+            ensimmaisetKasiteltavat.add(tahko1);
+            ensimmaisetKasiteltavat.add(tahko2);
+            ensimmaisetKasiteltavat.add(tahko3);
+            ensimmaisetKasiteltavat.add(tahko4);
+
+            // asetetaan tahkot toistensa naapureiksi
+            for (QuickhullKolmio k1 : ensimmaisetKasiteltavat) {
+                for (QuickhullKolmio k2 : ensimmaisetKasiteltavat) {
+                    if (k1 != k2) {
+                        k1.lisaaNaapuri(k2);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(Arrays.toString(ex.getStackTrace()));
+            System.out.println(ex.getMessage());
+            System.exit(0);
+        }
 
         return ensimmaisetKasiteltavat;
     }
@@ -131,8 +211,8 @@ public class Delaunay {
      * @param pisteet tutkittavat pisteet
      * @return [minX, maxX, minY, maxY, minZ, maxZ]
      */
-    private Piste[] kaukaisimmatPisteet(ArrayList<Piste> pisteet) {
-        Piste[] kaukaisimmat = new Piste[6];
+    private static ArrayList<Piste> kaukaisimmatPisteet(ArrayList<Piste> pisteet) {
+        ArrayList<Piste> kaukaisimmat = new ArrayList<>();
         Piste minX = pisteet.get(0);
         Piste maxX = pisteet.get(0);
         Piste minY = pisteet.get(0);
@@ -161,7 +241,14 @@ public class Delaunay {
             }
         }
 
-        return new Piste[]{minX, maxX, minY, maxY, minZ, maxZ};
+        kaukaisimmat.add(minX);
+        kaukaisimmat.add(maxX);
+        kaukaisimmat.add(minY);
+        kaukaisimmat.add(maxY);
+        kaukaisimmat.add(minZ);
+        kaukaisimmat.add(maxZ);
+
+        return kaukaisimmat;
     }
 
     private static String valmistaTulostukseen(Iterable<Piste> pisteet, String erotin) {

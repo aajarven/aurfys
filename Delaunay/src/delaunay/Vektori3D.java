@@ -36,6 +36,8 @@ public class Vektori3D {
         return k;
     }
     
-    
+    public double pituus(){
+        return Math.sqrt(i*i+j*j+k*k);
+    }
     
 }
