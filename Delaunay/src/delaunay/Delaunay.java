@@ -25,9 +25,9 @@ public class Delaunay {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
-        //tulostaPisteetPerPi(pisteet);
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(15, 1.7, 1.0, 0.5, 1.3);
+//        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
+//        tulostaPisteetPerPi(pisteet);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(15, 1, 1.0, 1, 1);
         System.out.println("");
         tulostaPisteetKarteesinen(pisteet);
         System.out.println("\nPisteitä yhteensä: " + pisteet.size());
@@ -36,6 +36,23 @@ public class Delaunay {
         Quickhull kolmioija = new Quickhull(pisteet);
         ArrayList<Kolmio> kolmiot = kolmioija.kolmioi();
         System.out.println(kolmiot.size());
+
+//        Piste p1 = new Piste(Math.PI/2-0.1, 0, 1);
+//        Piste p2 = new Piste(Math.PI/2-0.1, Math.PI, 1);
+//        Piste p3 = new Piste(Math.PI/2-0.1, Math.PI/2, 1);
+//        QuickhullKolmio k = new QuickhullKolmio(p1, p2, p3);
+//        System.out.println(p1.x()+"\t"+p1.y()+"\t"+p1.z());
+//        System.out.println(p2.x()+"\t"+p2.y()+"\t"+p2.z());
+//        System.out.println(p3.x()+"\t"+p3.y()+"\t"+p3.z());
+//        
+//        for(double d : k.tasonYhtalo()){
+//            System.out.print(d+"\t");
+//        }
+//        System.out.println("");
+//        
+//        Piste p4 = new Piste(Math.PI/2-0.2, 0, 1);
+//        System.out.println(k.onKauempanaOrigosta(p4));
+//        System.out.println(p4.x()+"\t"+p4.y()+"\t"+p4.z());
     }
 
     private static ArrayList<Piste> etsiPaatepisteet(ArrayList<Sivu> horisontti) {
