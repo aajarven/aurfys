@@ -64,7 +64,7 @@ public class QuickhullKolmio extends Kolmio {
      * Kertoo, onko piste samalla puolella kolmion virittämää tasoa kuin origo
      *
      * @param p tutkittava piste
-     * @return true jos piste on lähempänä origoa kuin taso, muuten false
+     * @return true jos taso on kauempana origosta kuin piste, muuten false
      */
     public boolean onKauempanaOrigosta(Piste p) {
         double[] kertoimet = tasonYhtalo();
@@ -72,12 +72,12 @@ public class QuickhullKolmio extends Kolmio {
         double b = kertoimet[1];
         double c = kertoimet[2];
         double d = kertoimet[3];
-
-        return (p.x() * a + p.y() * b + p.z() * c - d) * (-d) > 0; // tarkasta tämä
+        
+        return (p.x() * a + p.y() * b + p.z() * c + d) * d > 0;
     }
 
     /**
-     * Palauttaa kertoimet tason yhtälöön muodossa ax+by+cz=d
+     * Palauttaa kertoimet tason yhtälöön muodossa ax+by+cz+d=0
      *
      * @return [a, b, c, d]
      */
@@ -89,7 +89,7 @@ public class QuickhullKolmio extends Kolmio {
         double a = normaali.getI();
         double b = normaali.getJ();
         double c = normaali.getK();
-        double d = normaali.getI() * v1.getI() + normaali.getJ() * v1.getJ() + normaali.getK() * v1.getK();
+        double d = -(normaali.getI() * super.getP1().x() + normaali.getJ() * super.getP1().y() + normaali.getK() * super.getP1().z());
 
         return new double[]{a, b, c, d};
     }
