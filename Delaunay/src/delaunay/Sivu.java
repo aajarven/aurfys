@@ -21,6 +21,49 @@ public class Sivu {
         this.p2 = p2;
     }
 
+    /**
+     * Keroo, onko tällä sivulla yhteistä pistettä annetun kolmion kanssa
+     *
+     * @param k tutkittava kolmio
+     * @return true jos yhteisiä pisteitä on vähintään yksi
+     */
+    public boolean onYhteinenPiste(Kolmio k) {
+        for (Piste p : k.getPisteet()) {
+            if (p.equals(p1) || p.equals(p2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Kertoo, onko tällä sivulla yhteistä pistettä annetun sivun kanssa
+     *
+     * @param s tutkittava sivu
+     * @return true, jos sivuilla on vähintään yksi yhteinen piste
+     */
+    public boolean onYhteinenPiste(Sivu s) {
+        if (s.p1.equals(this.p1) || s.p1.equals(this.p2)) {
+            return true;
+        } else if (s.p2.equals(this.p1) || s.p2.equals(this.p2)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Kertoo, onko annettu piste jompikupmi sivun päätepisteistä
+     * @param p tutkittava piste
+     * @return true, jos annettu piste on sivun päätepiste
+     */
+    public boolean sisaltaaPisteen(Piste p) {
+        if (p.equals(p1) || p.equals(p2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -45,4 +88,12 @@ public class Sivu {
         return hash;
     }
 
+    public Piste getP1() {
+        return p1;
+    }
+
+    public Piste getP2() {
+        return p2;
+    }
+    
 }
