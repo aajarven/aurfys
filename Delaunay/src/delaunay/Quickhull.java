@@ -9,6 +9,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -73,6 +75,7 @@ public class Quickhull {
 
         // Generoidaan ensimmäisen tetraedrin tahkot
         ArrayList<Piste> kaukaisimmat = kaukaisimmatPisteet(jaettavatPisteet);
+        poistaDuplikaatit(kaukaisimmat);
 
         Piste p1 = kaukaisimmat.get(0);
         Piste p2 = kaukaisimmat.get(1);
@@ -121,13 +124,13 @@ public class Quickhull {
 
             // Jaetaan kukin piste jollekin tetraedrin tahkolle
             for (Piste p : jaettavatPisteet) {
-                if (tahko1.onKauempanaOrigosta(p)) {
+                if (!tahko1.onKauempanaOrigosta(p)) {
                     tahko1.lisaaNakyvaPiste(p);
-                } else if (tahko2.onKauempanaOrigosta(p)) {
+                } else if (!tahko2.onKauempanaOrigosta(p)) {
                     tahko2.lisaaNakyvaPiste(p);
-                } else if (tahko3.onKauempanaOrigosta(p)) {
+                } else if (!tahko3.onKauempanaOrigosta(p)) {
                     tahko3.lisaaNakyvaPiste(p);
-                } else if (tahko4.onKauempanaOrigosta(p)) {
+                } else if (!tahko4.onKauempanaOrigosta(p)) {
                     tahko4.lisaaNakyvaPiste(p);
                 } else {
                     throw new Error("Kappale ei ole konveksi");
@@ -237,5 +240,12 @@ public class Quickhull {
         }
         //}
         return horisontti;
+    }
+
+    private void poistaDuplikaatit(ArrayList<Piste> lista) {
+        Set<Piste> hashset = new HashSet<>();
+        hashset.addAll(lista);
+        lista.clear();
+        lista.addAll(hashset);
     }
 }
