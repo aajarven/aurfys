@@ -16,7 +16,7 @@ public class Piste {
     private final static double KYNNYSARVO = 0.00001;
     
     /**
-     * Latitudi
+     * Kulma navalta
      */
     private double theta; 
     
