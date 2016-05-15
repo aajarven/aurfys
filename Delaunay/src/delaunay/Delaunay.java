@@ -53,49 +53,77 @@ public class Delaunay {
                 palautettavatKolmiot.add(tyostettava.toKolmio());
                 continue;
             }
-            
-            ArrayList<QuickhullKolmio> valoisat = new ArrayList<>();
-            for(QuickhullKolmio k: tyostettava.getNaapurit()){
-                if (k.onKauempanaOrigosta(kaukaisin)){
-                    valoisat.add(k);
-                }
+
+            ArrayList<QuickhullKolmio> valoisat = etsiValoisat(tyostettava, kaukaisin);
+            ArrayList<Sivu> horisontti = etsiHorisontti(valoisat, tyostettava);
+            ArrayList<QuickhullKolmio> uudetKolmiot = new ArrayList<>();
+            for (Sivu s: horisontti){
+                uudetKolmiot.add(new QuickhullKolmio(kaukaisin, s.getP1(), s.getP2()));
             }
             
-            
-//            QuickhullKolmio t1 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP2(), kaukaisin);
-//            QuickhullKolmio t2 = new QuickhullKolmio(tyostettava.getP1(), tyostettava.getP3(), kaukaisin);
-//            QuickhullKolmio t3 = new QuickhullKolmio(tyostettava.getP2(), tyostettava.getP3(), kaukaisin);
-
-//            for (Piste p : tyostettava.getNakyvatPisteet()) {
-//                if (t1.onKauempanaOrigosta(p)) {
-//                    t1.lisaaNakyvaPiste(p);
-//                } else if (t2.onKauempanaOrigosta(p)) {
-//                    t2.lisaaNakyvaPiste(p);
-//                } else if (t3.onKauempanaOrigosta(p)) {
-//                    t3.onKauempanaOrigosta(p);
-//                } else if (!(p.equals(tyostettava.getP1()) || p.equals(tyostettava.getP2()) || p.equals(tyostettava.getP3()))) {
-//                    throw new Error("Kappale ei ole konveksi");
-//                }
-//            }
-
-//            if (t1.getNakyvatPisteet().isEmpty()) {
-//                palautettavatKolmiot.add(t1.toKolmio());
-//            } else {
-//                tyostettavatKolmiot.add(t1);
-//            }
-//            if (t2.getNakyvatPisteet().isEmpty()) {
-//                palautettavatKolmiot.add(t2.toKolmio());
-//            } else {
-//                tyostettavatKolmiot.add(t2);
-//            }
-//            if (t3.getNakyvatPisteet().isEmpty()) {
-//                palautettavatKolmiot.add(t3.toKolmio());
-//            } else {
-//                tyostettavatKolmiot.add(t3);
-//            }
+            // lajittele näkyvät pisteet
         }
 
         return palautettavatKolmiot;
+    }
+
+    private static ArrayList<Sivu> etsiHorisontti(ArrayList<QuickhullKolmio> valoisat, QuickhullKolmio tyostettava) {
+        ArrayList<Sivu> horisontti = new ArrayList<>();
+        for (QuickhullKolmio k : valoisat) {
+            for (Sivu s : k.getSivut()) {
+                if (!s.onYhteinenPiste(tyostettava)) {
+                    horisontti.add(s);
+                }
+            }
+        }
+
+        //ArrayList<Piste> paatepisteet = etsiPaatepisteet(horisontti);
+        ArrayList<QuickhullKolmio> varjoisat = new ArrayList<>(tyostettava.getNaapurit());
+        varjoisat.removeAll(valoisat);
+        //for(Piste p: paatepisteet){
+        for (QuickhullKolmio varjoisa : varjoisat) {
+            for (QuickhullKolmio valoisa : valoisat) {
+                Sivu yhteinen = valoisa.yhteinenSivu(varjoisa);
+                if (yhteinen != null) {
+                    horisontti.add(yhteinen);
+                }
+            }
+        }
+        //}
+        return horisontti;
+    }
+
+    private static ArrayList<Piste> etsiPaatepisteet(ArrayList<Sivu> horisontti) {
+        ArrayList<Piste> reunat = new ArrayList();
+        for (Sivu s1 : horisontti) {
+            boolean p1onViereinen = false;
+            boolean p2onViereinen = false;
+            for (Sivu s2 : horisontti) {
+                if (s2.sisaltaaPisteen(s1.getP1())) {
+                    p1onViereinen = true;
+                }
+                if (s2.sisaltaaPisteen(s1.getP2())) {
+                    p2onViereinen = true;
+                }
+            }
+            if (!p1onViereinen) {
+                reunat.add(s1.getP1());
+            }
+            if (!p2onViereinen) {
+                reunat.add(s1.getP2());
+            }
+        }
+        return reunat;
+    }
+
+    private static ArrayList<QuickhullKolmio> etsiValoisat(QuickhullKolmio tyostettava, Piste kaukaisin) {
+        ArrayList<QuickhullKolmio> valoisat = new ArrayList<>();
+        for (QuickhullKolmio k : tyostettava.getNaapurit()) {
+            if (k.onKauempanaOrigosta(kaukaisin)) {
+                valoisat.add(k);
+            }
+        }
+        return valoisat;
     }
 
     private static Deque<QuickhullKolmio> luoEnsimmainenTetraedri(ArrayList<Piste> jaettavatPisteet) throws Error {
@@ -139,7 +167,7 @@ public class Delaunay {
         for (Piste p : kaukaisimmat) {
             tahko1.lisaaNakyvaPiste(p);
         }
-        
+
         try {
             p4 = tahko1.etsiKaukaisin();
             QuickhullKolmio tahko2 = new QuickhullKolmio(p1, p2, p4);
