@@ -31,14 +31,18 @@ public class Quickhull {
         ArrayList<Kolmio> palautettavatKolmiot = new ArrayList<>();
         Deque<QuickhullKolmio> tyostettavatKolmiot;
         tyostettavatKolmiot = luoEnsimmainenTetraedri(pisteet);
+        int pistemaara = 0;
+        for (QuickhullKolmio k : tyostettavatKolmiot) {
+            pistemaara += k.getNakyvatPisteet().size();
+        }
+        System.out.println("näkyviä pisteitä " + pistemaara);
 //        tyostettavatKolmiot = luoVakiotetra(pisteet);
         palautettavatKolmiot.addAll(tyostettavatKolmiot);
 //        TiedostoIO.kirjoitaKolmiotTiedostoihin(palautettavatKolmiot, "ekatetra", ",");
 //        for (Kolmio k: palautettavatKolmiot){
 //            System.out.println(k.toString());
 //        }
-        
-        
+
         while (!tyostettavatKolmiot.isEmpty()) {
             QuickhullKolmio tyostettava = tyostettavatKolmiot.pop();
             Piste kaukaisin;
@@ -92,19 +96,7 @@ public class Quickhull {
         final QuickhullKolmio tahko4 = new QuickhullKolmio(p2, p3, p4);
         kolmiot.add(tahko4);
 
-        for (Piste p : jaettavatPisteet) {
-            if (tahko1.eriPuolilla(keskipiste, p)) {
-                tahko1.lisaaNakyvaPiste(p);
-            } else if (tahko2.eriPuolilla(keskipiste, p)) {
-                tahko2.lisaaNakyvaPiste(p);
-            } else if (tahko3.eriPuolilla(keskipiste, p)) {
-                tahko3.lisaaNakyvaPiste(p);
-            } else if (tahko4.eriPuolilla(keskipiste, p)) {
-                tahko4.lisaaNakyvaPiste(p);
-            } else {
-                throw new Error("Kappale ei ole konveksi");
-            }
-        }
+        jaaNakyvatPisteet(jaettavatPisteet, new ArrayList<QuickhullKolmio>(kolmiot));
 
         // asetetaan tahkot toistensa naapureiksi
         for (QuickhullKolmio k1 : kolmiot) {
@@ -143,10 +135,6 @@ public class Quickhull {
             }
         }
 
-        System.out.println("Kaukaisin pari:");
-        System.out.println(p1);
-        System.out.println(p2);
-
         kaukaisimmat.remove(p1);
         kaukaisimmat.remove(p2);
         jaettavatPisteet.remove(p1);
@@ -163,8 +151,6 @@ public class Quickhull {
                 suurinEtaisyys = tutkittava.etaisyysSuorasta(p1, p2);
             }
         }
-        System.out.println("Etäisin suorasta:");
-        System.out.println(p3);
         kaukaisimmat.remove(p3);
         jaettavatPisteet.remove(p3);
 
@@ -185,33 +171,20 @@ public class Quickhull {
             kirjoitettava.add(p2);
             kirjoitettava.add(p3);
             kirjoitettava.add(p4);
-            kirjoitaTiedostoon(kirjoitettava, "ensimmainen.txt");
-            System.out.println("printd");
-
-            // Jaetaan kukin piste jollekin tetraedrin tahkolle
-            for (Piste p : jaettavatPisteet) {
-                if (tahko1.eriPuolilla(keskipiste, p)) {
-                    tahko1.lisaaNakyvaPiste(p);
-                } else if (tahko2.eriPuolilla(keskipiste, p)) {
-                    tahko2.lisaaNakyvaPiste(p);
-                } else if (tahko3.eriPuolilla(keskipiste, p)) {
-                    tahko3.lisaaNakyvaPiste(p);
-                } else if (tahko4.eriPuolilla(keskipiste, p)) {
-                    tahko4.lisaaNakyvaPiste(p);
-                } else {
-                    throw new Error("Kappale ei ole konveksi");
-                }
-            }
-
-            kirjoitaTiedostoon(tahko1.getNakyvatPisteet(), "tahko1_nakyvat.txt");
-            kirjoitaTiedostoon(tahko2.getNakyvatPisteet(), "tahko2_nakyvat.txt");
-            kirjoitaTiedostoon(tahko3.getNakyvatPisteet(), "tahko3_nakyvat.txt");
-            kirjoitaTiedostoon(tahko4.getNakyvatPisteet(), "tahko4_nakyvat.txt");
+//            kirjoitaTiedostoon(kirjoitettava, "ensimmainen.txt");
+//            System.out.println("printd");
 
             ensimmaisetKasiteltavat.add(tahko1);
             ensimmaisetKasiteltavat.add(tahko2);
             ensimmaisetKasiteltavat.add(tahko3);
             ensimmaisetKasiteltavat.add(tahko4);
+            
+            jaaNakyvatPisteet(jaettavatPisteet, new ArrayList<QuickhullKolmio>(ensimmaisetKasiteltavat));
+
+            kirjoitaTiedostoon(tahko1.getNakyvatPisteet(), "tahko1_nakyvat.txt");
+            kirjoitaTiedostoon(tahko2.getNakyvatPisteet(), "tahko2_nakyvat.txt");
+            kirjoitaTiedostoon(tahko3.getNakyvatPisteet(), "tahko3_nakyvat.txt");
+            kirjoitaTiedostoon(tahko4.getNakyvatPisteet(), "tahko4_nakyvat.txt");
 
             // asetetaan tahkot toistensa naapureiksi
             for (QuickhullKolmio k1 : ensimmaisetKasiteltavat) {
@@ -228,6 +201,23 @@ public class Quickhull {
         }
 
         return ensimmaisetKasiteltavat;
+    }
+
+    private void jaaNakyvatPisteet(ArrayList<Piste> jaettavatPisteet, Iterable<QuickhullKolmio> kolmiot) throws Error {
+        for (Piste p : jaettavatPisteet) {
+            boolean loydettyKolmio = false;
+            for (QuickhullKolmio k : kolmiot) {
+                if (k.eriPuolilla(keskipiste, p)) {
+                    k.lisaaNakyvaPiste(p);
+                    loydettyKolmio = true;
+                    break;
+                }
+            }
+            if (!loydettyKolmio) {
+                System.out.println("Pisteelle "+p.toString()+" ei löytynyt kolmiota");
+                throw new Error();
+            }
+        }
     }
 
     /**
@@ -310,7 +300,7 @@ public class Quickhull {
                 horisontti.add(yhteinen);
             }
         }
-        System.out.println("horisontissa "+horisontti.size()+" sivua");
+        System.out.println("horisontissa " + horisontti.size() + " sivua");
         return horisontti;
     }
 
