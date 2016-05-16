@@ -11,24 +11,23 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
+import utils.TiedostoIO;
 
 /**
  *
  * @author anni
  */
 public class Quickhull {
-    
+
     ArrayList<Piste> pisteet;
 
     public Quickhull(ArrayList<Piste> pisteet) {
         this.pisteet = pisteet;
     }
 
-    
     public ArrayList<Kolmio> kolmioi() {
         ArrayList<Kolmio> palautettavatKolmiot = new ArrayList<>();
         Deque<QuickhullKolmio> tyostettavatKolmiot;
-
         tyostettavatKolmiot = luoEnsimmainenTetraedri(pisteet);
         palautettavatKolmiot.addAll(tyostettavatKolmiot);
 
@@ -43,32 +42,32 @@ public class Quickhull {
             }
 
             ArrayList<QuickhullKolmio> valoisat = etsiValoisat(tyostettava, kaukaisin);
-            System.out.println("löytyi "+valoisat.size()+" valoisaa");
+            System.out.println("löytyi " + valoisat.size() + " valoisaa");
             ArrayList<Sivu> horisontti = etsiHorisontti(valoisat, tyostettava);
             ArrayList<QuickhullKolmio> uudetKolmiot = new ArrayList<>();
-            for (Sivu s: horisontti){
+            for (Sivu s : horisontti) {
                 uudetKolmiot.add(new QuickhullKolmio(kaukaisin, s.getP1(), s.getP2()));
             }
-            System.out.println("Luotiin "+uudetKolmiot.size()+" uutta kolmiota");
-            
+            System.out.println("Luotiin " + uudetKolmiot.size() + " uutta kolmiota");
+
             palautettavatKolmiot.removeAll(valoisat);
             palautettavatKolmiot.addAll(uudetKolmiot);
-            System.out.println("Palautettavia kolmioita nyt "+palautettavatKolmiot.size());
+            System.out.println("Palautettavia kolmioita nyt " + palautettavatKolmiot.size());
             System.out.println("");
-            
-            for(Piste p: tyostettava.getNakyvatPisteet()){
-                for (QuickhullKolmio k: uudetKolmiot){
-                    if (k.onKauempanaOrigosta(p)){
+
+            for (Piste p : tyostettava.getNakyvatPisteet()) {
+                for (QuickhullKolmio k : uudetKolmiot) {
+                    if (!k.onKauempanaOrigosta(p)) {
                         k.lisaaNakyvaPiste(p);
                         break;
                     }
                 }
             }
         }
-        
+
         return palautettavatKolmiot;
     }
-    
+
     private Deque<QuickhullKolmio> luoEnsimmainenTetraedri(ArrayList<Piste> jaettavatPisteet) throws Error {
 
         ArrayDeque<QuickhullKolmio> ensimmaisetKasiteltavat = new ArrayDeque();
@@ -122,6 +121,14 @@ public class Quickhull {
             QuickhullKolmio tahko3 = new QuickhullKolmio(p1, p3, p4);
             QuickhullKolmio tahko4 = new QuickhullKolmio(p2, p3, p4);
 
+            ArrayList<Piste> kirjoitettava = new ArrayList<Piste>();
+            kirjoitettava.add(p1);
+            kirjoitettava.add(p2);
+            kirjoitettava.add(p3);
+            kirjoitettava.add(p4);
+            kirjoitaTiedostoon(kirjoitettava, "ensimmainen.txt");
+            System.out.println("printd");
+
             // Jaetaan kukin piste jollekin tetraedrin tahkolle
             for (Piste p : jaettavatPisteet) {
                 if (!tahko1.onKauempanaOrigosta(p)) {
@@ -136,6 +143,11 @@ public class Quickhull {
                     throw new Error("Kappale ei ole konveksi");
                 }
             }
+
+            kirjoitaTiedostoon(tahko1.getNakyvatPisteet(), "tahko1_nakyvat.txt");
+            kirjoitaTiedostoon(tahko2.getNakyvatPisteet(), "tahko2_nakyvat.txt");
+            kirjoitaTiedostoon(tahko3.getNakyvatPisteet(), "tahko3_nakyvat.txt");
+            kirjoitaTiedostoon(tahko4.getNakyvatPisteet(), "tahko4_nakyvat.txt");
 
             ensimmaisetKasiteltavat.add(tahko1);
             ensimmaisetKasiteltavat.add(tahko2);
@@ -158,8 +170,7 @@ public class Quickhull {
 
         return ensimmaisetKasiteltavat;
     }
-    
-    
+
     /**
      * Palauttaa maksimi- ja minimipisteet x-, y- ja z-suunnissa
      *
@@ -205,18 +216,18 @@ public class Quickhull {
 
         return kaukaisimmat;
     }
-    
-        private ArrayList<QuickhullKolmio> etsiValoisat(QuickhullKolmio tyostettava, Piste kaukaisin) {
+
+    private ArrayList<QuickhullKolmio> etsiValoisat(QuickhullKolmio tyostettava, Piste p) {
         ArrayList<QuickhullKolmio> valoisat = new ArrayList<>();
         for (QuickhullKolmio k : tyostettava.getNaapurit()) {
-            if (k.onKauempanaOrigosta(kaukaisin)) {
+            if (!k.onKauempanaOrigosta(p)) {
                 valoisat.add(k);
             }
         }
         return valoisat;
     }
-        
-        private ArrayList<Sivu> etsiHorisontti(ArrayList<QuickhullKolmio> valoisat, QuickhullKolmio tyostettava) {
+
+    private ArrayList<Sivu> etsiHorisontti(ArrayList<QuickhullKolmio> valoisat, QuickhullKolmio tyostettava) {
         ArrayList<Sivu> horisontti = new ArrayList<>();
         for (QuickhullKolmio k : valoisat) {
             for (Sivu s : k.getSivut()) {
@@ -247,5 +258,9 @@ public class Quickhull {
         hashset.addAll(lista);
         lista.clear();
         lista.addAll(hashset);
+    }
+
+    private void kirjoitaTiedostoon(ArrayList<Piste> data, String tiedostonimi) {
+        TiedostoIO.kirjoitaTiedostoon(Delaunay.valmistaTulostukseen(data, ","), tiedostonimi);
     }
 }

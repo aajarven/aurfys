@@ -27,7 +27,7 @@ public class Delaunay {
     public static void main(String[] args) {
 //        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
 //        tulostaPisteetPerPi(pisteet);
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(15, 1, 1.0, 1, 1);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(10, 1, 1.0, 1, 1);
         System.out.println("");
         tulostaPisteetKarteesinen(pisteet);
         System.out.println("\nPisteitä yhteensä: " + pisteet.size());
@@ -78,7 +78,7 @@ public class Delaunay {
         return reunat;
     }
 
-    private static String valmistaTulostukseen(Iterable<Piste> pisteet, String erotin) {
+    public static String valmistaTulostukseen(Iterable<Piste> pisteet, String erotin) {
         StringBuilder csv = new StringBuilder();
         for (Piste p : pisteet) {
             csv.append(p.x());
