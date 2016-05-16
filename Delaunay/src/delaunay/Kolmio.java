@@ -41,4 +41,17 @@ public class Kolmio {
         pisteet.add(p3);
         return pisteet;
     }
+
+    @Override
+    public String toString() {
+        String palautus = "";
+        for (Piste p: getPisteet()){
+            palautus = palautus+p.toString();
+            palautus = palautus+"\n";
+        }
+        
+        return palautus;
+    }
+    
+    
 }

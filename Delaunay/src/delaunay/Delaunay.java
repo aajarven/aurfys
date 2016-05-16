@@ -28,15 +28,16 @@ public class Delaunay {
 //        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
 //        tulostaPisteetPerPi(pisteet);
 
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(10, 1, 1.0, 1, 1);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(8, 1, 1.0, 1, 1);
         System.out.println("");
         tulostaPisteetKarteesinen(pisteet);
         System.out.println("\nPisteitä yhteensä: " + pisteet.size());
-        TiedostoIO.kirjoitaTiedostoon(valmistaTulostukseen(pisteet, ","), "testi.txt");
+        TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "testi.txt");
 
         Quickhull kolmioija = new Quickhull(pisteet);
         ArrayList<Kolmio> kolmiot = kolmioija.kolmioi();
         System.out.println(kolmiot.size());
+        TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
 
 //        Piste p1 = new Piste(Math.PI/4, 0, 1);
 //        Piste p2 = new Piste(3*Math.PI/4, -Math.PI, 1);
@@ -49,7 +50,6 @@ public class Delaunay {
 //        System.out.println(erilliset.size());
 //        yhteiset.removeAll(erilliset);
 //        System.out.println(yhteiset.size());
-
 //        Piste p1 = new Piste(Math.PI/2-0.1, 0, 1);
 //        Piste p2 = new Piste(Math.PI/2-0.1, Math.PI, 1);
 //        Piste p3 = new Piste(Math.PI/2-0.1, Math.PI/2, 1);
@@ -91,7 +91,7 @@ public class Delaunay {
         return reunat;
     }
 
-    public static String valmistaTulostukseen(Iterable<Piste> pisteet, String erotin) {
+    public static String valmistaPisteetTulostukseen(Iterable<Piste> pisteet, String erotin) {
         StringBuilder csv = new StringBuilder();
         for (Piste p : pisteet) {
             csv.append(p.x());
@@ -99,6 +99,29 @@ public class Delaunay {
             csv.append(p.y());
             csv.append(erotin);
             csv.append(p.z());
+            csv.append("\n");
+        }
+        return csv.toString();
+    }
+
+    /**
+     * Tuottaa kolmioista tulostuksen siten, että rivillä on peräkkäin kolmion
+     * kolmen kulman koordinaatit erottimella erotettuina, esim kun erottimena
+     * pilkku, saadaan "x1,y1,z1,x2,y2,z2,x3,y3,z3"
+     * @param kolmiot
+     * @param erotin
+     * @return 
+     */
+    public static String valmistaKolmiotTulostukseen(Iterable<Kolmio> kolmiot, String erotin) {
+        StringBuilder csv = new StringBuilder();
+        for (Kolmio k : kolmiot) {
+            for (Piste p : k.getPisteet()) {
+                csv.append(p.x());
+                csv.append(erotin);
+                csv.append(p.y());
+                csv.append(erotin);
+                csv.append(p.z());
+            }
             csv.append("\n");
         }
         return csv.toString();
