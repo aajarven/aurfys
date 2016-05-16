@@ -51,8 +51,8 @@ public class QuickhullKolmio extends Kolmio {
         }
         return kaukaisin;
     }
-    
-    public Piste etsiKaukaisin(ArrayList<Piste> pisteet){
+
+    public Piste etsiKaukaisin(ArrayList<Piste> pisteet) {
         Piste kaukaisin = pisteet.get(0);
         double kaukaisimmanEtaisyys = 0;
         for (Piste p : pisteet) {
@@ -85,7 +85,7 @@ public class QuickhullKolmio extends Kolmio {
         double b = kertoimet[1];
         double c = kertoimet[2];
         double d = kertoimet[3];
-        
+
         return (p.x() * a + p.y() * b + p.z() * c + d) * d > 0;
     }
 
@@ -155,13 +155,14 @@ public class QuickhullKolmio extends Kolmio {
     public boolean sisaltaaPisteen(Piste p) {
         return super.getPisteet().contains(p);
     }
-    
+
     /**
      * Määrittää tämän ja tutkittavan kolmion yhteisen sivun
+     *
      * @param k toinen kolmio
      * @return kolmioiden yhteinen sivu tai null jos sellaista ei ole
      */
-    public Sivu yhteinenSivu(QuickhullKolmio k){
+    public Sivu yhteinenSivu(QuickhullKolmio k) {
         ArrayList<Piste> yhteisetPisteet = new ArrayList(this.getPisteet());
         yhteisetPisteet.removeAll(k.erillisetPisteet(this));
         if (yhteisetPisteet.size() != 2) {
@@ -169,6 +170,16 @@ public class QuickhullKolmio extends Kolmio {
         } else {
             return new Sivu(yhteisetPisteet.get(0), yhteisetPisteet.get(1));
         }
+    }
+
+    boolean eriPuolilla(Piste keskipiste, Piste p) {
+        double[] kertoimet = tasonYhtalo();
+        double a = kertoimet[0];
+        double b = kertoimet[1];
+        double c = kertoimet[2];
+        double d = kertoimet[3];
+
+        return (p.x() * a + p.y() * b + p.z() * c + d) * (keskipiste.x() * a + keskipiste.y() * b + keskipiste.z() * c + d) > 0;
     }
 
 }

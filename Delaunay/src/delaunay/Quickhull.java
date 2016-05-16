@@ -20,16 +20,18 @@ import utils.TiedostoIO;
 public class Quickhull {
 
     ArrayList<Piste> pisteet;
+    Piste keskipiste;
 
     public Quickhull(ArrayList<Piste> pisteet) {
         this.pisteet = pisteet;
+        keskipiste = new Piste(0,0,0);
     }
 
     public ArrayList<Kolmio> kolmioi() {
         ArrayList<Kolmio> palautettavatKolmiot = new ArrayList<>();
         Deque<QuickhullKolmio> tyostettavatKolmiot;
-//        tyostettavatKolmiot = luoEnsimmainenTetraedri(pisteet);
-        tyostettavatKolmiot = luoVakiotetra(pisteet);
+        tyostettavatKolmiot = luoEnsimmainenTetraedri(pisteet);
+//        tyostettavatKolmiot = luoVakiotetra(pisteet);
         palautettavatKolmiot.addAll(tyostettavatKolmiot);
 
         while (!tyostettavatKolmiot.isEmpty()) {
@@ -59,7 +61,7 @@ public class Quickhull {
 
             for (Piste p : tyostettava.getNakyvatPisteet()) {
                 for (QuickhullKolmio k : uudetKolmiot) {
-                    if (!k.onKauempanaOrigosta(p)) {
+                    if (!k.eriPuolilla(keskipiste, p)) {
                         k.lisaaNakyvaPiste(p);
                         break;
                     }
@@ -86,13 +88,13 @@ public class Quickhull {
         kolmiot.add(tahko4);
 
         for (Piste p : jaettavatPisteet) {
-            if (!tahko1.onKauempanaOrigosta(p)) {
+            if (!tahko1.eriPuolilla(keskipiste, p)) {
                 tahko1.lisaaNakyvaPiste(p);
-            } else if (!tahko2.onKauempanaOrigosta(p)) {
+            } else if (!tahko2.eriPuolilla(keskipiste, p)) {
                 tahko2.lisaaNakyvaPiste(p);
-            } else if (!tahko3.onKauempanaOrigosta(p)) {
+            } else if (!tahko3.eriPuolilla(keskipiste, p)) {
                 tahko3.lisaaNakyvaPiste(p);
-            } else if (!tahko4.onKauempanaOrigosta(p)) {
+            } else if (!tahko4.eriPuolilla(keskipiste, p)) {
                 tahko4.lisaaNakyvaPiste(p);
             } else {
                 throw new Error("Kappale ei ole konveksi");
@@ -166,6 +168,7 @@ public class Quickhull {
         try {
             p4 = tahko1.etsiKaukaisin(kaukaisimmat);
             jaettavatPisteet.remove(p4);
+            keskipiste = etsiKeskipiste(p1, p2, p3, p4);
             System.out.println("Kauimpana tahkosta");
             System.out.println(p4);
             QuickhullKolmio tahko2 = new QuickhullKolmio(p1, p2, p4);
@@ -182,13 +185,13 @@ public class Quickhull {
 
             // Jaetaan kukin piste jollekin tetraedrin tahkolle
             for (Piste p : jaettavatPisteet) {
-                if (!tahko1.onKauempanaOrigosta(p)) {
+                if (!tahko1.eriPuolilla(keskipiste, p)) {
                     tahko1.lisaaNakyvaPiste(p);
-                } else if (!tahko2.onKauempanaOrigosta(p)) {
+                } else if (!tahko2.eriPuolilla(keskipiste, p)) {
                     tahko2.lisaaNakyvaPiste(p);
-                } else if (!tahko3.onKauempanaOrigosta(p)) {
+                } else if (!tahko3.eriPuolilla(keskipiste, p)) {
                     tahko3.lisaaNakyvaPiste(p);
-                } else if (!tahko4.onKauempanaOrigosta(p)) {
+                } else if (!tahko4.eriPuolilla(keskipiste, p)) {
                     tahko4.lisaaNakyvaPiste(p);
                 } else {
                     throw new Error("Kappale ei ole konveksi");
@@ -271,7 +274,7 @@ public class Quickhull {
     private ArrayList<QuickhullKolmio> etsiValoisat(QuickhullKolmio tyostettava, Piste p) {
         ArrayList<QuickhullKolmio> valoisat = new ArrayList<>();
         for (QuickhullKolmio k : tyostettava.getNaapurit()) {
-            if (!k.onKauempanaOrigosta(p)) {
+            if (!k.eriPuolilla(keskipiste, p)) {
                 valoisat.add(k);
             }
         }
@@ -313,5 +316,13 @@ public class Quickhull {
 
     private void kirjoitaTiedostoon(ArrayList<Piste> data, String tiedostonimi) {
         TiedostoIO.kirjoitaTiedostoon(Delaunay.valmistaTulostukseen(data, ","), tiedostonimi);
+    }
+    
+    private Piste etsiKeskipiste(Piste p1, Piste p2, Piste p3, Piste p4){
+        double x = (p1.x()+p2.x()+p3.x()+p4.x())/4;
+        double y = (p1.y()+p2.y()+p3.y()+p4.y())/4;
+        double z = (p1.z()+p2.z()+p3.z()+p4.z())/4;
+        double r = Math.sqrt(x*x+y*y+z*z);
+        return new Piste(Math.acos(z/r), Math.atan(y/x), r);
     }
 }
