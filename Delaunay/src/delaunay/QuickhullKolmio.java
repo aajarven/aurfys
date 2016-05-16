@@ -51,6 +51,19 @@ public class QuickhullKolmio extends Kolmio {
         }
         return kaukaisin;
     }
+    
+    public Piste etsiKaukaisin(ArrayList<Piste> pisteet){
+        Piste kaukaisin = pisteet.get(0);
+        double kaukaisimmanEtaisyys = 0;
+        for (Piste p : pisteet) {
+            double kasiteltavanEtaisyys = etaisyysTasosta(p);
+            if (kasiteltavanEtaisyys < kaukaisimmanEtaisyys) {
+                kaukaisin = p;
+                kaukaisimmanEtaisyys = kasiteltavanEtaisyys;
+            }
+        }
+        return kaukaisin;
+    }
 
     public ArrayList<Piste> getNakyvatPisteet() {
         return nakyvatPisteet;
@@ -149,8 +162,8 @@ public class QuickhullKolmio extends Kolmio {
      * @return kolmioiden yhteinen sivu tai null jos sellaista ei ole
      */
     public Sivu yhteinenSivu(QuickhullKolmio k){
-        ArrayList<Piste> yhteisetPisteet = this.getPisteet();
-        yhteisetPisteet.removeAll(this.erillisetPisteet(k));
+        ArrayList<Piste> yhteisetPisteet = new ArrayList(this.getPisteet());
+        yhteisetPisteet.removeAll(k.erillisetPisteet(this));
         if (yhteisetPisteet.size() != 2) {
             return null;
         } else {

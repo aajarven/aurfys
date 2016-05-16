@@ -27,6 +27,7 @@ public class Delaunay {
     public static void main(String[] args) {
 //        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
 //        tulostaPisteetPerPi(pisteet);
+
         ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(10, 1, 1.0, 1, 1);
         System.out.println("");
         tulostaPisteetKarteesinen(pisteet);
@@ -36,6 +37,18 @@ public class Delaunay {
         Quickhull kolmioija = new Quickhull(pisteet);
         ArrayList<Kolmio> kolmiot = kolmioija.kolmioi();
         System.out.println(kolmiot.size());
+
+//        Piste p1 = new Piste(Math.PI/4, 0, 1);
+//        Piste p2 = new Piste(3*Math.PI/4, -Math.PI, 1);
+//        Piste p3 = new Piste(0, 0, 1);
+//        Piste p4 = new Piste(Math.PI/4, Math.PI, 1);
+//        QuickhullKolmio k1 = new QuickhullKolmio(p1, p2, p3);
+//        QuickhullKolmio k2 = new QuickhullKolmio(p1, p2, p4);
+//        ArrayList<Piste> yhteiset = new ArrayList<Piste>(k1.getPisteet());
+//        ArrayList<Piste> erilliset = k2.erillisetPisteet(k1);
+//        System.out.println(erilliset.size());
+//        yhteiset.removeAll(erilliset);
+//        System.out.println(yhteiset.size());
 
 //        Piste p1 = new Piste(Math.PI/2-0.1, 0, 1);
 //        Piste p2 = new Piste(Math.PI/2-0.1, Math.PI, 1);

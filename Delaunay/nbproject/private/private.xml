@@ -5,9 +5,12 @@
         <group>
             <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/delaunay/Kolmio.java</file>
             <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/delaunay/Delaunay.java</file>
+            <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/delaunay/Quickhull.java</file>
             <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/delaunay/Vektori3D.java</file>
             <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/delaunay/QuickhullKolmio.java</file>
             <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/delaunay/Piste.java</file>
+            <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/UI/Kayttoliittyma.java</file>
+            <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/delaunay/Sivu.java</file>
             <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/delaunay/PisteGeneraattori.java</file>
             <file>file:/home/anni/anni/yliopisto/aurfys/Delaunay/src/utils/TiedostoIO.java</file>
         </group>

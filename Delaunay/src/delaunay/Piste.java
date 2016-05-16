@@ -13,7 +13,7 @@ public class Piste {
     /**
      * Maksimietäisyys pisteille, joiden katsotaan olevan sama piste
      */
-    private final static double KYNNYSARVO = 0.00001;
+    private final static double KYNNYSARVO = 0.001;
     
     /**
      * Kulma navalta
@@ -84,6 +84,7 @@ public class Piste {
      */
     public double etaisyys(Piste p){
         return Math.sqrt(Math.pow(this.x()-p.x(), 2)+Math.pow(this.y()-p.y(), 2) + Math.pow(this.z()-p.z(), 2));
+        //return Math.hypot(Math.hypot(this.x()-p.x(), this.y()-p.y()), this.z()-p.z());
     }
     
     /**
