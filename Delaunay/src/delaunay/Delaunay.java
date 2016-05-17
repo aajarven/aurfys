@@ -23,55 +23,16 @@ public class Delaunay {
 
         TiedostoIO.tyhjennaKansio("debug");
 
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(8, 1, 1.0, 1, 1);
-        System.out.println("");
-        tulostaPisteetKarteesinen(pisteet);
-        System.out.println("\nPisteitä yhteensä: " + pisteet.size());
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(250, 1, 1, 1, 1);
+        System.out.println("generoitu");
+//        tulostaPisteetKarteesinen(pisteet);
         TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
 
         Quickhull kolmioija = new Quickhull(pisteet);
         ArrayList<Kolmio> kolmiot = kolmioija.kolmioi();
         System.out.println(kolmiot.size());
 
-//        Piste p1 = new Piste(Piste.laskeTheta(0.16,-0.99,-0.33), Piste.laskeFii(0.16,-0.99,-0.33), Piste.laskeR(0.16,-0.99,-0.33));
-//        Piste p2 = new Piste(Piste.laskeTheta(-0.81,0.44,.39), Piste.laskeFii(-0.81,0.44,.39), Piste.laskeR(-0.81,0.44,.39));
-//        Piste p3 = new Piste(Piste.laskeTheta(0.63,.66,.40), Piste.laskeFii(0.63,.66,.40), Piste.laskeR(0.63,.66,.40));
-//        QuickhullKolmio k = new QuickhullKolmio(p1, p2, p3);
-//        double[] kertoimet = k.tasonYhtalo();
-//        for(double d: kertoimet){
-//            System.out.println(d);
-//        }
-//        Piste kaukaisin = new Piste(Piste.laskeTheta(-.533,-0.601,-0.587), Piste.laskeFii(-.533,-0.601,-0.587), Piste.laskeR(-.533,-0.601,-0.587));
-//        Piste p5 = new Piste(Piste.laskeTheta(-1,-1,-1), Piste.laskeFii(-1,-1,-1), Piste.laskeR(-1,-1,-1));
-//        System.out.println(k.eriPuolilla(kaukaisin, p5));
-
-
-        //TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
-
-        
-//        QuickhullKolmio k1 = new QuickhullKolmio(p1, p2, p3);
-//        QuickhullKolmio k2 = new QuickhullKolmio(p1, p2, p4);
-//        ArrayList<Piste> yhteiset = new ArrayList<Piste>(k1.getPisteet());
-//        ArrayList<Piste> erilliset = k2.erillisetPisteet(k1);
-//        System.out.println(erilliset.size());
-//        yhteiset.removeAll(erilliset);
-//        System.out.println(yhteiset.size());
-//        Piste p1 = new Piste(Math.PI/2-0.1, 0, 1);
-//        Piste p2 = new Piste(Math.PI/2-0.1, Math.PI, 1);
-//        Piste p3 = new Piste(Math.PI/2-0.1, Math.PI/2, 1);
-//        QuickhullKolmio k = new QuickhullKolmio(p1, p2, p3);
-//        System.out.println(p1.x()+"\t"+p1.y()+"\t"+p1.z());
-//        System.out.println(p2.x()+"\t"+p2.y()+"\t"+p2.z());
-//        System.out.println(p3.x()+"\t"+p3.y()+"\t"+p3.z());
-//        
-//        for(double d : k.tasonYhtalo()){
-//            System.out.print(d+"\t");
-//        }
-//        System.out.println("");
-//        
-//        Piste p4 = new Piste(Math.PI/2-0.2, 0, 1);
-//        System.out.println(k.onKauempanaOrigosta(p4));
-//        System.out.println(p4.x()+"\t"+p4.y()+"\t"+p4.z());
+        TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
     }
 
     private static ArrayList<Piste> etsiPaatepisteet(ArrayList<Sivu> horisontti) {

@@ -6,6 +6,7 @@
 package delaunay;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -52,6 +53,38 @@ public class Kolmio {
         
         return palautus;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + Objects.hashCode(this.p1);
+        hash = 73 * hash + Objects.hashCode(this.p2);
+        hash = 73 * hash + Objects.hashCode(this.p3);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        final Kolmio k = (Kolmio) o;
+        if(!k.getPisteet().contains(this.p1)){
+            return false;
+        } else if (!k.getPisteet().contains(this.p2)){
+            return false;
+        } else if (!k.getPisteet().contains(this.p3)){
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }

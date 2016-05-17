@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +34,10 @@ public class TiedostoIO {
 
     }
 
-    public static void kirjoitaPisteetTiedostoon(Iterable<Piste> pisteet, String tiedostonimi, String erotin) {
+    public static void kirjoitaPisteetTiedostoon(ArrayList<Piste> pisteet, String tiedostonimi, String erotin) {
+        if (pisteet.isEmpty()) {
+            return;
+        }
         try {
             FileWriter kirjoittaja = new FileWriter(tiedostonimi);
             for (Piste p : pisteet) {
@@ -76,11 +80,16 @@ public class TiedostoIO {
      *
      * @param kolmiot
      * @param basename
+     * @param erotin
      */
-    public static void kirjoitaKolmiotTiedostoihin(Iterable<Kolmio> kolmiot, String basename, String erotin) {
+    public static void kirjoitaKolmiotTiedostoihin(List<Kolmio> kolmiot, String basename, String erotin) {
+        if (kolmiot.isEmpty()) {
+            return;
+        }
 
         StringBuilder xBuilder = new StringBuilder();
-        for (Kolmio k : kolmiot) {
+        for (int j = 0; j < kolmiot.size(); j++) {
+            Kolmio k = kolmiot.get(j);
             ArrayList<Piste> pisteet = k.getPisteet();
             for (int i = 0; i < pisteet.size(); i++) {
                 Piste p = pisteet.get(i);
@@ -89,11 +98,14 @@ public class TiedostoIO {
                     xBuilder.append(erotin);
                 }
             }
-            xBuilder.append("\n");
+            if (j < kolmiot.size() - 1) {
+                xBuilder.append("\n");
+            }
         }
 
         StringBuilder yBuilder = new StringBuilder();
-        for (Kolmio k : kolmiot) {
+        for (int j = 0; j < kolmiot.size(); j++) {
+            Kolmio k = kolmiot.get(j);
             ArrayList<Piste> pisteet = k.getPisteet();
             for (int i = 0; i < pisteet.size(); i++) {
                 Piste p = pisteet.get(i);
@@ -102,11 +114,14 @@ public class TiedostoIO {
                     yBuilder.append(erotin);
                 }
             }
-            yBuilder.append("\n");
+            if (j < kolmiot.size() - 1) {
+                yBuilder.append("\n");
+            }
         }
 
         StringBuilder zBuilder = new StringBuilder();
-        for (Kolmio k : kolmiot) {
+        for (int j = 0; j < kolmiot.size(); j++) {
+            Kolmio k = kolmiot.get(j);
             ArrayList<Piste> pisteet = k.getPisteet();
             for (int i = 0; i < pisteet.size(); i++) {
                 Piste p = pisteet.get(i);
@@ -115,7 +130,10 @@ public class TiedostoIO {
                     zBuilder.append(erotin);
                 }
             }
-            zBuilder.append("\n");
+            if (j < kolmiot.size() - 1) {
+                zBuilder.append("\n");
+            }
+
         }
 
         try {
@@ -136,8 +154,13 @@ public class TiedostoIO {
     }
 
     public static void kirjoitaKolmiotTiedostoihin(ArrayList<QuickhullKolmio> kolmiot, String basename, String erotin) {
+        if (kolmiot.isEmpty()) {
+            return;
+        }
+
         StringBuilder xBuilder = new StringBuilder();
-        for (Kolmio k : kolmiot) {
+        for (int j = 0; j < kolmiot.size(); j++) {
+            Kolmio k = kolmiot.get(j);
             ArrayList<Piste> pisteet = k.getPisteet();
             for (int i = 0; i < pisteet.size(); i++) {
                 Piste p = pisteet.get(i);
@@ -146,11 +169,14 @@ public class TiedostoIO {
                     xBuilder.append(erotin);
                 }
             }
-            xBuilder.append("\n");
+            if (j < kolmiot.size() - 1) {
+                xBuilder.append("\n");
+            }
         }
 
         StringBuilder yBuilder = new StringBuilder();
-        for (Kolmio k : kolmiot) {
+        for (int j = 0; j < kolmiot.size(); j++) {
+            Kolmio k = kolmiot.get(j);
             ArrayList<Piste> pisteet = k.getPisteet();
             for (int i = 0; i < pisteet.size(); i++) {
                 Piste p = pisteet.get(i);
@@ -159,11 +185,14 @@ public class TiedostoIO {
                     yBuilder.append(erotin);
                 }
             }
-            yBuilder.append("\n");
+            if (j < kolmiot.size() - 1) {
+                yBuilder.append("\n");
+            }
         }
 
         StringBuilder zBuilder = new StringBuilder();
-        for (Kolmio k : kolmiot) {
+        for (int j = 0; j < kolmiot.size(); j++) {
+            Kolmio k = kolmiot.get(j);
             ArrayList<Piste> pisteet = k.getPisteet();
             for (int i = 0; i < pisteet.size(); i++) {
                 Piste p = pisteet.get(i);
@@ -172,7 +201,10 @@ public class TiedostoIO {
                     zBuilder.append(erotin);
                 }
             }
-            zBuilder.append("\n");
+            if (j < kolmiot.size() - 1) {
+                zBuilder.append("\n");
+            }
+
         }
 
         try {
