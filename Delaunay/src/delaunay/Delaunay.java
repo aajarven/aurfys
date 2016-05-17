@@ -28,16 +28,18 @@ public class Delaunay {
 //        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
 //        tulostaPisteetPerPi(pisteet);
 
+        TiedostoIO.tyhjennaKansio("debug");
+
         ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(8, 1, 1.0, 1, 1);
         System.out.println("");
         tulostaPisteetKarteesinen(pisteet);
         System.out.println("\nPisteitä yhteensä: " + pisteet.size());
-        TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "testi.txt");
+        TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
 
         Quickhull kolmioija = new Quickhull(pisteet);
         ArrayList<Kolmio> kolmiot = kolmioija.kolmioi();
         System.out.println(kolmiot.size());
-        TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
+        //TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
 
 //        Piste p1 = new Piste(Math.PI/4, 0, 1);
 //        Piste p2 = new Piste(3*Math.PI/4, -Math.PI, 1);

@@ -8,8 +8,14 @@ package utils;
 import delaunay.Kolmio;
 import delaunay.Piste;
 import delaunay.QuickhullKolmio;
+import delaunay.Sivu;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +37,40 @@ public class TiedostoIO {
 
     }
 
+    public static void kirjoitaPisteetTiedostoon(Iterable<Piste> pisteet, String tiedostonimi, String erotin) {
+        try {
+            FileWriter kirjoittaja = new FileWriter(tiedostonimi);
+            for (Piste p : pisteet) {
+                StringBuilder rakentaja = new StringBuilder();
+                rakentaja.append(p.x());
+                rakentaja.append(erotin);
+                rakentaja.append(p.y());
+                rakentaja.append(erotin);
+                rakentaja.append(p.z());
+                kirjoittaja.write(rakentaja.toString());
+            }
+            kirjoittaja.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TiedostoIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void kirjoitaPisteTiedostoon(Piste p, String tiedostonimi, String erotin) {
+        try {
+            FileWriter kirjoittaja = new FileWriter(tiedostonimi);
+            StringBuilder rakentaja = new StringBuilder();
+            rakentaja.append(p.x());
+            rakentaja.append(erotin);
+            rakentaja.append(p.y());
+            rakentaja.append(erotin);
+            rakentaja.append(p.z());
+            kirjoittaja.write(rakentaja.toString());
+            kirjoittaja.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TiedostoIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * Tallentaa annetut kolmiot tiedostoihin tiedostonimi-x.txt,
      * tiedostonimi-y.txt ja tiedostonimi-z.txt siten, että kukin tiedosto
@@ -39,9 +79,9 @@ public class TiedostoIO {
      * erotusmerkin , tapauksessa rivit "x1-1,x1-2,x1-2\nx2-1,x2-2,x2-3"
      *
      * @param kolmiot
-     * @param tiedostonimi
+     * @param basename
      */
-    public static void kirjoitaKolmiotTiedostoihin(Iterable<Kolmio> kolmiot, String tiedostonimi, String erotin) {
+    public static void kirjoitaKolmiotTiedostoihin(Iterable<Kolmio> kolmiot, String basename, String erotin) {
 
         StringBuilder xBuilder = new StringBuilder();
         for (Kolmio k : kolmiot) {
@@ -83,15 +123,15 @@ public class TiedostoIO {
         }
 
         try {
-            FileWriter kirjoittaja = new FileWriter(tiedostonimi + "-x.txt");
+            FileWriter kirjoittaja = new FileWriter(basename + "-x.txt");
             kirjoittaja.write(xBuilder.toString());
             kirjoittaja.close();
 
-            kirjoittaja = new FileWriter(tiedostonimi + "-y.txt");
+            kirjoittaja = new FileWriter(basename + "-y.txt");
             kirjoittaja.write(yBuilder.toString());
             kirjoittaja.close();
 
-            kirjoittaja = new FileWriter(tiedostonimi + "-z.txt");
+            kirjoittaja = new FileWriter(basename + "-z.txt");
             kirjoittaja.write(zBuilder.toString());
             kirjoittaja.close();
         } catch (IOException ex) {
@@ -99,7 +139,7 @@ public class TiedostoIO {
         }
     }
 
-    public static void kirjoitaKolmiotTiedostoihin(ArrayList<QuickhullKolmio> kolmiot, String tiedostonimi, String erotin) {
+    public static void kirjoitaKolmiotTiedostoihin(ArrayList<QuickhullKolmio> kolmiot, String basename, String erotin) {
         StringBuilder xBuilder = new StringBuilder();
         for (Kolmio k : kolmiot) {
             ArrayList<Piste> pisteet = k.getPisteet();
@@ -140,19 +180,111 @@ public class TiedostoIO {
         }
 
         try {
-            FileWriter kirjoittaja = new FileWriter(tiedostonimi + "-x.txt");
+            FileWriter kirjoittaja = new FileWriter(basename + "-x.txt");
             kirjoittaja.write(xBuilder.toString());
             kirjoittaja.close();
 
-            kirjoittaja = new FileWriter(tiedostonimi + "-y.txt");
+            kirjoittaja = new FileWriter(basename + "-y.txt");
             kirjoittaja.write(yBuilder.toString());
             kirjoittaja.close();
 
-            kirjoittaja = new FileWriter(tiedostonimi + "-z.txt");
+            kirjoittaja = new FileWriter(basename + "-z.txt");
             kirjoittaja.write(zBuilder.toString());
             kirjoittaja.close();
         } catch (IOException ex) {
             Logger.getLogger(TiedostoIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void kirjoitaKolmioTiedostoihin(QuickhullKolmio k, String basename, String erotin) {
+        StringBuilder xBuilder = new StringBuilder();
+        ArrayList<Piste> pisteet = k.getPisteet();
+        for (int i = 0; i < pisteet.size(); i++) {
+            Piste p = pisteet.get(i);
+            xBuilder.append(p.x());
+            if (i < pisteet.size() - 1) {
+                xBuilder.append(erotin);
+            }
+        }
+
+        StringBuilder yBuilder = new StringBuilder();
+        for (int i = 0; i < pisteet.size(); i++) {
+            Piste p = pisteet.get(i);
+            yBuilder.append(p.y());
+            if (i < pisteet.size() - 1) {
+                yBuilder.append(erotin);
+            }
+        }
+
+        StringBuilder zBuilder = new StringBuilder();
+        for (int i = 0; i < pisteet.size(); i++) {
+            Piste p = pisteet.get(i);
+            zBuilder.append(p.z());
+            if (i < pisteet.size() - 1) {
+                zBuilder.append(erotin);
+            }
+        }
+
+        try {
+            FileWriter kirjoittaja = new FileWriter(basename + "-x.txt");
+            kirjoittaja.write(xBuilder.toString());
+            kirjoittaja.close();
+
+            kirjoittaja = new FileWriter(basename + "-y.txt");
+            kirjoittaja.write(yBuilder.toString());
+            kirjoittaja.close();
+
+            kirjoittaja = new FileWriter(basename + "-z.txt");
+            kirjoittaja.write(zBuilder.toString());
+            kirjoittaja.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TiedostoIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void kirjoitaSivutTiedostoihin(Iterable<Sivu> sivut, String basename, String erotin) {
+        StringBuilder xBuilder = new StringBuilder();
+        StringBuilder yBuilder = new StringBuilder();
+        StringBuilder zBuilder = new StringBuilder();
+
+        for (Sivu s : sivut) {
+            xBuilder.append(s.getP1().x());
+            xBuilder.append(erotin);
+            xBuilder.append(s.getP2().x());
+            xBuilder.append("\n");
+
+            yBuilder.append(s.getP1().y());
+            yBuilder.append(erotin);
+            yBuilder.append(s.getP2().y());
+            yBuilder.append("\n");
+
+            zBuilder.append(s.getP1().z());
+            zBuilder.append(erotin);
+            zBuilder.append(s.getP2().z());
+            zBuilder.append("\n");
+        }
+
+        try {
+            FileWriter kirjoittaja = new FileWriter(basename + "-x.txt");
+            kirjoittaja.write(xBuilder.toString());
+            kirjoittaja.close();
+
+            kirjoittaja = new FileWriter(basename + "-y.txt");
+            kirjoittaja.write(yBuilder.toString());
+            kirjoittaja.close();
+
+            kirjoittaja = new FileWriter(basename + "-z.txt");
+            kirjoittaja.write(zBuilder.toString());
+            kirjoittaja.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TiedostoIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void tyhjennaKansio(String kansio) {
+        File dir = new File(kansio);
+        for (File file : dir.listFiles()) {
+            file.delete();
         }
     }
 
