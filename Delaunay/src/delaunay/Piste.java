@@ -16,12 +16,12 @@ public class Piste {
     private final static double KYNNYSARVO = 0.001;
     
     /**
-     * Kulma navalta
+     * Atsimuutti
      */
     private double theta; 
     
     /**
-     * Longitudi
+     * Kulma navalta
      */
     private double fii;
     
@@ -49,7 +49,7 @@ public class Piste {
     }
     
     public double x(){
-        return r*Math.sin(theta)*Math.cos(fii);
+        return r*Math.cos(theta)*Math.sin(fii);
     }
     
     public double y(){
@@ -57,7 +57,7 @@ public class Piste {
     }
     
     public double z(){
-        return r*Math.cos(theta);
+        return r*Math.cos(fii);
     }
     
     @Override
@@ -108,6 +108,20 @@ public class Piste {
         Vektori3D v = this.vektoriPisteeseen(p1);
         Vektori3D ristitulo = suuntavektori.ristitulo(v);
         return ristitulo.pituus()/suuntavektori.pituus();
+    }
+    
+    public static double laskeTheta(double x, double y, double z){
+        //return Math.atan(y / x);
+        return Math.atan2(y, x);
+        
+    }
+    
+    public static double laskeFii(double x, double y, double z){
+        return Math.acos(z / laskeR(x, y, z));
+    }
+    
+    public static double laskeR(double x, double y, double z){
+        return Math.sqrt(x * x + y * y + z * z);
     }
     
 }

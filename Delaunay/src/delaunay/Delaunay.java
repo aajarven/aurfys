@@ -32,12 +32,23 @@ public class Delaunay {
         Quickhull kolmioija = new Quickhull(pisteet);
         ArrayList<Kolmio> kolmiot = kolmioija.kolmioi();
         System.out.println(kolmiot.size());
+
+//        Piste p1 = new Piste(Piste.laskeTheta(0.16,-0.99,-0.33), Piste.laskeFii(0.16,-0.99,-0.33), Piste.laskeR(0.16,-0.99,-0.33));
+//        Piste p2 = new Piste(Piste.laskeTheta(-0.81,0.44,.39), Piste.laskeFii(-0.81,0.44,.39), Piste.laskeR(-0.81,0.44,.39));
+//        Piste p3 = new Piste(Piste.laskeTheta(0.63,.66,.40), Piste.laskeFii(0.63,.66,.40), Piste.laskeR(0.63,.66,.40));
+//        QuickhullKolmio k = new QuickhullKolmio(p1, p2, p3);
+//        double[] kertoimet = k.tasonYhtalo();
+//        for(double d: kertoimet){
+//            System.out.println(d);
+//        }
+//        Piste kaukaisin = new Piste(Piste.laskeTheta(-.533,-0.601,-0.587), Piste.laskeFii(-.533,-0.601,-0.587), Piste.laskeR(-.533,-0.601,-0.587));
+//        Piste p5 = new Piste(Piste.laskeTheta(-1,-1,-1), Piste.laskeFii(-1,-1,-1), Piste.laskeR(-1,-1,-1));
+//        System.out.println(k.eriPuolilla(kaukaisin, p5));
+
+
         //TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
 
-//        Piste p1 = new Piste(Math.PI/4, 0, 1);
-//        Piste p2 = new Piste(3*Math.PI/4, -Math.PI, 1);
-//        Piste p3 = new Piste(0, 0, 1);
-//        Piste p4 = new Piste(Math.PI/4, Math.PI, 1);
+        
 //        QuickhullKolmio k1 = new QuickhullKolmio(p1, p2, p3);
 //        QuickhullKolmio k2 = new QuickhullKolmio(p1, p2, p4);
 //        ArrayList<Piste> yhteiset = new ArrayList<Piste>(k1.getPisteet());

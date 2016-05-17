@@ -13,7 +13,6 @@ while true
     hold on;
     iteraatio=iteraatio+1;
     
-    disp(strcat('debug/tyostettava-',num2str(iteraatio)))
     plottaaKolmiot(strcat('debug/tyostettava-',num2str(iteraatio)),tumpun);
     disp(strcat('iteraation ',num2str(iteraatio),' työstettävä'))
     pause;

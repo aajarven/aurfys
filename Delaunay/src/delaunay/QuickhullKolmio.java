@@ -104,17 +104,17 @@ public class QuickhullKolmio extends Kolmio {
      *
      * @return [a, b, c, d]
      */
-    private double[] tasonYhtalo() {
+    public double[] tasonYhtalo() {
         Vektori3D v1 = super.getP1().vektoriPisteeseen(super.getP2());
         Vektori3D v2 = super.getP1().vektoriPisteeseen(super.getP3());
         Vektori3D normaali = v1.ristitulo(v2);
-
+        
         double a = normaali.getI();
         double b = normaali.getJ();
         double c = normaali.getK();
-        double d = -(normaali.getI() * super.getP1().x() + normaali.getJ() * super.getP1().y() + normaali.getK() * super.getP1().z());
+        double d = normaali.getI() * super.getP1().x() + normaali.getJ() * super.getP1().y() + normaali.getK() * super.getP1().z();
 
-        return new double[]{a, b, c, d};
+        return new double[]{a, b, c, -d};
     }
 
     /**
@@ -189,7 +189,7 @@ public class QuickhullKolmio extends Kolmio {
         double c = kertoimet[2];
         double d = kertoimet[3];
 
-        return (p.x() * a + p.y() * b + p.z() * c + d) * (keskipiste.x() * a + keskipiste.y() * b + keskipiste.z() * c + d) > 0;
+        return (p.x() * a + p.y() * b + p.z() * c + d) * (keskipiste.x() * a + keskipiste.y() * b + keskipiste.z() * c + d) < 0;
     }
 
 }

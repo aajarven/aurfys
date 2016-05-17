@@ -69,7 +69,7 @@ public class PisteGeneraattori {
      * @return 
      */
     static ArrayList<Piste> generoiSatunnaisesti(int pisteita, double a, double b, double c, double tasaisuuskerroin){
-        ArrayList<Piste> palautus = new ArrayList<Piste>(pisteita);
+        ArrayList<Piste> palautus = new ArrayList<>(pisteita);
         double minEtaisyys = Math.sqrt(ellipsoidinAla(a, b, c)/pisteita/Math.PI)*tasaisuuskerroin;
         int pisteitaGeneroitu = 0;
         Random rand = new Random();
@@ -77,7 +77,7 @@ public class PisteGeneraattori {
         while (pisteitaGeneroitu < pisteita){
             
             double theta = rand.nextDouble()*Math.PI*2;
-            double fii = rand.nextDouble()*Math.PI*4;
+            double fii = rand.nextDouble()*Math.PI;
             double r = r(a, b, c, theta, fii);
             Piste lisattava = new Piste(theta, fii, r);
             boolean kelpaa = true;

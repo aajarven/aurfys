@@ -21,7 +21,7 @@ public class Vektori3D {
     }
     
     public Vektori3D ristitulo(Vektori3D v){
-        return new Vektori3D(this.j*v.k-this.k*v.j, this.k*v.i-this.i*v.k, this.i*v.j-this.j-v.i);
+        return new Vektori3D(this.j*v.k-this.k*v.j, this.k*v.i-this.i*v.k, this.i*v.j-this.j*v.i);
     }
 
     public double getI() {
@@ -39,5 +39,12 @@ public class Vektori3D {
     public double pituus(){
         return Math.sqrt(i*i+j*j+k*k);
     }
+
+    @Override
+    public String toString() {
+        return "<"+i+", "+j+", "+k+">";
+    }
+    
+    
     
 }
