@@ -63,7 +63,12 @@ public class Quickhull {
             System.out.println("Palautettavia kolmioita nyt " + palautettavatKolmiot.size());
             System.out.println("");
 
-            jaaNakyvatPisteet(tyostettava.getNakyvatPisteet(), uudetKolmiot);
+            // rikki
+            HashSet<Piste> nakyvatPisteet = new HashSet<>(tyostettava.getNakyvatPisteet());
+            for (Kolmio k: valoisat){
+                nakyvatPisteet.addAll(k.getPisteet());
+            }
+            jaaNakyvatPisteet(nakyvatPisteet, uudetKolmiot);
 
 //            for (Piste p : tyostettava.getNakyvatPisteet()) {
 //                for (QuickhullKolmio k : uudetKolmiot) {
@@ -180,7 +185,7 @@ public class Quickhull {
         return ensimmaisetKasiteltavat;
     }
 
-    private void jaaNakyvatPisteet(ArrayList<Piste> jaettavatPisteet, Iterable<QuickhullKolmio> kolmiot) throws Error {
+    private void jaaNakyvatPisteet(Iterable<Piste> jaettavatPisteet, Iterable<QuickhullKolmio> kolmiot) throws Error {
         for (Piste p : jaettavatPisteet) {
             boolean loydettyKolmio = false;
             for (QuickhullKolmio k : kolmiot) {
