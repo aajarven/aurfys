@@ -25,9 +25,19 @@ public class QuickhullKolmio extends Kolmio {
     public void lisaaNakyvaPiste(Piste p) {
         nakyvatPisteet.add(p);
     }
+    
+    public void poistaNakyvaPiste(Piste p){
+        nakyvatPisteet.remove(p);
+    }
 
-    public void lisaaNaapuri(QuickhullKolmio n) {
-        naapurit.add(n);
+    public void lisaaNaapuri(QuickhullKolmio k) {
+        if (!naapurit.contains(k)) {
+            naapurit.add(k);
+        }
+    }
+    
+    public void poistaNaapuri(QuickhullKolmio k){
+        naapurit.remove(k);
     }
 
     /**

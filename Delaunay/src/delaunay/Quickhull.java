@@ -29,32 +29,25 @@ public class Quickhull {
 
     public ArrayList<Kolmio> kolmioi() {
         ArrayList<Kolmio> palautettavatKolmiot = new ArrayList<>();
-        Deque<QuickhullKolmio> tyostettavatKolmiot;
-        tyostettavatKolmiot = luoEnsimmainenTetraedri(pisteet);
-        int pistemaara = 0;
-        for (QuickhullKolmio k : tyostettavatKolmiot) {
-            pistemaara += k.getNakyvatPisteet().size();
-        }
-        System.out.println("näkyviä pisteitä " + pistemaara);
-//        tyostettavatKolmiot = luoVakiotetra(pisteet);
+        Deque<QuickhullKolmio> tyostettavatKolmiot = luoEnsimmainenTetraedri(pisteet);
+        TiedostoIO.kirjoitaKolmiotTiedostoihin(new ArrayList<Kolmio>(tyostettavatKolmiot), "ensimmaiset", ",");
         palautettavatKolmiot.addAll(tyostettavatKolmiot);
-//        TiedostoIO.kirjoitaKolmiotTiedostoihin(palautettavatKolmiot, "ekatetra", ",");
-//        for (Kolmio k: palautettavatKolmiot){
-//            System.out.println(k.toString());
-//        }
 
         while (!tyostettavatKolmiot.isEmpty()) {
+            tulostaNakyvienMaara(tyostettavatKolmiot);
             QuickhullKolmio tyostettava = tyostettavatKolmiot.pop();
             Piste kaukaisin;
             try {
                 kaukaisin = tyostettava.etsiKaukaisin();
+                tyostettava.poistaNakyvaPiste(kaukaisin);
             } catch (Exception ex) {
-                System.out.println("Ei löytynyt kaukaisinta");
+                System.out.println("Ei löytynyt kaukaisinta\n");
                 continue;
             }
 
             ArrayList<QuickhullKolmio> valoisat = etsiValoisat(tyostettava, kaukaisin);
-            System.out.println("löytyi " + valoisat.size() + " valoisaa");
+            System.out.println("löytyi " + valoisat.size() + " valoisaa naapuria");
+            TiedostoIO.kirjoitaKolmiotTiedostoihin(valoisat, "valoisat", ",");
             ArrayList<Sivu> horisontti = etsiHorisontti(valoisat, tyostettava);
             ArrayList<QuickhullKolmio> uudetKolmiot = new ArrayList<>();
             for (Sivu s : horisontti) {
@@ -65,49 +58,33 @@ public class Quickhull {
             palautettavatKolmiot.removeAll(valoisat);
             palautettavatKolmiot.remove(tyostettava);
             palautettavatKolmiot.addAll(uudetKolmiot);
+            tyostettavatKolmiot.addAll(uudetKolmiot);
+            tyostettavatKolmiot.removeAll(valoisat);
             System.out.println("Palautettavia kolmioita nyt " + palautettavatKolmiot.size());
             System.out.println("");
 
-            for (Piste p : tyostettava.getNakyvatPisteet()) {
-                for (QuickhullKolmio k : uudetKolmiot) {
-                    if (k.eriPuolilla(keskipiste, p)) {
-                        k.lisaaNakyvaPiste(p);
-                        break;
-                    }
-                }
-            }
+            jaaNakyvatPisteet(tyostettava.getNakyvatPisteet(), uudetKolmiot);
+
+//            for (Piste p : tyostettava.getNakyvatPisteet()) {
+//                for (QuickhullKolmio k : uudetKolmiot) {
+//                    if (k.eriPuolilla(keskipiste, p)) {
+//                        k.lisaaNakyvaPiste(p);
+//                        break;
+//                    }
+//                }
+//            }
+            paivitaNaapurit(tyostettava, valoisat, uudetKolmiot);
         }
 
         return palautettavatKolmiot;
     }
 
-    private Deque<QuickhullKolmio> luoVakiotetra(ArrayList<Piste> jaettavatPisteet) {
-        ArrayDeque<QuickhullKolmio> kolmiot = new ArrayDeque();
-        Piste p1 = new Piste(0, 0, 0.2);
-        Piste p2 = new Piste(Math.PI * 2 / 3, 0, 0.2);
-        Piste p3 = new Piste(Math.PI * 2 / 3, Math.PI * 2 / 3, 0.2);
-        Piste p4 = new Piste(Math.PI * 2 / 3, Math.PI * 4 / 3, 0.2);
-        final QuickhullKolmio tahko1 = new QuickhullKolmio(p1, p2, p3);
-        kolmiot.add(tahko1);
-        final QuickhullKolmio tahko2 = new QuickhullKolmio(p1, p2, p4);
-        kolmiot.add(tahko2);
-        final QuickhullKolmio tahko3 = new QuickhullKolmio(p1, p3, p4);
-        kolmiot.add(tahko3);
-        final QuickhullKolmio tahko4 = new QuickhullKolmio(p2, p3, p4);
-        kolmiot.add(tahko4);
-
-        jaaNakyvatPisteet(jaettavatPisteet, new ArrayList<QuickhullKolmio>(kolmiot));
-
-        // asetetaan tahkot toistensa naapureiksi
-        for (QuickhullKolmio k1 : kolmiot) {
-            for (QuickhullKolmio k2 : kolmiot) {
-                if (k1 != k2) {
-                    k1.lisaaNaapuri(k2);
-                }
-            }
+    private void tulostaNakyvienMaara(Deque<QuickhullKolmio> tyostettavatKolmiot) {
+        int pistemaara = 0;
+        for (QuickhullKolmio k : tyostettavatKolmiot) {
+            pistemaara += k.getNakyvatPisteet().size();
         }
-
-        return kolmiot;
+        System.out.println("näkyviä pisteitä " + pistemaara);
     }
 
     private Deque<QuickhullKolmio> luoEnsimmainenTetraedri(ArrayList<Piste> jaettavatPisteet) throws Error {
@@ -144,9 +121,9 @@ public class Quickhull {
         p3 = kaukaisimmat.get(0);
         suurinEtaisyys = p3.etaisyysSuorasta(p1, p2);
         for (Piste tutkittava : kaukaisimmat) {
-            System.out.println("pisteiden etäisyys: " + tutkittava.etaisyysSuorasta(p1, p2));
+//            System.out.println("pisteiden etäisyys: " + tutkittava.etaisyysSuorasta(p1, p2));
             if (tutkittava.etaisyysSuorasta(p1, p2) > suurinEtaisyys) {
-                System.out.println("oli suurempi kuin edellinen");
+//                System.out.println("oli suurempi kuin edellinen");
                 p3 = tutkittava;
                 suurinEtaisyys = tutkittava.etaisyysSuorasta(p1, p2);
             }
@@ -157,46 +134,46 @@ public class Quickhull {
         QuickhullKolmio tahko1 = new QuickhullKolmio(p1, p2, p3);
 
         try {
-            p4 = tahko1.etsiKaukaisin(kaukaisimmat);
-            jaettavatPisteet.remove(p4);
-            keskipiste = etsiKeskipiste(p1, p2, p3, p4);
-            System.out.println("Kauimpana tahkosta");
-            System.out.println(p4);
-            QuickhullKolmio tahko2 = new QuickhullKolmio(p1, p2, p4);
-            QuickhullKolmio tahko3 = new QuickhullKolmio(p1, p3, p4);
-            QuickhullKolmio tahko4 = new QuickhullKolmio(p2, p3, p4);
+        p4 = tahko1.etsiKaukaisin(jaettavatPisteet);
+        jaettavatPisteet.remove(p4);
+        keskipiste = etsiKeskipiste(p1, p2, p3, p4);
+//            System.out.println("Kauimpana tahkosta");
+//            System.out.println(p4);
+        QuickhullKolmio tahko2 = new QuickhullKolmio(p1, p2, p4);
+        QuickhullKolmio tahko3 = new QuickhullKolmio(p1, p3, p4);
+        QuickhullKolmio tahko4 = new QuickhullKolmio(p2, p3, p4);
 
-            ArrayList<Piste> kirjoitettava = new ArrayList();
-            kirjoitettava.add(p1);
-            kirjoitettava.add(p2);
-            kirjoitettava.add(p3);
-            kirjoitettava.add(p4);
+        ArrayList<Piste> kirjoitettava = new ArrayList();
+        kirjoitettava.add(p1);
+        kirjoitettava.add(p2);
+        kirjoitettava.add(p3);
+        kirjoitettava.add(p4);
 //            kirjoitaTiedostoon(kirjoitettava, "ensimmainen.txt");
 //            System.out.println("printd");
 
-            ensimmaisetKasiteltavat.add(tahko1);
-            ensimmaisetKasiteltavat.add(tahko2);
-            ensimmaisetKasiteltavat.add(tahko3);
-            ensimmaisetKasiteltavat.add(tahko4);
-            
-            jaaNakyvatPisteet(jaettavatPisteet, new ArrayList<QuickhullKolmio>(ensimmaisetKasiteltavat));
+        ensimmaisetKasiteltavat.add(tahko1);
+        ensimmaisetKasiteltavat.add(tahko2);
+        ensimmaisetKasiteltavat.add(tahko3);
+        ensimmaisetKasiteltavat.add(tahko4);
 
-            kirjoitaTiedostoon(tahko1.getNakyvatPisteet(), "tahko1_nakyvat.txt");
-            kirjoitaTiedostoon(tahko2.getNakyvatPisteet(), "tahko2_nakyvat.txt");
-            kirjoitaTiedostoon(tahko3.getNakyvatPisteet(), "tahko3_nakyvat.txt");
-            kirjoitaTiedostoon(tahko4.getNakyvatPisteet(), "tahko4_nakyvat.txt");
+        jaaNakyvatPisteet(jaettavatPisteet, new ArrayList<QuickhullKolmio>(ensimmaisetKasiteltavat));
 
-            // asetetaan tahkot toistensa naapureiksi
-            for (QuickhullKolmio k1 : ensimmaisetKasiteltavat) {
-                for (QuickhullKolmio k2 : ensimmaisetKasiteltavat) {
-                    if (k1 != k2) {
-                        k1.lisaaNaapuri(k2);
-                    }
+        kirjoitaTiedostoon(tahko1.getNakyvatPisteet(), "tahko1_nakyvat.txt");
+        kirjoitaTiedostoon(tahko2.getNakyvatPisteet(), "tahko2_nakyvat.txt");
+        kirjoitaTiedostoon(tahko3.getNakyvatPisteet(), "tahko3_nakyvat.txt");
+        kirjoitaTiedostoon(tahko4.getNakyvatPisteet(), "tahko4_nakyvat.txt");
+
+        // asetetaan tahkot toistensa naapureiksi
+        for (QuickhullKolmio k1 : ensimmaisetKasiteltavat) {
+            for (QuickhullKolmio k2 : ensimmaisetKasiteltavat) {
+                if (k1 != k2) {
+                    k1.lisaaNaapuri(k2);
                 }
             }
+        }
         } catch (Exception ex) {
-            System.out.println(Arrays.toString(ex.getStackTrace()));
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            System.out.println("Ensimmäisen tetraedrin viimeisen kärjen etsiminen epäonnistui");
             System.exit(0);
         }
 
@@ -214,7 +191,7 @@ public class Quickhull {
                 }
             }
             if (!loydettyKolmio) {
-                System.out.println("Pisteelle "+p.toString()+" ei löytynyt kolmiota");
+                System.out.println("Pisteelle " + p.toString() + " ei löytynyt kolmiota");
                 throw new Error();
             }
         }
@@ -321,5 +298,48 @@ public class Quickhull {
         double z = (p1.z() + p2.z() + p3.z() + p4.z()) / 4;
         double r = Math.sqrt(x * x + y * y + z * z);
         return new Piste(Math.acos(z / r), Math.atan(y / x), r);
+    }
+
+    private void paivitaNaapurit(QuickhullKolmio tyostettava, ArrayList<QuickhullKolmio> valoisat, ArrayList<QuickhullKolmio> uudetKolmiot) {
+        int naapurit = 0;
+
+        // poistetaan työstettävä kaikkien naapuriensa naapurustosta
+        ArrayList<QuickhullKolmio> tyostettavanNaapurit = new ArrayList<>(tyostettava.getNaapurit());
+        for (QuickhullKolmio tyostettavanNaapuri : tyostettavanNaapurit) {
+            tyostettavanNaapuri.poistaNaapuri(tyostettava);
+            tyostettava.poistaNaapuri(tyostettavanNaapuri);
+        }
+
+        // poistetaan jokainen valoisa kolmio jokaisen naapurinsa naapurustosta
+        HashSet<QuickhullKolmio> valoistenNaapurit = new HashSet<>();
+        for (QuickhullKolmio valoisa : valoisat) {
+            valoistenNaapurit.addAll(valoisa.getNaapurit());
+        }
+        for (QuickhullKolmio valoisa : valoisat) {
+            for (QuickhullKolmio naapuri : valoistenNaapurit) {
+                naapuri.poistaNaapuri(valoisa);
+            }
+        }
+
+        // kerätään yhteen listaan kaikki uusien kolmioiden mahdolliset naapurit
+        HashSet<QuickhullKolmio> mahdollisetNaapurit = new HashSet(tyostettava.getNaapurit());
+        for (QuickhullKolmio k : tyostettava.getNaapurit()) {
+            mahdollisetNaapurit.addAll(k.getNaapurit());
+        }
+        mahdollisetNaapurit.addAll(uudetKolmiot);
+
+        // etsitään uusien kolmioiden naapurit
+        for (QuickhullKolmio uusi : uudetKolmiot) {
+            for (QuickhullKolmio mahdollinen : mahdollisetNaapurit) {
+                if (uusi.erillisetPisteet(mahdollinen).size() != 3) {
+                    uusi.lisaaNaapuri(mahdollinen);
+                    mahdollinen.lisaaNaapuri(uusi);
+                    naapurit++;
+                }
+            }
+        }
+
+        System.out.println("löydettiin " + naapurit + " naapuria");
+
     }
 }
