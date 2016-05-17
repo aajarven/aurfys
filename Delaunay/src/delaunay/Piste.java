@@ -48,14 +48,26 @@ public class Piste {
         return theta;
     }
     
+    /**
+     * Palauttaa pisteen karteesisen x-koordinaatin
+     * @return pisteen karteesinen x-koordinaatti
+     */
     public double x(){
         return r*Math.cos(theta)*Math.sin(fii);
     }
     
+    /**
+     * Palauttaa pisteen karteesisen y-koordinaatin
+     * @return pisteen karteesinen y-koordinaatti
+     */
     public double y(){
         return r*Math.sin(theta)*Math.sin(fii);
     }
     
+    /**
+     * Palauttaa pisteen karteesisen z-koordinaatin
+     * @return pisteen karteesinen z-koordinaatti
+     */
     public double z(){
         return r*Math.cos(fii);
     }
@@ -110,16 +122,37 @@ public class Piste {
         return ristitulo.pituus()/suuntavektori.pituus();
     }
     
+    /**
+     * Laskee annettuja karteesisia koordinaatteja vastaavan atsimuuttikulman
+     * @param x karteesinen x
+     * @param y karteesinen y
+     * @param z karteesinen z
+     * @return atsimuuttikulma
+     */
     public static double laskeTheta(double x, double y, double z){
         //return Math.atan(y / x);
         return Math.atan2(y, x);
         
     }
     
+    /**
+     * Laskee annettuja karteesisia koordinaatteja vastaavan kulman navalta
+     * @param x karteesinen x
+     * @param y karteesinen y
+     * @param z karteesinen z
+     * @return kulma navalta
+     */
     public static double laskeFii(double x, double y, double z){
         return Math.acos(z / laskeR(x, y, z));
     }
     
+    /**
+     * Laskee annettuja karteesisia koordinaatteja vastaavan etäisyyden origosta
+     * @param x karteesinen x
+     * @param y karteesinen y
+     * @param z karteesinen z
+     * @return etäisyys navalta
+     */
     public static double laskeR(double x, double y, double z){
         return Math.sqrt(x * x + y * y + z * z);
     }

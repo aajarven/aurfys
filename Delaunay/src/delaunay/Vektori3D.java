@@ -14,12 +14,23 @@ public class Vektori3D {
     private double j;
     private double k;
 
+    /**
+     * Kolmiulotteisen avaruuden vektori
+     * @param i
+     * @param j
+     * @param k 
+     */
     public Vektori3D(double i, double j, double k) {
         this.i = i;
         this.j = j;
         this.k = k;
     }
     
+    /**
+     * Palauttaa uuden vektorin, joka edustaa tämän ja annetun vektorin ristituloa
+     * @param v toinen vektori
+     * @return ristitulovektori
+     */
     public Vektori3D ristitulo(Vektori3D v){
         return new Vektori3D(this.j*v.k-this.k*v.j, this.k*v.i-this.i*v.k, this.i*v.j-this.j*v.i);
     }
@@ -36,6 +47,10 @@ public class Vektori3D {
         return k;
     }
     
+    /**
+     * Laskee vektorin pituuden
+     * @return vektorin pituus
+     */
     public double pituus(){
         return Math.sqrt(i*i+j*j+k*k);
     }

@@ -17,24 +17,46 @@ public class Kolmio {
     private Piste p2;
     private Piste p3;
 
+    /**
+     * 
+     * @param p1 kolmion ensimmäinen kulma
+     * @param p2 kolmion toinen kulma
+     * @param p3 kolmion toinen kulma
+     */
     public Kolmio(Piste p1, Piste p2, Piste p3) {
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
     }
    
+    /**
+     * palauttaa kolmion ensimmäisen kulman
+     * @return kulma
+     */
     public Piste getP1() {
         return p1;
     }
 
+    /**
+     * palauttaa kolmion toisen kulman
+     * @return kulma
+     */
     public Piste getP2() {
         return p2;
     }
 
+    /**
+     * palauttaa kolmion kolmannen kulman
+     * @return kulma
+     */
     public Piste getP3() {
         return p3;
     }
     
+    /**
+     * Palauttaa kolmion kulmat
+     * @return ArrayList, joka sisältää kolmion kulmat
+     */
     public ArrayList<Piste> getPisteet(){
         ArrayList<Piste> pisteet = new ArrayList<>();
         pisteet.add(p1);

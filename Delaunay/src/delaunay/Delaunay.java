@@ -19,13 +19,11 @@ public class Delaunay {
      */
     public static void main(String[] args) {
 //        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
-//        tulostaPisteetPerPi(pisteet);
 
         TiedostoIO.tyhjennaKansio("debug");
 
         ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(250, 1, 1, 1, 1);
         System.out.println("generoitu");
-//        tulostaPisteetKarteesinen(pisteet);
         TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
 
         Quickhull kolmioija = new Quickhull(pisteet);
@@ -33,29 +31,6 @@ public class Delaunay {
         System.out.println(kolmiot.size());
 
         TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
-    }
-
-    private static ArrayList<Piste> etsiPaatepisteet(ArrayList<Sivu> horisontti) {
-        ArrayList<Piste> reunat = new ArrayList();
-        for (Sivu s1 : horisontti) {
-            boolean p1onViereinen = false;
-            boolean p2onViereinen = false;
-            for (Sivu s2 : horisontti) {
-                if (s2.sisaltaaPisteen(s1.getP1())) {
-                    p1onViereinen = true;
-                }
-                if (s2.sisaltaaPisteen(s1.getP2())) {
-                    p2onViereinen = true;
-                }
-            }
-            if (!p1onViereinen) {
-                reunat.add(s1.getP1());
-            }
-            if (!p2onViereinen) {
-                reunat.add(s1.getP2());
-            }
-        }
-        return reunat;
     }
 
     public static String valmistaPisteetTulostukseen(Iterable<Piste> pisteet, String erotin) {

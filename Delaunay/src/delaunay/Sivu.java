@@ -88,10 +88,18 @@ public class Sivu {
         return hash;
     }
 
+    /**
+     * Palauttaa sivun ensimmäisen päätepisteen
+     * @return päätepiste
+     */
     public Piste getP1() {
         return p1;
     }
 
+    /**
+     * Palauttaa sivun toisen päätepisteen
+     * @return päätepiste
+     */
     public Piste getP2() {
         return p2;
     }

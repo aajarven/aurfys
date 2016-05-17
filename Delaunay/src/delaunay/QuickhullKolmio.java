@@ -22,21 +22,41 @@ public class QuickhullKolmio extends Kolmio {
         this.naapurit = new ArrayList<>();
     }
 
+    /**
+     * Lisää annetun pisteen kolmion näkyvien pisteiden listalle ellei se jo ole
+     * siellä
+     *
+     * @param p lisättävä piste
+     */
     public void lisaaNakyvaPiste(Piste p) {
-        nakyvatPisteet.add(p);
+        if (!nakyvatPisteet.contains(p)) {
+            nakyvatPisteet.add(p);
+        }
     }
-    
-    public void poistaNakyvaPiste(Piste p){
+
+    /**
+     * Poistaa annetun pisteen näkyvien pisteiden listalta
+     * @param p poistettava piste
+     */
+    public void poistaNakyvaPiste(Piste p) {
         nakyvatPisteet.remove(p);
     }
 
+    /**
+     * Lisää annetun kolmion naapurilistalle
+     * @param k lisättävä naapuri
+     */
     public void lisaaNaapuri(QuickhullKolmio k) {
         if (!naapurit.contains(k)) {
             naapurit.add(k);
         }
     }
-    
-    public void poistaNaapuri(QuickhullKolmio k){
+
+    /**
+     * Poistaa annetun kolmion naapurilistalta
+     * @param k poistettava kolmio
+     */
+    public void poistaNaapuri(QuickhullKolmio k) {
         naapurit.remove(k);
     }
 
@@ -44,6 +64,7 @@ public class QuickhullKolmio extends Kolmio {
      * Etsii näkyvistä pisteistä kauimpana tasosta sijaitsevan
      *
      * @return kaukaisin piste
+     * @throws java.lang.Exception jos kolmiolla ei ole näkyviä pisteitä
      */
     public Piste etsiKaukaisin() throws Exception {
         if (nakyvatPisteet.isEmpty()) {
@@ -108,7 +129,7 @@ public class QuickhullKolmio extends Kolmio {
         Vektori3D v1 = super.getP1().vektoriPisteeseen(super.getP2());
         Vektori3D v2 = super.getP1().vektoriPisteeseen(super.getP3());
         Vektori3D normaali = v1.ristitulo(v2);
-        
+
         double a = normaali.getI();
         double b = normaali.getJ();
         double c = normaali.getK();
@@ -162,6 +183,11 @@ public class QuickhullKolmio extends Kolmio {
         return palautus;
     }
 
+    /**
+     * Kertoo, sisältääkö kolmio annetun pisteen
+     * @param p tutkittava piste
+     * @return true jos piste on kolmiossa, muuten false
+     */
     public boolean sisaltaaPisteen(Piste p) {
         return super.getPisteet().contains(p);
     }
@@ -182,14 +208,20 @@ public class QuickhullKolmio extends Kolmio {
         }
     }
 
-    boolean eriPuolilla(Piste keskipiste, Piste p) {
+    /**
+     * Kertoo ovatko annetut pisteet eri puolilla tämän kolmion virittämää tasoa
+     * @param p1 ensimmäinen piste
+     * @param p2 toinen piste
+     * @return true jos kolmiot ovat eri puolilla, false jos samalla
+     */
+    boolean eriPuolilla(Piste p1, Piste p2) {
         double[] kertoimet = tasonYhtalo();
         double a = kertoimet[0];
         double b = kertoimet[1];
         double c = kertoimet[2];
         double d = kertoimet[3];
 
-        return (p.x() * a + p.y() * b + p.z() * c + d) * (keskipiste.x() * a + keskipiste.y() * b + keskipiste.z() * c + d) < 0;
+        return (p2.x() * a + p2.y() * b + p2.z() * c + d) * (p1.x() * a + p1.y() * b + p1.z() * c + d) < 0;
     }
 
 }
