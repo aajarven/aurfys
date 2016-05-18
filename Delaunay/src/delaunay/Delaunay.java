@@ -19,37 +19,42 @@ public class Delaunay {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(100, 1.7, 1.0, 0.8);
-
-        TiedostoIO.tyhjennaKansio("debug");
-
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(100, 1, 1, 1, 1);
-        System.out.println("generoitu");
-        TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
-
-        Quickhull kolmioija = new Quickhull(pisteet);
-        ArrayList<QuickhullKolmio> kolmiot = kolmioija.kolmioi();
-        System.out.println(kolmiot.size());
-
-        TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
-
-        Vektori3D havaitsija = new Vektori3D(0.0001, 0.0001, 0.0001);
         
-        ArrayList<Double> kirkkaudet = new ArrayList<>();
-        ArrayList<Double> kulmat = new ArrayList<>();
-        for (double theta = 0.001; theta < Math.PI / 2; theta += 0.01) {
-            Vektori3D lahde = new Vektori3D(-Math.cos(theta), -Math.sin(theta), 0.00);
-            double kokonaiskirkkaus = 0;
-            for (QuickhullKolmio k : kolmiot) {
-                double kirkkaus = LommelSeeliger.kirkkaus(k, havaitsija, lahde, 1);
-                //kirkkaudet.add(kirkkaus);
-                kokonaiskirkkaus += kirkkaus;
-            }
-            kirkkaudet.add(kokonaiskirkkaus);
-            kulmat.add(theta);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(22, 1, 1, 1);
+        TiedostoIO.kirjoitaPisteetTiedostoon(pisteet, "saannollinen.txt", ",");
+        for(Piste p: pisteet){
+            System.out.println(p);
         }
-        TiedostoIO.kirjoitaLuvut(kirkkaudet, "kirkkaudet.txt");
-        TiedostoIO.kirjoitaLuvut(kulmat, "kulmat.txt");
+
+//        TiedostoIO.tyhjennaKansio("debug");
+
+        //ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(100, 1, 1, 1, 1);
+//        System.out.println("generoitu");
+//        TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
+//
+//        Quickhull kolmioija = new Quickhull(pisteet);
+//        ArrayList<QuickhullKolmio> kolmiot = kolmioija.kolmioi();
+//        System.out.println(kolmiot.size());
+//
+//        TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
+//
+//        Vektori3D havaitsija = new Vektori3D(0.0001, 0.0001, 0.0001);
+//        
+//        ArrayList<Double> kirkkaudet = new ArrayList<>();
+//        ArrayList<Double> kulmat = new ArrayList<>();
+//        for (double theta = 0.001; theta < Math.PI / 2; theta += 0.01) {
+//            Vektori3D lahde = new Vektori3D(-Math.cos(theta), -Math.sin(theta), 0.00);
+//            double kokonaiskirkkaus = 0;
+//            for (QuickhullKolmio k : kolmiot) {
+//                double kirkkaus = LommelSeeliger.kirkkaus(k, havaitsija, lahde, 1);
+//                //kirkkaudet.add(kirkkaus);
+//                kokonaiskirkkaus += kirkkaus;
+//            }
+//            kirkkaudet.add(kokonaiskirkkaus);
+//            kulmat.add(theta);
+//        }
+//        TiedostoIO.kirjoitaLuvut(kirkkaudet, "kirkkaudet.txt");
+//        TiedostoIO.kirjoitaLuvut(kulmat, "kulmat.txt");
         //System.out.println(kokonaiskirkkaus);
     }
 

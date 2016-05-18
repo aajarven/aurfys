@@ -38,17 +38,23 @@ public class TiedostoIO {
         if (pisteet.isEmpty()) {
             return;
         }
+        
+        StringBuilder rakentaja = new StringBuilder();
+        for (int i = 0; i < pisteet.size(); i++) {
+            Piste p = pisteet.get(i);
+            rakentaja.append(p.x());
+            rakentaja.append(erotin);
+            rakentaja.append(p.y());
+            rakentaja.append(erotin);
+            rakentaja.append(p.z());
+            if (i < pisteet.size() - 1) {
+                rakentaja.append("\n");
+            }
+        }
+
         try {
             FileWriter kirjoittaja = new FileWriter(tiedostonimi);
-            for (Piste p : pisteet) {
-                StringBuilder rakentaja = new StringBuilder();
-                rakentaja.append(p.x());
-                rakentaja.append(erotin);
-                rakentaja.append(p.y());
-                rakentaja.append(erotin);
-                rakentaja.append(p.z());
-                kirjoittaja.write(rakentaja.toString());
-            }
+            kirjoittaja.write(rakentaja.toString());
             kirjoittaja.close();
         } catch (IOException ex) {
             Logger.getLogger(TiedostoIO.class.getName()).log(Level.SEVERE, null, ex);
@@ -315,15 +321,15 @@ public class TiedostoIO {
             file.delete();
         }
     }
-    
-    public static void kirjoitaLuvut(ArrayList<Double> luvut, String tiedostonimi){
+
+    public static void kirjoitaLuvut(ArrayList<Double> luvut, String tiedostonimi) {
         StringBuilder rakentaja = new StringBuilder();
-        for(int i=0; i<luvut.size(); i++){
-                rakentaja.append(luvut.get(i));
-                if (i<luvut.size()-1){
-                    rakentaja.append("\n");
-                }
+        for (int i = 0; i < luvut.size(); i++) {
+            rakentaja.append(luvut.get(i));
+            if (i < luvut.size() - 1) {
+                rakentaja.append("\n");
             }
+        }
         try {
             FileWriter kirjoittaja = new FileWriter(tiedostonimi);
             kirjoittaja.write(rakentaja.toString());
