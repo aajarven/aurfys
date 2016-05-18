@@ -1,0 +1,91 @@
+\documentclass[12pt,a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[finnish]{babel}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{float}
+\usepackage[section]{placeins}
+%\usepackage[numbered,autolinebreaks,useliterate]{mcode} % jos tahdot laittaa matlabkoodia näkyville niin kannattaa käyttää tätä
+
+% hyödyllisiä paketteja:
+\usepackage{siunitx}\sisetup{per=frac} % SI-yksiköitä.
+%\usepackage{supertabular} % jos tarttee isoja taulukoita
+%\usepackage{fullpage} % pienemmät marginaalit jos haluaa
+
+\usepackage{hyperref} % lisääthän omat pakettisi ENNEN hyperref'iä
+\hypersetup{pdfborder={0 0 0}}
+\onehalfspacing
+\cfoot{}
+\rhead{\thepage}
+% asettaa nyk. kappaleen nimen vasempaan ylänurkkaan, saa poistaa jos haluaa
+\lhead{\leftmark}
+
+%%%%% kaikki ennen tätä liittyy käytettäviin paketteihin tai dokumentin muotoiluun. siihen ei tarvinne aluksi koskea. %%%%%
+
+%%%%% kansilehti %%%%%
+\title{Asteroidin kolmiointi\vspace{0.5em}}
+\author{Anni Järvenpää}
+\date{\today}
+\begin{document}
+\maketitle
+\newgeometry{top=1in, bottom=1.5in, left=1.5in, right=1.5in}
+\begin{abstract}
+\setlength{\parindent}{0pt}
+\parskip=1em \advance\parskip by 0pt plus 2pt
+\onehalfspacing
+
+%%%%% Tiivistelmäteksti %%%%%
+\noindent
+diudiu
+\end{abstract}
+\restoregeometry
+
+% Sisällysluettelo
+\newpage
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+\setcounter{page}{1}
+\parskip=1em \advance\parskip by 0pt plus 2pt
+\pagestyle{fancy}
+
+% prosenttimerkillä alkavat rivit ovat kommentteja: niitä ei katsota dokumenttia käännettäessä eli ne ovat vain kirjoittajaa varten
+
+%%%%%%%%%%%%%%% Oleellinen sisältö alkaa%%%%%%%%%%%%%%%
+\section{Teoria}
+Teoreettista teoriaa. Täällä tarvitaan myös yhtälöitä, yhtälö \ref{esimerkkiyhtalo} on yksi sellainen.
+
+\subsection{Delaunay-kolmiointi}
+
+\subsection{Pisteiden luominen kerroksittain}
+
+\subsection{Pisteiden arpominen}
+
+\subsection{Lommel-Seeliger -heijastuslaki}
+
+%\begin{equation}\label{esimerkkiyhtalo}
+%	c=\sqrt{a^2+b^2}
+%\end{equation}
+
+
+\section{Asteroidin sisäinen rakenne}
+lol
+
+\section{Asteroidin integroitu kirkkaus}
+
+
+
+%%%%% Sisältö loppuu, lähdeluettelo %%%%%
+\bibliographystyle{plain}
+\bibliography{selkkarilahteet} %lähdeluettelon tiedot tiedostossa selkkarilahteet.bib. Esimerkiksi helkasta saa kirjojen tiedot valmiiksi bibtex-muodossa, kannattaa hyödyntää.
+
+\appendix
+\newpage
+\section{Liittyvä liite.} \label{koodi}
+Liian laaja leipätekstiin.
+\end{document}
