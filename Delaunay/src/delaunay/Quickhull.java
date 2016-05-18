@@ -28,8 +28,8 @@ public class Quickhull {
         erotin = ",";
     }
 
-    public ArrayList<Kolmio> kolmioi() {
-        ArrayList<Kolmio> palautettavatKolmiot = new ArrayList<>();
+    public ArrayList<QuickhullKolmio> kolmioi() {
+        ArrayList<QuickhullKolmio> palautettavatKolmiot = new ArrayList<>();
         Deque<QuickhullKolmio> tyostettavatKolmiot = luoEnsimmainenTetraedri(pisteet);
         TiedostoIO.kirjoitaKolmiotTiedostoihin(new ArrayList<Kolmio>(tyostettavatKolmiot), "debug/ensimmaiset", erotin);
         int iteraatio = 0;

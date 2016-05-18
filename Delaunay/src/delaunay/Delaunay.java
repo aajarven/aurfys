@@ -6,6 +6,7 @@
 package delaunay;
 
 import java.util.ArrayList;
+import kirkkaus.LommelSeeliger;
 import utils.TiedostoIO;
 
 /**
@@ -22,15 +23,28 @@ public class Delaunay {
 
         TiedostoIO.tyhjennaKansio("debug");
 
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(250, 1, 1, 1, 1);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(100, 1, 1, 1, 1);
         System.out.println("generoitu");
         TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
 
         Quickhull kolmioija = new Quickhull(pisteet);
-        ArrayList<Kolmio> kolmiot = kolmioija.kolmioi();
+        ArrayList<QuickhullKolmio> kolmiot = kolmioija.kolmioi();
         System.out.println(kolmiot.size());
 
         TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
+        
+        Vektori3D havaitsija = new Vektori3D(0.0001, 0.0001, 0.0001);
+        Vektori3D lahde = new Vektori3D(0.001, 0.001, 0.001);
+        ArrayList<Double> kirkkaudet = new ArrayList<>(kolmiot.size());
+        double kokonaiskirkkaus = 0;
+        for(QuickhullKolmio k: kolmiot){
+            double kirkkaus = LommelSeeliger.kirkkaus(k, havaitsija, lahde, 1);
+            kirkkaudet.add(kirkkaus);
+            kokonaiskirkkaus+=kirkkaus;
+        }
+        TiedostoIO.kirjoitaLuvut(kirkkaudet, "kirkkaudet.txt");
+        
+        System.out.println(kokonaiskirkkaus);
     }
 
     public static String valmistaPisteetTulostukseen(Iterable<Piste> pisteet, String erotin) {

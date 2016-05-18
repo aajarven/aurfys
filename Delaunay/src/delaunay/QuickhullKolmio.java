@@ -83,6 +83,11 @@ public class QuickhullKolmio extends Kolmio {
         return kaukaisin;
     }
 
+    /**
+     * Etsii annetuista pisteistä kauimpana tasosta sijaitsevan
+     *
+     * @return kaukaisin piste
+     */
     public Piste etsiKaukaisin(ArrayList<Piste> pisteet) {
         Piste kaukaisin = pisteet.get(0);
         double kaukaisimmanEtaisyys = 0;

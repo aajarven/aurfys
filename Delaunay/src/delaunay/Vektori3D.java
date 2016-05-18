@@ -60,6 +60,8 @@ public class Vektori3D {
         return "<"+i+", "+j+", "+k+">";
     }
     
-    
+    public double pistetulo(Vektori3D v){
+        return this.i * v.i + this.j * v.j + this.k * v.k;
+    }
     
 }

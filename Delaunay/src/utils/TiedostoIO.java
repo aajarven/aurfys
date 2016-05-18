@@ -315,5 +315,22 @@ public class TiedostoIO {
             file.delete();
         }
     }
+    
+    public static void kirjoitaLuvut(ArrayList<Double> luvut, String tiedostonimi){
+        StringBuilder rakentaja = new StringBuilder();
+        for(int i=0; i<luvut.size(); i++){
+                rakentaja.append(luvut.get(i));
+                if (i<luvut.size()-1){
+                    rakentaja.append("\n");
+                }
+            }
+        try {
+            FileWriter kirjoittaja = new FileWriter(tiedostonimi);
+            kirjoittaja.write(rakentaja.toString());
+            kirjoittaja.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TiedostoIO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
