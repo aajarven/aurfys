@@ -32,19 +32,25 @@ public class Delaunay {
         System.out.println(kolmiot.size());
 
         TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
-        
+
         Vektori3D havaitsija = new Vektori3D(0.0001, 0.0001, 0.0001);
-        Vektori3D lahde = new Vektori3D(0.001, 0.001, 0.001);
-        ArrayList<Double> kirkkaudet = new ArrayList<>(kolmiot.size());
-        double kokonaiskirkkaus = 0;
-        for(QuickhullKolmio k: kolmiot){
-            double kirkkaus = LommelSeeliger.kirkkaus(k, havaitsija, lahde, 1);
-            kirkkaudet.add(kirkkaus);
-            kokonaiskirkkaus+=kirkkaus;
+        
+        ArrayList<Double> kirkkaudet = new ArrayList<>();
+        ArrayList<Double> kulmat = new ArrayList<>();
+        for (double theta = 0.001; theta < Math.PI / 2; theta += 0.01) {
+            Vektori3D lahde = new Vektori3D(-Math.cos(theta), -Math.sin(theta), 0.00);
+            double kokonaiskirkkaus = 0;
+            for (QuickhullKolmio k : kolmiot) {
+                double kirkkaus = LommelSeeliger.kirkkaus(k, havaitsija, lahde, 1);
+                //kirkkaudet.add(kirkkaus);
+                kokonaiskirkkaus += kirkkaus;
+            }
+            kirkkaudet.add(kokonaiskirkkaus);
+            kulmat.add(theta);
         }
         TiedostoIO.kirjoitaLuvut(kirkkaudet, "kirkkaudet.txt");
-        
-        System.out.println(kokonaiskirkkaus);
+        TiedostoIO.kirjoitaLuvut(kulmat, "kulmat.txt");
+        //System.out.println(kokonaiskirkkaus);
     }
 
     public static String valmistaPisteetTulostukseen(Iterable<Piste> pisteet, String erotin) {
@@ -64,9 +70,10 @@ public class Delaunay {
      * Tuottaa kolmioista tulostuksen siten, että rivillä on peräkkäin kolmion
      * kolmen kulman koordinaatit erottimella erotettuina, esim kun erottimena
      * pilkku, saadaan "x1,y1,z1,x2,y2,z2,x3,y3,z3"
+     *
      * @param kolmiot
      * @param erotin
-     * @return 
+     * @return
      */
     public static String valmistaKolmiotTulostukseen(Iterable<Kolmio> kolmiot, String erotin) {
         StringBuilder csv = new StringBuilder();
