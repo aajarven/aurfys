@@ -10,6 +10,7 @@
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 \usepackage{float}
 \usepackage[section]{placeins}
+\usepackage{subcaption}
 %\usepackage[numbered,autolinebreaks,useliterate]{mcode} % jos tahdot laittaa matlabkoodia näkyville niin kannattaa käyttää tätä
 
 % hyödyllisiä paketteja:
@@ -74,6 +75,8 @@ Delaunayn kolmiointi liittyy läheisesti moniin käytännön ongelmiin. Sitä vo
 
 Menetelmä on yleistettävissä myös korkeampiin ulottuvuuksiin, jolloin esimerkiksi kolmiulotteisessa tapauksessa syntyy ympyröiden sisällä olevien kolmioiden sijaan pallojen sisällä olevia tetraedrejä. \cite{maur2002delaunay}
 
+}su
+
 \subsection{Pisteiden generointi ellipsoidin pinnalle}
 Jotkin ongelmat vaativat tutkittavan kappaleen pinnan mallintamista pistejoukkona. Tämä on helppo ensiaskel esimerkiksi kappaleen muodon kolmioinnissa. Tässä työssä keskitytään generointimenetelmiin, joita voidaan hyödyntää ellipsoidien mallinnuksessa.
 
@@ -94,7 +97,14 @@ Näistä pisteistä on yksinkertaista muodostaa ellipsin pinnan kattava kolmioin
 \end{figure}
 
 \subsubsection{Pisteiden arpominen}
-Pisteiden generointi satunnaisesti on hyvin yksinkertainen tapa generoida vähällä vaivalla halutunkokoinen pistejoukko. Pallopinnalle generointi on erittäin yksinkertaista. Kun tiedetään haluttu pallon säde, voidaan generoida satunnaisluvut $\theta \in [0, \pi]$ ja $\phi \in [0, 2\pi]$, jolloin saadaan suoraan piste $(\theta, \phi, r)$ missä $r$ on vakio.
+Pisteiden generointi satunnaisesti on hyvin yksinkertainen tapa generoida vähällä vaivalla halutunkokoinen pistejoukko. Pallopinnalle generointi on erittäin yksinkertaista. Kun tiedetään haluttu pallon säde, voidaan generoida satunnaisluvut $\theta \in [0, \pi]$ ja $\phi \in [0, 2\pi]$, jolloin saadaan suoraan piste $(\theta, \phi, r)$ missä $r$ on vakio. Esimerkki näin saadusta pistejoukosta on nähtävillä kuvassa \ref{satunnaispallo}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../Delaunay/data/pallo250/pallo2.png}
+  \caption{Yksikköpallon pinnalle satunnaisgeneroitu pistejoukkoon tehty Delaunayn kolmiointi. Pallo koostuu 250 pisteestä ja 505 niiden välille piirretystä kolmiosta.}
+  \label{satunnaispallo}
+\end{figure}
 
 Ellipsoidin pinnalle generoiminen on kuitenkin monimutkaisempaa, sillä edellä kuvatulla tavalla pistejakaumasta tulee ellipsoidin eksentrisyydestä riippuen mahdollisesti hyvinkin epätasainen. Pohjimmiltaan voidaan kuitenkin käyttää samantyyppistä menetelmää kuin edellä, eli aloittaa generoimalla vastaavat kulmat $\theta$ ja $\phi$ ja määrittämällä näiden perusteella kyseisen pinnan kohdan etäisyys origosta kaavan \ref{r} perusteella, missä $a$, $b$ ja $c$ ovat ellipsin muodon määräävät parametrit ellipsin yhtälöstä (yhtälö \ref{ellipsin-yhtalo}).
 
@@ -108,7 +118,14 @@ Ellipsoidin pinnalle generoiminen on kuitenkin monimutkaisempaa, sillä edellä 
 
 Eräs tapa huolehtia jakauman tasaisuudesta halutulla tarkkuudella on asettaa tietty kynnysarvo kunkin pisteen ympärillä olevalle säteelle, jonka sisälle ei generoida uusia pisteitä. Tämä voidaan toteuttaa esimerkiksi jakamalla ellipsin pinta-ala halutulla pistemäärällä ja määrittämällä tätä alaa vastaavan ympyrän säde, jolloin voidaan hylätä tätä sädettä lähempänä toista pistettä olevat pisteet. Uusia pisteitä arvotaan, kunnes hyväksyttyjen pisteiden kokonaismäärä on haluttu pistemäärä.
 
-Tätä menetelmää voidaan edelleen kehittää määrittämällä vakiokerroin, jolla kerrotaan saatu ala kutakin pistettä kohden. Pienillä kertoimilla pisteet voivat olla lähempänä toisiaan, jolloin pisteitä hylätään vähemmän eli generointi on nopeampaa, mutta jakauman tasaisuus kärsii. Liian suuren kertoimen valitseminen saattaa johtaa tilanteeseen, jossa uusien kaikki ehdot täyttävien pisteiden generointi on mahdotonta.
+Tätä menetelmää voidaan edelleen kehittää määrittämällä tasaisuuskerroin, jolla kerrotaan saatu ala kutakin pistettä kohden. Pienillä kertoimilla pisteet voivat olla lähempänä toisiaan, jolloin pisteitä hylätään vähemmän eli generointi on nopeampaa, mutta jakauman tasaisuus kärsii. Liian suuren kertoimen valitseminen saattaa johtaa tilanteeseen, jossa uusien kaikki ehdot täyttävien pisteiden generointi on mahdotonta. Esimerkki ellipsoidin pinnalle generoiduista pisteistä on nähtävillä kuvassa \ref{satunnaisellipsoidi}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{../Delaunay/data/ellipsoidi150/ellipsoidi.png}
+  \caption{Satunnaisgeneroidun pistejoukon Delaunayn kolmiointi ellipsin (a=1,1; b=0,8; c=0,2) pinnalla. Ellipsoidi koostuu 150 pisteestä ja 296 niiden välille piirretystä kolmiosta. Käytetty tasaisuuskerroin on 1,2.}
+  \label{satunnaisellipsoidi}
+\end{figure}
 
 \subsection{Lommel-Seeliger -heijastuslaki}
 

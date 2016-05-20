@@ -28,7 +28,7 @@ public class Delaunay {
 
         TiedostoIO.tyhjennaKansio("debug");
 
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(30, 1, 1, 1, 1);
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(150, 1.1, 0.8, 0.2, 1.2);
         System.out.println("generoitu");
         TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
 

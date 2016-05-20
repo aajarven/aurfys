@@ -21,7 +21,7 @@ public class Quickhull {
     ArrayList<Piste> pisteet;
     Piste keskipiste;
     private String erotin;
-    private boolean valivaihetulostukset = true;
+    private boolean valivaihetulostukset = false;
 
     public Quickhull(ArrayList<Piste> pisteet) {
         this.pisteet = pisteet;

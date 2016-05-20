@@ -1,10 +1,13 @@
 \select@language {finnish}
-\contentsline {section}{\numberline {1}Teoria}{1}{section.1}
-\contentsline {subsection}{\numberline {1.1}Delaunay-kolmiointi}{1}{subsection.1.1}
-\contentsline {subsection}{\numberline {1.2}Pisteiden generointi ellipsoidin pinnalle}{1}{subsection.1.2}
-\contentsline {subsubsection}{\numberline {1.2.1}Pisteiden luominen kerroksittain}{1}{subsubsection.1.2.1}
-\contentsline {subsubsection}{\numberline {1.2.2}Pisteiden arpominen}{3}{subsubsection.1.2.2}
-\contentsline {subsection}{\numberline {1.3}Lommel-Seeliger -heijastuslaki}{4}{subsection.1.3}
-\contentsline {section}{\numberline {2}Asteroidin sis\IeC {\"a}inen rakenne}{4}{section.2}
-\contentsline {section}{\numberline {3}Asteroidin integroitu kirkkaus}{4}{section.3}
-\contentsline {section}{\numberline {A}Liittyv\IeC {\"a} liite.}{5}{appendix.A}
+\contentsline {section}{\numberline {1}Delaunay-kolmiointi}{1}{section.1}
+\contentsline {subsection}{\numberline {1.1}Algoritmit}{1}{subsection.1.1}
+\contentsline {subsubsection}{\numberline {1.1.1}Kolmiulotteiset algoritmit}{1}{subsubsection.1.1.1}
+\contentsline {subsubsection}{\numberline {1.1.2}Quickhull}{1}{subsubsection.1.1.2}
+\contentsline {section}{\numberline {2}Pisteiden generointi ellipsoidin pinnalle}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Pisteiden luominen kerroksittain}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Pisteiden arpominen}{3}{subsection.2.2}
+\contentsline {section}{\numberline {3}Lommel-Seeliger -heijastuslaki}{5}{section.3}
+\contentsline {section}{\numberline {4}Asteroidin muodon kolmiointi}{5}{section.4}
+\contentsline {section}{\numberline {5}Asteroidin sis\IeC {\"a}inen rakenne}{5}{section.5}
+\contentsline {section}{\numberline {6}Asteroidin integroitu kirkkaus}{6}{section.6}
+\contentsline {section}{\numberline {A}Liittyv\IeC {\"a} liite.}{7}{appendix.A}
