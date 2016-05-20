@@ -8,4 +8,4 @@
 \contentsline {section}{\numberline {3}Lommel-Seeliger -heijastuslaki}{9}{section.3}
 \contentsline {section}{\numberline {4}Asteroidin muodon kolmiointi}{10}{section.4}
 \contentsline {section}{\numberline {5}Asteroidin sis\IeC {\"a}inen rakenne}{10}{section.5}
-\contentsline {section}{\numberline {6}Asteroidin integroitu kirkkaus}{12}{section.6}
+\contentsline {section}{\numberline {6}Asteroidin integroitu kirkkaus}{13}{section.6}

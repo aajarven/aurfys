@@ -177,37 +177,85 @@ Kun asteroidin pinta on kolmioitu, voidaan asteroidin sisärakenne kattaa tetrae
 Yksinkertaisinta on tehdä jako siten, että kunkin katkaistun kartion korkeus on sama. Tällöin kuitenkin monitahokkaiden tilavuus vaihtelee säteen suunnassa: lähellä keskipistettä tilavuudet ovat pieniä ja lähellä pintaa hyvin suuria. Tästä syystä monissa sovelluskohteissa on hyödyllisempää suunnitella jako monitahokkaisiin siten, että niiden tilavuudet pysyvät likimain samoina.
 
 Tällöin kunkin katkaistun kartion korkeuden laskeminen onnistuu, kun tunnetaan lausekkeet kartion tilavuudelle
-\begin{equation}
+\begin{equation}\label{kartiontilavuus}
 	V=\frac{1}{3}Ah
 \end{equation}
-missä $A$ on kartion pohjan ala ja $h$ kartion korkeus, sekä katkaistun kartion tilavuudelle
-\begin{equation}\label{katkaistukartio}
-	 V = \frac{1}{3} h (A + \sqrt {AA'} + A')
-\end{equation}
-missä $A$ ja $A'$ ovat pohjien alat ja $h$ on pohjien välinen kohtisuora etäisyys. \cite{wiki:kartio}
+missä $A$ on kartion pohjan ala ja $h$ kartion korkeus.
+% sekä katkaistun kartion tilavuudelle
+%\begin{equation}\label{katkaistukartio}
+%	 V = \frac{1}{3} h (A + \sqrt {AA'} + A')
+%\end{equation}
+%missä $A$ ja $A'$ ovat pohjien alat ja $h$ on pohjien välinen kohtisuora etäisyys. \cite{wiki:kartio}
+%
+%Lisäksi tiedetään, että eri katkaistujen kartioiden pohjat ovat yhdenmuotoisia ja niiden alat ovat verrannollisia ellipsoidin keskipisteestä mitatun etäisyyden neliöön. Kun nyt merkitään ellipsoidin sädettä tarkasteltavan tetraedrin kohdalla $R$ (oletetaan, että kolmiot ovat säteeseen verrattuna pieniä, jolloin matka kustakin pohjan pisteestä keskipisteeseen on likimain sama) ja katkaistun kartion korkeutta $h$, saadaan katkaistun kartion pohjien alojen suhteeksi
+%\begin{equation*}
+%	A_1=\left(\frac{R-h}{R}\right)^2A_0.
+%\end{equation*}
+%
+%Jos kartio halutaan jakaa $n$ osaan, voidaan yhden osan tilavuus laskea yksinkertaisesti
+%\begin{align}
+%	V_{katkaistu} &= \frac{1}{n}V_{kokonainen}\nonumber\\
+%	&= \frac{1}{n}\frac{1}{3}Ah \nonumber
+%\end{align}
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{kuvat/skaalaus.png}
+  \caption{Katkaistujen kartioiden luomisessa käytetty notaatio.}
+  \label{skaalaus}
+\end{figure}
 
-Lisäksi tiedetään, että eri katkaistujen kartioiden pohjat ovat yhdenmuotoisia ja niiden alat ovat verrannollisia ellipsoidin keskipisteestä mitatun etäisyyden neliöön. Kun nyt merkitään ellipsoidin sädettä tarkasteltavan tetraedrin kohdalla $R$ (oletetaan, että kolmiot ovat säteeseen verrattuna pieniä, jolloin matka kustakin pohjan pisteestä keskipisteeseen on likimain sama) ja katkaistun kartion korkeutta $h$, saadaan katkaistun kartion pohjien alojen suhteeksi
+Tarkastellaan tilannetta, jossa tehdään lähinnä ellipsoidin pintaa oleva leikkaus siten, että katkaistuun kartioon jää osuus $1/n$ koko kartion tilavuudesta. Laskut on kuitenkin helpompi suorittaa, jos tarkatellaan yhden katkaisemattoman ja yhden katkaistun kartion sijaan kahta katkaistua kartiota: kuvan \ref{skaalaus} notaatiolla kartioita joiden pohjat ovat $A_1$ ja $A_2$ ja joilla on yhteinen neljäs kärki. Tällöin suuremman kartion tilavuudelle $V_1$ ja pienemmän kartion tilavuudelle $V_2$ pätee 
 \begin{equation*}
-	A_1=\left(\frac{R-h}{R}\right)^2A_0.
+	V_2 = \frac{n-1}{n}V_1
 \end{equation*}
+eli sijoittamalla yhtälö \ref{kartiontilavuus}
+\begin{equation}\label{kartiovalivaihe}
+	\frac{1}{3}A_2h_2 = \frac{n-1}{n}\frac{1}{3}A_1r.
+\end{equation}
 
-Jos kartio halutaan jakaa $n$ osaan, voidaan yhden osan tilavuus laskea yksinkertaisesti
-\begin{align}
-	V_{katkaistu} &= \frac{1}{n}V_{kokonainen}\nonumber\\
-	&= \frac{1}{n}\frac{1}{3}Ah \nonumber
-\end{align}
-Asetetaan yhtälössä \ref{katkaistukartio} esitetyn katkaistun kartion tilavuus yhtäsuureksi tämän lausekkeen kanssa, jolloin tiedetään
-\begin{align}\label{katkaistunkorkeus}
-	\frac{1}{3} h (A + \sqrt {AA'} + A') &= \frac{1}{n}\frac{1}{3}Ah &\bigg\vert~ A'=\left(\frac{R-h}{R}\right)^2A \nonumber\\
-	h \left(A + \sqrt {A^2\left(\frac{R-h}{R}\right)^2} + \left(\frac{R-h}{R}\right)^2A\right) &= \frac{1}{n}Ah & \nonumber\\
-	A\left(1 + \frac{R-h}{R} + \left(\frac{R-h}{R}\right)^2\right) &= \frac{1}{n}A &\nonumber\\
-	1 + \frac{R-h}{R} + \left(\frac{R-h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
-	1 + 1-\frac{h}{R} + \left(1-\frac{h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
-	1 + 1-\frac{h}{R} + 1-2\frac{h}{R}+\left(\frac{h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
-	3 - 3\frac{h}{R} +\left(\frac{h}{R}\right)^2 &= \frac{1}{n} &
-\end{align}
+Kartioiden korkeuksien suhde määräytyy toistaiseksi tuntemattomalla tavalla kartioiden lukumäärän perusteella. Merkitään tätä suhdetta $k_2$ siten, että $r=k_2h_2$. Kartioiden pohjat ovat yhdenmuotoisia ja niiden pinta-ala on verrannollinen keskipisteestä mitatun etäisyyden neliöön, siis $A_2=k_2^2A_1$. Sijoitetaan nämä yhtälöön \ref{kartiovalivaihe}, jolloin saadaan:
+\begin{equation}\label{kartiovalivaihe}
+	\frac{1}{3}A_1k_2^2rk_2 = \frac{n-1}{n}\frac{1}{3}A_1r.
+\end{equation}
+Jaetaan puolittain pois molemmilla puolilla esiintyvät termit:
+\begin{equation}\label{kartiovalivaihe}
+	k_2^3 = \frac{n-1}{n}
+\end{equation}
 
-Yhtälö \ref{katkaistunkorkeus} on yksinkertainen toisen asteen yhtälö, josta voidaan helposti ratkaista h. Seuraavan katkaistun kartion korkeus saadaan käyttämänä suuremman pohjan alana $A$ ulomman kartion osan pienempää pohjaa $A'$, kokonaisen kartion korkeutena matkaa $R-h$ ja tämä pienempi kartio jaetaan nyt $n-1$ osaan. Näin voidaan käyttää samaa lähestymistapaa myös seuraavaan kerrokseen.
+Näin ollen ensimmäisen katkaistun kartio, jossa on osuus $1/n$ koko kartion tilavuudesta, pienempi pohja on etäisyydellä $\sqrt[3]{\frac{n-1}{n}}r$ ellipsoidin keskipisteestä. Seuraavan katkaistun kartion suurempana pohjana toimii edellisen kartion pienempi pohja ja pienemmän pohjan etäisyys keskipisteestä voidaan laskea vastaavalla menettelyllä kuin äsken. Seuraavan jaon tapauksessa kuitenkin ''kokonaisen'' kartion tilavuus on $V_2=\frac{n-1}{n}V_1$ ja siitä halutaan leikata pienempään kartioon osuus $\frac{n-2}{n-1}$, jolloin pohjien $A-2$ ja $A_3$ väliin jäävään katkaistuun kartioon jää jälleen tilavuus $\frac{1}{n}V_1$. Päättelyketju voidaan muilta osin toistaa jälleen samanlaisena. 
+
+Yleiselle $m$. kartiolle (pohjan ala $A_m$, korkeus $h_m=rk_m$) pätee
+\begin{equation*}
+	\frac{V_m}{V_1} = \frac{n-(m-1)}{n} = \frac{n-m+1}{n}.
+\end{equation*}
+Sijoittamalla tähän kartioin tilavuuden lausekkeet, saadaan
+\begin{equation*}
+	\frac{1}{3}A_mh_m = \frac{n-m+1}{n}\frac{1}{3}A_1r.
+\end{equation*}
+Sijoitetaan tähän $h_m=k_mr$ ja $A_m=A_1k_m^2$ ja supistetaan pois molemmilla puolilla esiintyvät termit:
+\begin{equation} \label{k-yhtalo}
+	k_m^3= \frac{n-m+1}{n}.
+\end{equation}
+
+Yhtälön \ref{k-yhtalo} perusteella kartio saadaan jaettua $n$ tilavuudeltaan yhtä suureen osaan, kun sitä leikataan pohjan kanssa yhdensuuntaisilla tasoilla siten, että leikkaavien tasojen etäisyys $h_m$ kartion kärjestä on
+\begin{equation}
+	h_m=\sqrt[3]{\frac{n-m+1}{n}}r,
+\end{equation}
+missä $m$ on kokonaisluku väliltä $[1, n]$.
+
+%Asetetaan yhtälössä \ref{katkaistukartio} esitetyn katkaistun kartion tilavuus yhtäsuureksi tämän lausekkeen kanssa, jolloin tiedetään
+%\begin{align}\label{katkaistunkorkeus}
+%	\frac{1}{3} h (A + \sqrt {AA'} + A') &= \frac{1}{n}\frac{1}{3}Ah &\bigg\vert~ A'=\left(\frac{R-h}{R}\right)^2A \nonumber\\
+%	h \left(A + \sqrt {A^2\left(\frac{R-h}{R}\right)^2} + \left(\frac{R-h}{R}\right)^2A\right) &= \frac{1}{n}Ah & \nonumber\\
+%	A\left(1 + \frac{R-h}{R} + \left(\frac{R-h}{R}\right)^2\right) &= \frac{1}{n}A &\nonumber\\
+%	1 + \frac{R-h}{R} + \left(\frac{R-h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
+%	1 + 1-\frac{h}{R} + \left(1-\frac{h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
+%	1 + 1-\frac{h}{R} + 1-2\frac{h}{R}+\left(\frac{h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
+%	3 - 3\frac{h}{R} +\left(\frac{h}{R}\right)^2 &= \frac{1}{n} &
+%\end{align}
+
+%Yhtälö \ref{katkaistunkorkeus} on yksinkertainen toisen asteen yhtälö, josta voidaan helposti ratkaista h. Seuraavan katkaistun kartion korkeus saadaan käyttämänä suuremman pohjan alana $A$ ulomman kartion osan pienempää pohjaa $A'$, kokonaisen kartion korkeutena matkaa $R-h$ ja tämä pienempi kartio jaetaan nyt $n-1$ osaan. Näin voidaan käyttää samaa lähestymistapaa myös seuraavaan kerrokseen.
 	
 \section{Asteroidin integroitu kirkkaus}
 Kolmioidun asteroidin integroitu kirkkaus saadaan yksinkertaisesti laskemalla yhteen havaitsijan havaitsemat kirkkaudet eri kolmioista. Toteutin tämän siten, että aluksi lasketaan kolmion normaali, joka suuntautuu poispäin origosta. Kolmion kärkipisteiden perusteella mahdollisia normaaleja on kaksi, ja näistä valitaan se, jonka pistetulo origon (origo on väistämättä origokeskisen ellipsoidin sisällä) ja jonkin kolmion kärkipisteen välisen paikkavektorin kanssa on yli nolla eli vektorien välinen kulma ei ole yli 90$^\circ$. Tämän normaalivektorin ja Auringon sekä havaitsijan paikkavektorien (asteroidikeskeisessä koordinaatistossa) välisistä kulmista saadaan kulmat $\epsilon$ ja $\iota$. Mikäli kumpi tahansa kulmista $\epsilon$ ja $\iota$ on välin $[-\pi/2, \pi/2]$ ulkopuolella, voidaan kirkkaus asettaa suoraan nollaan, sillä kolmio ei joko ole havaittavissa tai se ei ole valaistu. Muussa tapauksessa näistä voidaan edelleen laskea yhtälön \ref{lommel-seeliger} mukaisesti heijastuskerroin.
@@ -229,7 +277,7 @@ missä $\alpha$ on havaitsijan ja valonlähteen välinen kulma asteroidilta kats
 	\cos(\lambda') &= \frac{S_{\astrosun}+S_{\oplus}\cos(\alpha')}{S} \\
 	\sin(\lambda') &= \frac{S_{\oplus}\sin(\alpha')}{S}.
 \end{align*}
-Näissä esiintycä $C$ on määrittää ellipsin muodon. Se on muutoin nollamatriisi, mutta sen diagonaalilla on alkiot $\frac{1}{a^2}$, $\frac{1}{b^2}$ ja $\frac{1}{c^2}$.
+Näissä esiintycä $C$ on määrittää ellipsin muodon. Se on muutoin nollamatriisi, mutta sen diagonaalilla on alkiot $\frac{1}{a^2}$, $\frac{1}{b^2}$ ja $\frac{1}{c^2}$. \cite{murri}
 
 %%%%% Sisältö loppuu, lähdeluettelo %%%%%
 \newpage
