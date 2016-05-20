@@ -21,6 +21,7 @@ public class Quickhull {
     ArrayList<Piste> pisteet;
     Piste keskipiste;
     private String erotin;
+    private boolean valivaihetulostukset = true;
 
     public Quickhull(ArrayList<Piste> pisteet) {
         this.pisteet = pisteet;
@@ -39,12 +40,17 @@ public class Quickhull {
             iteraatio++;
             tulostaNakyvienMaara(tyostettavatKolmiot);
             QuickhullKolmio tyostettava = tyostettavatKolmiot.pop();
-//            TiedostoIO.kirjoitaKolmioTiedostoihin(tyostettava, "debug/tyostettava-" + iteraatio, erotin);
+            if (valivaihetulostukset) {
+                TiedostoIO.kirjoitaKolmioTiedostoihin(tyostettava, "debug/tyostettava-" + iteraatio, erotin);
+            }
             Piste kaukaisin;
             try {
-//                TiedostoIO.kirjoitaPisteetTiedostoon(tyostettava.getNakyvatPisteet(), "debug/nakyvat-" + iteraatio + ".txt", erotin);
+
                 kaukaisin = tyostettava.etsiKaukaisin();
-//                TiedostoIO.kirjoitaPisteTiedostoon(kaukaisin, "debug/kaukaisin-" + iteraatio + ".txt", erotin);
+                if (valivaihetulostukset) {
+                    TiedostoIO.kirjoitaPisteetTiedostoon(tyostettava.getNakyvatPisteet(), "debug/nakyvat-" + iteraatio + ".txt", erotin);
+                    TiedostoIO.kirjoitaPisteTiedostoon(kaukaisin, "debug/kaukaisin-" + iteraatio + ".txt", erotin);
+                }
                 tyostettava.poistaNakyvaPiste(kaukaisin);
             } catch (Exception ex) {
                 System.out.println("Ei löytynyt kaukaisinta\n");
@@ -52,44 +58,35 @@ public class Quickhull {
             }
 
             ArrayList<QuickhullKolmio> valoisat = etsiValoisat(tyostettava, kaukaisin);
-//            System.out.println("työstettävällä on "+tyostettava.getNaapurit().size()+"  naapuria, joista löytyi " + valoisat.size() + " valoisaa");
-//            TiedostoIO.kirjoitaKolmiotTiedostoihin(valoisat, "debug/valoisat-" + iteraatio, erotin);
+            if (valivaihetulostukset) {
+                TiedostoIO.kirjoitaKolmiotTiedostoihin(valoisat, "debug/valoisat-" + iteraatio, erotin);
+            }
             ArrayList<Sivu> horisontti = etsiHorisontti(valoisat, tyostettava);
-//            System.out.println("horisontin pituus "+horisontti.size());
-//            TiedostoIO.kirjoitaSivutTiedostoihin(horisontti, "debug/horisontti-" + iteraatio, erotin);
+            if (valivaihetulostukset) {
+                TiedostoIO.kirjoitaSivutTiedostoihin(horisontti, "debug/horisontti-" + iteraatio, erotin);
+            }
             ArrayList<QuickhullKolmio> uudetKolmiot = new ArrayList<>();
             for (Sivu s : horisontti) {
                 uudetKolmiot.add(new QuickhullKolmio(kaukaisin, s.getP1(), s.getP2()));
             }
-//            System.out.println("Luotiin " + uudetKolmiot.size() + " uutta kolmiota");
-//            TiedostoIO.kirjoitaKolmiotTiedostoihin(uudetKolmiot, "debug/uudet-" + iteraatio, erotin);
+            if (valivaihetulostukset) {
+                TiedostoIO.kirjoitaKolmiotTiedostoihin(uudetKolmiot, "debug/uudet-" + iteraatio, erotin);
+            }
 
-//            System.out.println("valoisia "+valoisat.size());
-//            System.out.println("uusia "+uudetKolmiot.size());
             palautettavatKolmiot.removeAll(valoisat);
             palautettavatKolmiot.remove(tyostettava);
             palautettavatKolmiot.addAll(uudetKolmiot);
             tyostettavatKolmiot.addAll(uudetKolmiot);
             tyostettavatKolmiot.removeAll(valoisat);
-//            System.out.println("Palautettavia kolmioita nyt " + palautettavatKolmiot.size());
-//            System.out.println("");
-//            TiedostoIO.kirjoitaKolmiotTiedostoihin(palautettavatKolmiot, "debug/palautettavat-" + iteraatio, erotin);
+            if (valivaihetulostukset) {
+                TiedostoIO.kirjoitaKolmiotTiedostoihin(palautettavatKolmiot, "debug/palautettavat-" + iteraatio, erotin);
+            }
 
-            // rikki
             HashSet<Piste> nakyvatPisteet = new HashSet<>(tyostettava.getNakyvatPisteet());
             for (QuickhullKolmio k : valoisat) {
                 nakyvatPisteet.addAll(k.getNakyvatPisteet());
             }
             jaaNakyvatPisteet(nakyvatPisteet, uudetKolmiot);
-
-//            for (Piste p : tyostettava.getNakyvatPisteet()) {
-//                for (QuickhullKolmio k : uudetKolmiot) {
-//                    if (k.eriPuolilla(keskipiste, p)) {
-//                        k.lisaaNakyvaPiste(p);
-//                        break;
-//                    }
-//                }
-//            }
             paivitaNaapurit(tyostettava, valoisat, uudetKolmiot);
         }
 
@@ -168,7 +165,6 @@ public class Quickhull {
 //            kirjoitaTiedostoon(tahko2.getNakyvatPisteet(), "tahko2_nakyvat.txt");
 //            kirjoitaTiedostoon(tahko3.getNakyvatPisteet(), "tahko3_nakyvat.txt");
 //            kirjoitaTiedostoon(tahko4.getNakyvatPisteet(), "tahko4_nakyvat.txt");
-
             // asetetaan tahkot toistensa naapureiksi
             for (QuickhullKolmio k1 : ensimmaisetKasiteltavat) {
                 for (QuickhullKolmio k2 : ensimmaisetKasiteltavat) {
@@ -188,7 +184,9 @@ public class Quickhull {
 
     /**
      * Jakaa annetut pisteet annetuille kolmioille
-     * @param jaettavatPisteet pisteet, joille etsitään tahko, josta pisteen näkee
+     *
+     * @param jaettavatPisteet pisteet, joille etsitään tahko, josta pisteen
+     * näkee
      * @param kolmiot tahkot, joille näkyvyyttä tutkitaan
      * @throws Error jos jollekin pisteelle ei löydy tahkoa, josta sen näkisi
      */
@@ -258,6 +256,7 @@ public class Quickhull {
     /**
      * Etsii annetun kolmion naapurustosta kaikki kolmiot, joista annettu piste
      * on horisontin yläpuolella
+     *
      * @param tyostettava kolmio, jonka naapurustoa tutkitaan
      * @param p piste, jonka näkyvyyttä tutkitaan
      * @return lista, jossa on kaikki kolmiot, joista piste näkyy
@@ -276,6 +275,7 @@ public class Quickhull {
     /**
      * Etsii annettuja kolmioita ympäröivän horisontin eli murtoviivan, jonka
      * ulkopuolella kolmiot ovat varjoisia
+     *
      * @param valoisat
      * @param tyostettava
      * @return lista sivuista, jotka muodostavat horisontin
@@ -311,6 +311,7 @@ public class Quickhull {
 
     /**
      * Poistaa duplikaatit annetusta listasta
+     *
      * @param lista lista, josta duplikaatit poistetaan
      */
     private void poistaDuplikaatit(ArrayList lista) {
@@ -323,9 +324,9 @@ public class Quickhull {
 //    private void kirjoitaTiedostoon(ArrayList<Piste> data, String tiedostonimi) {
 //        TiedostoIO.kirjoitaTiedostoon(Delaunay.valmistaPisteetTulostukseen(data, ","), tiedostonimi);
 //    }
-
     /**
      * Etsii annettujen pisteiden painopisteen
+     *
      * @param p1
      * @param p2
      * @param p3
@@ -341,9 +342,10 @@ public class Quickhull {
 
     /**
      * Päivittää kolmioiden naapurit uusien kolmioiden lisäämisen jälkeen
+     *
      * @param tyostettava
      * @param valoisat
-     * @param uudetKolmiot 
+     * @param uudetKolmiot
      */
     private void paivitaNaapurit(QuickhullKolmio tyostettava, ArrayList<QuickhullKolmio> valoisat, ArrayList<QuickhullKolmio> uudetKolmiot) {
 

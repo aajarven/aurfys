@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.16)  18 MAY 2016 18:13
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.16)  20 MAY 2016 03:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2362,24 +2362,19 @@ l.52 \newpage
 ]
 Package babel Info: Redefining finnish shorthand "|
 (babel)             in language  on input line 60.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 62.
+ <kuvat/voronoi.png, id=68, 664.4825pt x 664.4825pt>
+File: kuvat/voronoi.png Graphic file (type png)
 
+<use kuvat/voronoi.png>
+Package pdftex.def Info: kuvat/voronoi.png used on input line 70.
+(pdftex.def)             Requested size: 271.7835pt x 271.78053pt.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 77.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 82.
 
-LaTeX Warning: Reference `esimerkkiyhtalo' on page 1 undefined on input line 61
-.
-
-Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 63.
-Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 65.
-Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 67.
-Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 69.
-Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 76.
-Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 79.
-No file lopputyo.bbl.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -2387,18 +2382,51 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 88.
+(babel)             in language  on input line 84.
 Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 88.
+(babel)             in language  on input line 84.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.88 \newpage
-              [1]
+l.84 
+      [1]
+<../Delaunay/data/murrikolmiot/pallo.png, id=78, 421.575pt x 316.18124pt>
+File: ../Delaunay/data/murrikolmiot/pallo.png Graphic file (type png)
+
+<use ../Delaunay/data/murrikolmiot/pallo.png>
+Package pdftex.def Info: ../Delaunay/data/murrikolmiot/pallo.png used on input 
+line 91.
+(pdftex.def)             Requested size: 271.7835pt x 203.84125pt.
 Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 89.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 91.
+(babel)             in language  on input line 96.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 98.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 98.
+ [2 <./kuvat/voronoi.png>]
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 110.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 110.
+
+[3 <../Delaunay/data/murrikolmiot/pallo.png (PNG copy)>]
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 113.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 120.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 123.
+ (./lopputyo.bbl)
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 132.
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 132.
+
+[4]
+Package babel Info: Redefining finnish shorthand "|
+(babel)             in language  on input line 133.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 135.
 
 
 Package Fancyhdr Warning: \headheight is too small (14.49998pt): 
@@ -2407,37 +2435,41 @@ Package Fancyhdr Warning: \headheight is too small (14.49998pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 91.
+(babel)             in language  on input line 135.
 Package babel Info: Redefining finnish shorthand "|
-(babel)             in language  on input line 91.
-[2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 91.
+(babel)             in language  on input line 135.
+[5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 135.
  (./lopputyo.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 91.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 91.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 135.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 135.
 Package rerunfilecheck Info: File `lopputyo.out' has not changed.
-(rerunfilecheck)             Checksum: B8C4403CA14A1FAC94482F8FFCB8EBBD;521.
-
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 91.
+(rerunfilecheck)             Checksum: B0B4E378CE3675BDBD23C8BE102EED73;631.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 135.
  ) 
 Here is how much of TeX's memory you used:
- 16288 strings out of 494424
- 320901 string characters out of 6165346
- 361135 words of memory out of 5000000
- 19302 multiletter control sequences out of 15000+600000
- 15232 words of font info for 60 fonts, out of 8000000 for 9000
+ 16324 strings out of 494424
+ 321505 string characters out of 6165346
+ 366703 words of memory out of 5000000
+ 19319 multiletter control sequences out of 15000+600000
+ 15579 words of font info for 61 fonts, out of 8000000 for 9000
  372 hyphenation exceptions out of 8191
  39i,11n,47p,10456b,904s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on lopputyo.pdf (5 pages, 42605 bytes).
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+tt12.pfb>
+Output written on lopputyo.pdf (8 pages, 185892 bytes).
 PDF statistics:
- 82 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
- 12 named destinations out of 1000 (max. 500000)
- 65 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 155 PDF objects out of 1000 (max. 8388607)
+ 129 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
+ 83 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -20,23 +20,23 @@ public class Delaunay {
      */
     public static void main(String[] args) {
         
-        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(22, 1, 1, 1);
-        TiedostoIO.kirjoitaPisteetTiedostoon(pisteet, "saannollinen.txt", ",");
-        for(Piste p: pisteet){
-            System.out.println(p);
-        }
+//        ArrayList<Piste> pisteet = PisteGeneraattori.generoiLatitudeittain(22, 1, 1, 1);
+//        TiedostoIO.kirjoitaPisteetTiedostoon(pisteet, "saannollinen.txt", ",");
+//        for(Piste p: pisteet){
+//            System.out.println(p);
+//        }
 
-//        TiedostoIO.tyhjennaKansio("debug");
+        TiedostoIO.tyhjennaKansio("debug");
 
-        //ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(100, 1, 1, 1, 1);
-//        System.out.println("generoitu");
-//        TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
-//
-//        Quickhull kolmioija = new Quickhull(pisteet);
-//        ArrayList<QuickhullKolmio> kolmiot = kolmioija.kolmioi();
-//        System.out.println(kolmiot.size());
-//
-//        TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
+        ArrayList<Piste> pisteet = PisteGeneraattori.generoiSatunnaisesti(30, 1, 1, 1, 1);
+        System.out.println("generoitu");
+        TiedostoIO.kirjoitaTiedostoon(valmistaPisteetTulostukseen(pisteet, ","), "debug/pisteet.txt");
+
+        Quickhull kolmioija = new Quickhull(pisteet);
+        ArrayList<QuickhullKolmio> kolmiot = kolmioija.kolmioi();
+        System.out.println(kolmiot.size());
+
+        TiedostoIO.kirjoitaKolmiotTiedostoihin(kolmiot, "kolmiot", ",");
 //
 //        Vektori3D havaitsija = new Vektori3D(0.0001, 0.0001, 0.0001);
 //        

@@ -41,17 +41,7 @@
 
 %%%%% Tiivistelmäteksti %%%%%
 \noindent
-Tyrkkää tänne tiivis tiivistelmä tuloksista.
-
-\LaTeX saattaa tuntua aluksi hankalalta. Valmiin pohjan käyttäminen on kuitenkin helppo tapa päästä jyvälle, niin allekirjoittanutkin aikoinaan oppi. Netistä löytyy myös paljon materiaalia, esim wikibooksista (\url{http://en.wikibooks.org/wiki/LaTeX}). Myös suomenkielistä materiaalia on: \url{http://www.cs.tut.fi/lintula/manual/TeX/TeXdoc/latex/general/lyhyt/lyhyt2e.pdf}. Ette te kuitenkaan tuota jaksa lukea, en minäkään jaksanut, mutta tiedättepähän että on mistä etsiä jos on ongelmia. Suosittelen myös googlea: kaltaisiani hönöjä on internet täynnä joten esimerkiksi stack\-ex\-changessa % jos ihmettelet tuota \- niin se on tavutusvihje. Aina latexin kääntäjä ei osaa tavuttaa sanoja oikein, jolloin sille voi kertoa parhaan paikan katkaista sana. Jos ihmettelet tätä prosenttimerkillä alkavaa osaa, tämä on kommentti. Niihin voi kirjoittaa kaikenlaista sellaista, minkä ei tahdo tulevan näkyviin lopulliseen dokumenttiin.
-joku on jo kysynyt lähes jokaista minulle eteen tullutta ongelmaa. Näpyttäkää siis ongelmanne googleen avainsanan "latex" kanssa.
-
-Jos opettelu tuntuu vaikealta, kannattaa muistaa, että fyysikolle se on edessä ennemmin tai myöhemmin joka tapauksessa. Tähtitieteilijälle jo ennemmin: tähtitieteen käytännön menetelmien lopputyö pitää laatia latexilla.
-
-Tämä selkkaripohja on tehty Helsingin Matematiikkalukiossa käytetyn tutkielmapohjan päälle, kiitokset siitä Tuomas Tynkkyselle.
-
-\-Rakkaudella kaikille fukseille ja fuksinmielisille $\heartsuit$ \\
-Anni Järvenpää
+diudiu
 \end{abstract}
 \restoregeometry
 
@@ -68,67 +58,77 @@ Anni Järvenpää
 
 %%%%%%%%%%%%%%% Oleellinen sisältö alkaa%%%%%%%%%%%%%%%
 \section{Teoria}
-Teoreettista teoriaa. Täällä tarvitaan myös yhtälöitä, yhtälö \ref{esimerkkiyhtalo} on yksi sellainen.
 
 \subsection{Delaunay-kolmiointi}
+Kolmioinnissa pistejoukon pisteet yhdistetään toisiinsa janoilla siten, että pisteiden välille muodostuu kolmioita. Delaunayn kolmioinnissa minkään kolmion ympäripiirretyn ympyrän sisäpuolella ei ole muita pisteitä. Mikäli pisteet eivät osu samoille ympyröille, on Delaunayn kolmiointi yksikäsitteinen. Kahdessa ulottuvuudessa tämä kolmiointimenetelmä maksimoi pienimmän kolmioista löytyvän kulman, jolloin kapeat kolmiot ovat harvinaisia. \cite{maur2002delaunay}
 
-\subsection{
+Delaunayn kolmiointi liittyy läheisesti moniin käytännön ongelmiin. Sitä voidaan käyttää esimerkiksi 3D-mallinnuksessa, jolloin kappaleen pinta voidaan mallintaa kolmioina. Kolmiointia voidaan käyttää myös esimerkiksi verkon pienimmän virittävän puun etsimiseen, sillä pienimmät virittävät puut ovat aina Delaunayn kolmioinnin osajoukkoja. Lisäksi yhdistämällä Delaunayn kolmioinnissa käytettyjen ympyröiden keskipisteet, saadaan niinkutsuttu Voronoin tesselaatio (kuva \ref{voronoi}), jossa lähin kolmioinnissa käytetty piste on sama. \cite{maur2002delaunay, peterson}
 
-\begin{equation}\label{esimerkkiyhtalo}
-	c=\sqrt{a^2+b^2}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{kuvat/voronoi.png}
+  \caption{Mustien pisteiden Delaunayn kolmiointi (mustat viivat) ja sitä vastaava Voronoin tesselaatio punaisella. Punaiset pisteet ovat Delaunayn kolmioinnissa käytettyjen ympyröiden keskipisteitä. (Kuva: Wikimedia Commons -käyttäjä \textit{Hferee}, CC BY-SA 3.0)}
+  \label{voronoi}
+\end{figure}
+
+Menetelmä on yleistettävissä myös korkeampiin ulottuvuuksiin, jolloin esimerkiksi kolmiulotteisessa tapauksessa syntyy ympyröiden sisällä olevien kolmioiden sijaan pallojen sisällä olevia tetraedrejä. \cite{maur2002delaunay}
+
+\subsection{Pisteiden generointi ellipsoidin pinnalle}
+Jotkin ongelmat vaativat tutkittavan kappaleen pinnan mallintamista pistejoukkona. Tämä on helppo ensiaskel esimerkiksi kappaleen muodon kolmioinnissa. Tässä työssä keskitytään generointimenetelmiin, joita voidaan hyödyntää ellipsoidien mallinnuksessa.
+
+Pisteiden generointiin käytettävät menetelmät voidaan jakaa karkeasti kahteen luokkaan: systemaattisiin ja satunnaisiin menetelmiin. Kummassakin pyritään yleensä luomaan mahdollisimman tasainen jakauma kappaleen pinnalle. Seuraavissa aliluvuissa esitellään yksi systemaattinen ja yksi satunnainen menetelmä.
+
+\subsubsection{Pisteiden luominen kerroksittain}
+Eräs yksinkertainen tapa luoda ellipsin pinnalle pistejoukko, jossa lähimpien pisteiden etäisyydet pysyvät likimain vakioina, on generoida pisteet ellipsin leveyspiirien suuntaisina kehinä. Ellipsi jaetaan $k$ kerrokseen, jolloin navalla olevaan ensimmäiseen ''kerrokseen'' tulee yksi piste, seuraavaan kerrokseen 4 ja tästä kohti päiväntasaajaa kuhunkin kerrokseen aina 4 pistettä enemmän kuin edelliseen. Päiväntasaajan jälkeen pisteiden määrä alkaa jälleen vähentyä neljällä pisteellä kerrosta kohti, kunnes vastakkaisella navalla on jälleen vain yksi piste.
+
+Tämä on yksinkertaisinta tehdä $(\theta, \phi, r)$-koordinaatistossa, jossa $\theta$ mittaa kulmaa navalta kohti päiväntasaajaa ja $\phi$ kulmaa x-akselista positiiviseen kiertosuuntaan z-akselin ympäri. Tällä tavoin generoitaessa kunkin rivin kulmaetäisyydeksi $\theta$-suunnassa muodostuu $\pi/k$ ja kahden saman latitudin pisteen välinen etäisyys $\phi$-suunnassa on $\frac{\pi}{2(k-1)}$.
+
+Näistä pisteistä on yksinkertaista muodostaa ellipsin pinnan kattava kolmiointi, jossa napa toimii kärkenä neljälle kolmiolle ja seuraavan rivin pisteet kussakin oktantissa yhdistävät janat kolmioiden kantoina. Seuraavalla kolmiorivillä edellisen kolmiorivin kantoja vastaa aina kärki ja kunkin oktantin reunoihin muodostuu kaksi uutta kolmiota. Näin jatketaan jälleen päiväntasaajalle asti, minkä jälkeen kolmiot alkavat jälleen vähentyä napaa lähestyttäessä. Kuva 200 kerrosta sisältävästä näin luodusta pistejoukosta on nähtävillä kuvassa \ref{murrikolmiointi}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{../Delaunay/data/murrikolmiot/pallo.png}
+  \caption{Matlabin \texttt{delanayn}-komentoa käyttäen luotu kuva kerroksittain luodusta pistejoukosta ykikköpallon pinnalla.}
+  \label{murrikolmiointi}
+\end{figure}
+
+\subsubsection{Pisteiden arpominen}
+Pisteiden generointi satunnaisesti on hyvin yksinkertainen tapa generoida vähällä vaivalla halutunkokoinen pistejoukko. Pallopinnalle generointi on erittäin yksinkertaista. Kun tiedetään haluttu pallon säde, voidaan generoida satunnaisluvut $\theta \in [0, \pi]$ ja $\phi \in [0, 2\pi]$, jolloin saadaan suoraan piste $(\theta, \phi, r)$ missä $r$ on vakio.
+
+Ellipsoidin pinnalle generoiminen on kuitenkin monimutkaisempaa, sillä edellä kuvatulla tavalla pistejakaumasta tulee ellipsoidin eksentrisyydestä riippuen mahdollisesti hyvinkin epätasainen. Pohjimmiltaan voidaan kuitenkin käyttää samantyyppistä menetelmää kuin edellä, eli aloittaa generoimalla vastaavat kulmat $\theta$ ja $\phi$ ja määrittämällä näiden perusteella kyseisen pinnan kohdan etäisyys origosta kaavan \ref{r} perusteella, missä $a$, $b$ ja $c$ ovat ellipsin muodon määräävät parametrit ellipsin yhtälöstä (yhtälö \ref{ellipsin-yhtalo}).
+
+\begin{equation}\label{r}
+	r(\theta,\phi) = \frac{abc}{\sqrt{b^2c^2\sin^2(\phi)\cos^2(\theta)+a^2c^2\sin^2(\phi)\sin^2(\theta)+a^2b^2cos^2(\phi)}}
 \end{equation}
 
-Joskus tahdon kappalevaihdon. Sen teen tyhjällä rivillä.
+\begin{equation}\label{ellipsin-yhtalo}
+	\frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2} = 1
+\end{equation}
 
-Jos tahdot matematiikkajuttuja tekstin sekaan, vaikkapa kertoa että ympyrän kehän ja halkaisijan suhden on $\pi$, voit käyttää \$-merkkejä kuten äsken käytin. Toisin kuin equationin aloittaminen, nämä eivät katkaise riviä eikä niitä numeroida.
+Eräs tapa huolehtia jakauman tasaisuudesta halutulla tarkkuudella on asettaa tietty kynnysarvo kunkin pisteen ympärillä olevalle säteelle, jonka sisälle ei generoida uusia pisteitä. Tämä voidaan toteuttaa esimerkiksi jakamalla ellipsin pinta-ala halutulla pistemäärällä ja määrittämällä tätä alaa vastaavan ympyrän säde, jolloin voidaan hylätä tätä sädettä lähempänä toista pistettä olevat pisteet. Uusia pisteitä arvotaan, kunnes hyväksyttyjen pisteiden kokonaismäärä on haluttu pistemäärä.
 
-Joskus saatat haluta laittaa monta yhtälöä siististi päällekkäin. Tällöin käytä alignia kuten yhtälöissä \ref{align1} ja \ref{align2}. Alignissa $\backslash\backslash$ tekee rivinvaihdon. Yhtälössä \ref{sievennystulos} on nähtävillä sievennyksen lopputulos, joka on laitettu nätisti esille alignilla ja jossa ensimmäiset rivit on jätetty numeroimatta lisäämällä "$\backslash$nonumber".
+Tätä menetelmää voidaan edelleen kehittää määrittämällä vakiokerroin, jolla kerrotaan saatu ala kutakin pistettä kohden. Pienillä kertoimilla pisteet voivat olla lähempänä toisiaan, jolloin pisteitä hylätään vähemmän eli generointi on nopeampaa, mutta jakauman tasaisuus kärsii. Liian suuren kertoimen valitseminen saattaa johtaa tilanteeseen, jossa uusien kaikki ehdot täyttävien pisteiden generointi on mahdotonta.
 
-\begin{align} % &-merkki kertoo mitkä kohdat laitetaan päällekkäin
-s_{1} =& d \cos \alpha = d \cos (90 \,^{\circ} - \varphi) = d \sin \varphi \label{align1} \\
-s_{2} =& d \cos \beta = d \cos (90 \,^{\circ} - \theta) = d \sin \theta \label{align2},
-\end{align}
-\begin{align}
-\lambda&=\frac s n \nonumber \\
-&= \frac{s_1-s_2}{n} \nonumber \\
-&= \frac{d}{n} ( \sin \varphi - \sin \theta ) \label{sievennystulos}
-\end{align}
+\subsection{Lommel-Seeliger -heijastuslaki}
 
-Kaikki väitteeni eivät aina ole itsestäänselviä, joten haluan ilmoittaa niille lähteen. Esimerkiksi kurssikirja on sangen tietäväinen teos\cite{kurssikirja}. Lähteitä varten tarvittavat teokset listataan bib-tiedostossa ja \LaTeX -kääntäjä valitsee sieltä automaattisesti tarvittavat ja laatii niistä järjestetyn lähdeluettelon.
+%\begin{equation}\label{esimerkkiyhtalo}
+%	c=\sqrt{a^2+b^2}
+%\end{equation}
 
-\subsection{Tavallinen aliotsikko}
-Aliotsikon saa kun aloittaa subsectionin. Vastaavasti pienempiä otsikoita saa subsubsectionilla.
-
-\subsection*{Numeroimattomien asioiden teoriaa}
-Kaikkia yhtälöitä ei ehkä haluta numeroida. Numeroa ei tarvita jos yhtälöön ei viitata missään, esim välivaiheet tms. Sellainen tehdään lisäämällä tähti. Samaa voi soveltaa myös esimerkiksi sectioneihin kuten tämän sectionin otsikosta huomataan. Alla numeroimaton yhtälö:
-\begin{equation*}
-	\sin{x} \approx x \text{ kun x on pieni}
-\end{equation*}
+\section{Asteroidin muodon kolmiointi}
 
 
-\section{Koejärjestely}
-Kattava kuvaus koejärjestelystä. Koska koelaitteistosta kannattaa laittaa kuva, mutta minulla ei ole sellaista, tässä kuva yllättyneeltä näyttävästä kissasta. Myös kuvat numeroidaan ja numeroon voi viitata. Yllättynyt kissa löytyy siis kuvasta \ref{kissakuva}.
+\section{Asteroidin sisäinen rakenne}
+lol
 
-Välillä \LaTeX\ latoo kuvat mitä mielikuvituksellisimpiin paikkoihin. Sitä voi yrittää hillitä erilaisilla specifiereillä. Niistä voi lukea lisää netistä: \url{http://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions}.
+\section{Asteroidin integroitu kirkkaus}
 
-%\begin{figure}
-%\centering
-%\includegraphics[width=\textwidth]{yllatyskipsu.jpg} %lveydeksi voi antaa myös vaikkapa 5cm tai muun konkreettisen mitan tai vaihtoehtoisesti asettaa leveydeksi vaikapa 80% tekstin leveydestä parametrilla 0.8\textwidth. Kuvan korjeuden voi asettaa esimerkiksi height=6cm.
-%\caption{Kuvatekstissä voisin vaikkapa kertoa, että oikeasti kissa vain haukottelee.}
-%\label{kissakuva}
-%\end{figure}
-
-\section{Tulokset}
-Tarkkoja tuloksia.
-
-
-\section{Johtopäätökset}
-Järkeviä johtopäätöksiä.
 
 
 %%%%% Sisältö loppuu, lähdeluettelo %%%%%
 \bibliographystyle{plain}
-\bibliography{selkkarilahteet} %lähdeluettelon tiedot tiedostossa selkkarilahteet.bib. Esimerkiksi helkasta saa kirjojen tiedot valmiiksi bibtex-muodossa, kannattaa hyödyntää.
+\bibliography{lahteet} %lähdeluettelon tiedot tiedostossa selkkarilahteet.bib. Esimerkiksi helkasta saa kirjojen tiedot valmiiksi bibtex-muodossa, kannattaa hyödyntää.
 
 \appendix
 \newpage
