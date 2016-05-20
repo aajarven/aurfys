@@ -130,17 +130,54 @@ Tätä menetelmää voidaan edelleen kehittää määrittämällä tasaisuuskerr
 \end{figure}
 
 \section{Lommel-Seeliger -heijastuslaki}
+Lommel-Seeliger -heijastuslaki käsittelee yksinkertaista heijastusta, joka tapahtuu puoliäärettömässä väliaineessa, johon valo penetroituu heikentyen absorption ja sironnan vaikutuksesta. Sirottuminen kustakin väliainekerroksesta on isotrooppista ja pintaa kohti sironnut valo heikkenee edelleen matkalla pintaan. \cite{lommel}
 
-%\begin{equation}\label{esimerkkiyhtalo}
-%	c=\sqrt{a^2+b^2}
-%\end{equation}
+Tällöin heijastuskertoimeksi saadaan
+\begin{equation}
+	\frac{1}{4}\widetilde{\omega}P_{11}(\alpha)\frac{1}{\cos(\epsilon)+\cos(\iota)},
+\end{equation}
+missä $\epsilon$ on havaitsijan suunnan ja heijastavan pinnan normaalin välinen kulma ja $\iota$ on valonlähteen suunnan ja heijastavan pinnan normaalin välinen kulma. \cite{tenttimatsku, lommel}.
 
 \section{Asteroidin muodon kolmiointi}
 
 
 \section{Asteroidin sisäinen rakenne}
-lol
+Kun asteroidin pinta on kolmioitu, voidaan asteroidin sisärakenne kattaa tetraedreillä yksinkertaisesti käyttämällä kutakin kolmiota yhden tetraedrin pohjana ja ellipsoidin keskipistettä tetraedrin neljäntenä kärkenä. Paikkaresoluution parantamiseksi voidaan nämä tetraedrit edelleen jakaa ellipsoidin säteen suunnassa katkaistuihin kartioihin.
 
+Yksinkertaisinta on tehdä jako siten, että kunkin katkaistun kartion korkeus on sama. Tällöin kuitenkin monitahokkaiden tilavuus vaihtelee säteen suunnassa: lähellä keskipistettä tilavuudet ovat pieniä ja lähellä pintaa hyvin suuria. Tästä syystä monissa sovelluskohteissa on hyödyllisempää suunnitella jako monitahokkaisiin siten, että niiden tilavuudet pysyvät likimain samoina.
+
+Tällöin kunkin katkaistun kartion korkeuden laskeminen onnistuu, kun tunnetaan lausekkeet kartion tilavuudelle
+\begin{equation}
+	V=\frac{1}{3}Ah
+\end{equation}
+missä $A$ on kartion pohjan ala ja $h$ kartion korkeus, sekä katkaistun kartion tilavuudelle
+\begin{equation}\label{katkaistukartio}
+	 V = \frac{1}{3} h (A + \sqrt {AA'} + A')
+\end{equation}
+missä $A$ ja $A'$ ovat pohjien alat ja $h$ on pohjien välinen kohtisuora etäisyys. \cite{wiki:kartio}
+
+Lisäksi tiedetään, että eri katkaistujen kartioiden pohjat ovat yhdenmuotoisia ja niiden alat ovat verrannollisia ellipsoidin keskipisteestä mitatun etäisyyden neliöön. Kun nyt merkitään ellipsoidin sädettä tarkasteltavan tetraedrin kohdalla $R$ (oletetaan, että kolmiot ovat säteeseen verrattuna pieniä, jolloin matka kustakin pohjan pisteestä keskipisteeseen on likimain sama) ja katkaistun kartion korkeutta $h$, saadaan katkaistun kartion pohjien alojen suhteeksi
+\begin{equation*}
+	A_1=\left(\frac{R-h}{R}\right)^2A_0.
+\end{equation*}
+
+Jos kartio halutaan jakaa $n$ osaan, voidaan yhden osan tilavuus laskea yksinkertaisesti
+\begin{align}
+	V_{katkaistu} &= \frac{1}{n}V_{kokonainen}\nonumber\\
+	&= \frac{1}{n}\frac{1}{3}Ah \nonumber
+\end{align}
+Asetetaan yhtälössä \ref{katkaistukartio} esitetyn katkaistun kartion tilavuus yhtäsuureksi tämän lausekkeen kanssa, jolloin tiedetään
+\begin{align}\label{katkaistunkorkeus}
+	\frac{1}{3} h (A + \sqrt {AA'} + A') &= \frac{1}{n}\frac{1}{3}Ah &\bigg\vert~ A'=\left(\frac{R-h}{R}\right)^2A \nonumber\\
+	h \left(A + \sqrt {A^2\left(\frac{R-h}{R}\right)^2} + \left(\frac{R-h}{R}\right)^2A\right) &= \frac{1}{n}Ah & \nonumber\\
+	A\left(1 + \frac{R-h}{R} + \left(\frac{R-h}{R}\right)^2\right) &= \frac{1}{n}A &\nonumber\\
+	1 + \frac{R-h}{R} + \left(\frac{R-h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
+	1 + 1-\frac{h}{R} + \left(1-\frac{h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
+	1 + 1-\frac{h}{R} + 1-2\frac{h}{R}+\left(\frac{h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
+	3 - 3\frac{h}{R} +\left(\frac{h}{R}\right)^2 &= \frac{1}{n} &
+\end{align}
+Yhtälö \ref{katkaistunkorkeus} on yksinkertainen toisen asteen yhtälö, jonka ratkaisuna saadaan $h$:lle seuraava lauseke
+	
 \section{Asteroidin integroitu kirkkaus}
 
 

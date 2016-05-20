@@ -7,7 +7,7 @@
 \contentsline {subsection}{\numberline {2.1}Pisteiden luominen kerroksittain}{2}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Pisteiden arpominen}{3}{subsection.2.2}
 \contentsline {section}{\numberline {3}Lommel-Seeliger -heijastuslaki}{5}{section.3}
-\contentsline {section}{\numberline {4}Asteroidin muodon kolmiointi}{5}{section.4}
-\contentsline {section}{\numberline {5}Asteroidin sis\IeC {\"a}inen rakenne}{5}{section.5}
-\contentsline {section}{\numberline {6}Asteroidin integroitu kirkkaus}{6}{section.6}
-\contentsline {section}{\numberline {A}Liittyv\IeC {\"a} liite.}{7}{appendix.A}
+\contentsline {section}{\numberline {4}Asteroidin muodon kolmiointi}{6}{section.4}
+\contentsline {section}{\numberline {5}Asteroidin sis\IeC {\"a}inen rakenne}{6}{section.5}
+\contentsline {section}{\numberline {6}Asteroidin integroitu kirkkaus}{7}{section.6}
+\contentsline {section}{\numberline {A}Liittyv\IeC {\"a} liite.}{9}{appendix.A}
