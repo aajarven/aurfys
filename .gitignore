@@ -3,6 +3,7 @@
 /Delaunay_damaged/nbproject/private/
 /Delaunay_damaged/build/
 /Delaunay_damaged/dist/
+/Delaunay/nbproject/private.properties
 *.fuse_hidden*
 /JavaPlot-0.5.0/demo/dist/
 /JavaPlot-0.5.0/dist/
@@ -11,3 +12,9 @@
 *~
 tr-2002-02.pdf
 *.bak
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
