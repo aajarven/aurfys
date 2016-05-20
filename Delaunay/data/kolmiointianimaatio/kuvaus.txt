@@ -1,1 +1,2 @@
 eka-animaatio.gif 20 pistettä, yksikköpallo, 36 kolmiota
+pitka: 30 pistettä, yksikköpallo, 56 kolmiota
