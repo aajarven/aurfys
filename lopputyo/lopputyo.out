@@ -1,12 +1,10 @@
 \BOOKMARK [1][-]{section.1}{Delaunay-kolmiointi}{}% 1
 \BOOKMARK [2][-]{subsection.1.1}{Algoritmit}{section.1}% 2
-\BOOKMARK [3][-]{subsubsection.1.1.1}{Kolmiulotteiset algoritmit}{subsection.1.1}% 3
-\BOOKMARK [3][-]{subsubsection.1.1.2}{Quickhull}{subsection.1.1}% 4
-\BOOKMARK [1][-]{section.2}{Pisteiden generointi ellipsoidin pinnalle}{}% 5
-\BOOKMARK [2][-]{subsection.2.1}{Pisteiden luominen kerroksittain}{section.2}% 6
-\BOOKMARK [2][-]{subsection.2.2}{Pisteiden arpominen}{section.2}% 7
-\BOOKMARK [1][-]{section.3}{Lommel-Seeliger -heijastuslaki}{}% 8
-\BOOKMARK [1][-]{section.4}{Asteroidin muodon kolmiointi}{}% 9
-\BOOKMARK [1][-]{section.5}{Asteroidin sis\344inen rakenne}{}% 10
-\BOOKMARK [1][-]{section.6}{Asteroidin integroitu kirkkaus}{}% 11
-\BOOKMARK [1][-]{appendix.A}{Liittyv\344 liite.}{}% 12
+\BOOKMARK [3][-]{subsubsection.1.1.1}{Quickhull}{subsection.1.1}% 3
+\BOOKMARK [1][-]{section.2}{Pisteiden generointi ellipsoidin pinnalle}{}% 4
+\BOOKMARK [2][-]{subsection.2.1}{Pisteiden luominen kerroksittain}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.2}{Pisteiden arpominen}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Lommel-Seeliger -heijastuslaki}{}% 7
+\BOOKMARK [1][-]{section.4}{Asteroidin muodon kolmiointi}{}% 8
+\BOOKMARK [1][-]{section.5}{Asteroidin sis\344inen rakenne}{}% 9
+\BOOKMARK [1][-]{section.6}{Asteroidin integroitu kirkkaus}{}% 10

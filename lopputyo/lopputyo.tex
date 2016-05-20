@@ -11,6 +11,7 @@
 \usepackage{float}
 \usepackage[section]{placeins}
 \usepackage{subcaption}
+\usepackage{wasysym}
 %\usepackage[numbered,autolinebreaks,useliterate]{mcode} % jos tahdot laittaa matlabkoodia näkyville niin kannattaa käyttää tätä
 
 % hyödyllisiä paketteja:
@@ -30,21 +31,11 @@
 
 %%%%% kansilehti %%%%%
 \title{Asteroidin kolmiointi\vspace{0.5em}}
-\author{Anni Järvenpää}
+\author{Anni Järvenpää\\0143368836}
 \date{\today}
 \begin{document}
 \maketitle
-\newgeometry{top=1in, bottom=1.5in, left=1.5in, right=1.5in}
-\begin{abstract}
-\setlength{\parindent}{0pt}
-\parskip=1em \advance\parskip by 0pt plus 2pt
-\onehalfspacing
 
-%%%%% Tiivistelmäteksti %%%%%
-\noindent
-diudiu
-\end{abstract}
-\restoregeometry
 
 % Sisällysluettelo
 \newpage
@@ -74,10 +65,45 @@ Delaunayn kolmiointi liittyy läheisesti moniin käytännön ongelmiin. Sitä vo
 Menetelmä on yleistettävissä myös korkeampiin ulottuvuuksiin, jolloin esimerkiksi kolmiulotteisessa tapauksessa syntyy ympyröiden sisällä olevien kolmioiden sijaan pallojen sisällä olevia tetraedrejä. \cite{maur2002delaunay}
 
 \subsection{Algoritmit}
+Delaunayn kolmioinnin luomiseen on kehitetty useita erilaisia algoritmeja. Ne voidaan kuitenkin jakaa muutamaan peruskategoriaan:\cite{dewall}
+\begin{itemize}
+	\item \textit{Paikallinen parantaminen}, jossa aluksi luodaan mielivaltainen kolmiointi ja erilaisilla paikallisilla muunnoksilla muutetaan kolmiointi Delaunayn kolmioinniksi.
+	\item \textit{Vaiheittainen lisääminen}, jossa kolmiointi rakennetaan lisäämällä kolmiointiin kolmioita yksittäin niin, että uudet kolmiot täyttävät aina kolmioinnille asetetut ehdot
+	\item \textit{Vaiheittainen rakentaminen}, jossa lisätään kolmiointiin pisteet yksi kerrallaan, ja kolmio, joka sisältää lisätyn pisteen, jaetaan uusiin kolmioihin siten, että kaikki toteuttavat kolmioinnille asetetut ehdot. 
+	\item \textit{Korkeampaan ulottuvuuteen upottaminen,} jossa pisteet siirretään korkeampaan ulottuvuuteen, jossa lasektaan pisteille konveksi kuori, jonka projektiosta alkuperäiseen ulottuvuuteen saadaan Delaunayn kolmiointi 
+	\item \textit{Hajota ja hallitse} -algoritmit, joissa pistejoukko jaetaan rekursiivisesti pienempiin pistejoukkoihin ja nämä pistejoukot kolmioidaan. Tämän jälkeen yhdistämisvaiheessa nämä pienten alueiden kolmioinnit yhdistetään vaiheittain siten, että lopullinen kolmiointi täyttää Delaunayn kolmioinnin ehdot.
+\end{itemize}
 
-\subsubsection{Kolmiulotteiset algoritmit}
+Kahdessa ulottuvuudessa monet näistä ovat yksinkertaisia, mutta kolmessa ulottuvuudessa monen algoritmin toteuttaminen muodostuu huomattavasti vaikeammaksi. Esimerkiksi neljän pisteen välille piirrettyjä kolmioita, jotka voivat toteuttaa Delaunay-kolmioinnin ehdot, on vain kaksi erilaista kun taas neljän pisteen välille voidaan kolmessa ulottuvuudessa piirtää viisi erilaista tetraedrikonfiguraatiota, jolloin ns. \textit{edge-flipping} -algoritmien toteuttaminen on huomattavasti haastavampaa. \cite{maur2002delaunay}
 
-\subsubsection{Quickhull}
+\subsubsection{Quickhull}\label{quickhull}
+Mikäli kolmioitava kappale on konveksi ja halutaan kolmioida ainoastaan kappaleen pinta, voidaan hyödyntää suoraan jotakin konveksin kuoren etsimiseen käytettävää algoritmia\cite{maur2002delaunay}. Esimerkiksi ellipsoidin muotoisen asteroidin pinnan muotojen mallintamiseen riittää pinnan kolmiointi ilman pisteiden tetraedrointia ja ellipsoidi on konveksi kappale, joten konveksin kuoren etsimiseen käytettävät algoritmit ovat suoraan sovellettavissa tähän ongelmaan, sillä pistejoukon kovenksi kuori on tällöin suoraan pistejoukon Delaunayn kolmiointi.
+
+Eräs nopea ja periaatteeltaan yksinkertainen myös suurille pistejoukoille sopiva konveksin kuoren etsintäalgoritmi on quickhull. Algoritmin suorittaminen aloitetaan valitsemalla pistejoukosta ensimmäinen tetraedri. Tätä varten pistejoukosta ensin minimi- ja maksimipisteet kaikkien koordinaattiakselian suunnassa (6 kpl) ja valitaan näistä ensin kaksi kauimpana toisistaan sijaitsevaa pistettä. Seuraavaksi etsitään jäljelle jääneistä neljästä pisteestä se, jonka kohtisuora etäisyys näiden pisteiden virittämästä suorasta on suurin, jolloin saadaan ensimmäisen tetraedrin pohja. Viimeisenä valitaan piste, jonka etäisyys tästä kolmiosta on suurin, jolloin on saatu luotua ensimmäinen tetraedri. \cite{quickhull}
+
+Algoritmin suorituksen kannalta on tärkeää, että jokainen pistejoukon piste, joka ei ole syntyneen kuoren sisällä (konveksin kappaleen tapauksessa tälläisiä pisteitä ei löydy, joten nämä eivät ole tämän työn kannalta relevantteja) tai jo osana jotakin kolmiota, kuuluu jostakin olemassaolevasta kolmiosta näkyviin pisteisiin. Tästä syystä käydään alussa kukin piste läpi, ja käydään kutakin pistettä kohden läpi tahkoja, kunnes löytyy tahko, josta katsottuna kyseinen piste on horisontin yläpuolella. Kun tällainen tahko löytyy, lisätään piste tahkosta näkyvillä olevien pisteiden listaan. Todellisuudessa moni piste näkyy useista tahkoista, mutta nekin merkitään vain yhden tahkon listaan.\cite{quickhull}
+
+Pisteen näkyvyys tahkolta voidaan tarkastaa yksinkertaisesti tutkimalla, onko piste eri puolella tahkon määräämää tasoa kuin jokin jo luodun monitahokkaan sisällä oleva piste. Omassa toteutuksessani tämä toteutetaan määrittämällä ensin kolmion määräämän tason yhtälö muodossa $ax+by+cz+d=0$, minkä jälkeen voidaan kahden pisteen koordinaatit sijoittaa yhtälön vasemmalle puolelle. Mikäli näin saadut luvut ovat samanmerkkiset, ovat pisteet samalla puolella tasoa. Merkki on yksinkertaista määrittää ottamalla lukujen tulo ja tarkastelemalla sen etumerkkiä.
+
+Kun kaikille pisteille on löydetty tahko, josta ne näkyvät, työnnetään kaikki neljä luotua tahkoa käsiteltävien tahkojen pinoon. Tämän jälkeen aloitetaan varsinainen iteraatiovaihe, jossa monitahokasta laajennetaan, kunnes se kattaa kaikki pistejoukon pisteet.\cite{quickhull}
+
+Iteraatiovaiheessa poimitaan pinosta päällimmäinen tahko, joka on tämän iteraation käsiteltävä. Kun käsiteltävien tahkojen pino on tyhjä, on kolmiointi valmis. Mikäli tällä tahkolla ei ole yhtään näkyvää pistettä siirrytään seuraavaan iteraatioon, muussa tapauksessa valitaan tahkon näkyvistä pisteistä kaukaisin. Tämän jälkeen etsitään edellä esitettyä näkyvyydentarkastusmenetelmää käyttäen käsiteltävän kolmion naapureista (tahkoista, jotka jakavat vähintään yhden pisteen käsiteltävän tahkon kanssa) sellaiset, joista kaukaisin piste on näkyvissä. Näitä pisteestä näkyviä tahkoja ympäröi horisontti, jonka pisteet yhdistämällä kaukaisimpaan pisteeseen, saadaan korvattua käsiteltävä ja näkyvät kolmiot uusilla, jolloin monitahokas kasvaa jonkin verran. Korvatuista kolmioista näkyvissä olevat pisteet jaetaan uusille kolmioille ja uudet kolmiot lisätään käsiteltävien kolmioiden pinoon. Korvatut kolmiot poistetaan käsiteltävien kolmioiden pinosta.\cite{quickhull}
+
+Kuvassa \ref{quickhull-iteraatio} on nähtävillä yhden iteraation kulku Quickhull-algoritmissa. Kuvassa vasemmalla ylhäällä alkutila, jossa monitahokasta ympäröi vaaleanharmailla ympyröillä merkitty pistejoukko. Oikealla ylhäällä nähtävillä tummanpunaisella nyt käsittelyvuorossa oleva tahko. Tämän tahkon näkyvien pisteiden listassa on vain yksi piste (kirkkaanpunainen ympyrä), vaikka tahkosta todellisuudessa näkyy useita pisteitä. Ne kuuluvat kuitenkin jonkin muun tahkon näkyviin pisteisiin. Vasemmalla alhaalla on tästä pisteestä nähtävissä olevat käsiteltävän tahkon naapuritahkot merkitty punaisella ja niitä ympyröivä horisontti syaanilla. Oikealla alhaalla horisontti on yhdistetty käsiteltävään pisteeseen, jolloin syntyneet uudet kolmiot on piirretty vaaleanharmaalla. Vanhat kolmiot poistetaan, jolloin päästään kuvassa \ref{iteraatio-lopputila} esitettyyn tilaan, joka toimii seuraavan iteraation alkutilana.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{kuvat/quickhull-iteraatio.png}
+  \caption{Yksi Quickhull-algoritmin iteraatio.}
+  \label{quickhull-iteraatio}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{kuvat/iteraatio-lopputila.png}
+  \caption{Edellä esitetyn iteraation lopputila.}
+  \label{iteraatio-lopputila}
+\end{figure}
 
 \section{Pisteiden generointi ellipsoidin pinnalle}
 Jotkin ongelmat vaativat tutkittavan kappaleen pinnan mallintamista pistejoukkona. Tämä on helppo ensiaskel esimerkiksi kappaleen muodon kolmioinnissa. Tässä työssä keskitytään generointimenetelmiin, joita voidaan hyödyntää ellipsoidien mallinnuksessa.
@@ -133,13 +159,17 @@ Tätä menetelmää voidaan edelleen kehittää määrittämällä tasaisuuskerr
 Lommel-Seeliger -heijastuslaki käsittelee yksinkertaista heijastusta, joka tapahtuu puoliäärettömässä väliaineessa, johon valo penetroituu heikentyen absorption ja sironnan vaikutuksesta. Sirottuminen kustakin väliainekerroksesta on isotrooppista ja pintaa kohti sironnut valo heikkenee edelleen matkalla pintaan. \cite{lommel}
 
 Tällöin heijastuskertoimeksi saadaan
-\begin{equation}
-	\frac{1}{4}\widetilde{\omega}P_{11}(\alpha)\frac{1}{\cos(\epsilon)+\cos(\iota)},
+\begin{equation}\label{lommel-seeliger}
+	R_{Lommel-Seeliger} = \frac{1}{4}\widetilde{\omega}P_{11}(\alpha)\frac{1}{\cos(\epsilon)+\cos(\iota)},
 \end{equation}
 missä $\epsilon$ on havaitsijan suunnan ja heijastavan pinnan normaalin välinen kulma ja $\iota$ on valonlähteen suunnan ja heijastavan pinnan normaalin välinen kulma. \cite{tenttimatsku, lommel}.
 
 \section{Asteroidin muodon kolmiointi}
+Käytin asteroidin muodon kolmiointiin edellä esitettyä Quickhull-algoritmia. Toteutin pisteiden generointiin sekä mahdollisuudet generoida pisteet kerroksittain antamalla kerroksien määrä että mahdollisuuden generoida pisteet satunnaisesti antamalla pisteiden kokonaismäärä ja tasaisuuskerroin. Kummassakin tapauksessa annetaan lisäksi ellipsin muodon määräävät vakiot $a$, $b$ ja $c$.
 
+Luvussa \ref{quickhull} esitetystä poiketen ylläpidin lisäksi listaa valmiista kolmioista. Varsinaista tapaa tietää, koska kolmiota on käsitelty viimeisen kerran ei ole, sillä vaikka kolmiolla ei ole omia näkyviä pisteitä, se saattaa olla nähtävissä jonkin naapurinsa näkyvästä pisteestä, jolloin se tullaan vielä poistamaan. Tästä syystä lisäsin kaikki uudet kolmiot luotaessa valmiiden listaan ja poistin sieltä aina iteraation lopuksi työstettävän kolmion ja valoisat kolmiot. Näin käsiteltävien kolmioiden pinon tyhjentyessä, sisältää valmiiden kolmioiden lista kaikki pinnan Delaunay-kolmiointiin kuuluvat kolmiot.
+
+Ohjelma kokonaisuudessaan on nähtävissä ja ladattavissa Githubissa (\url{https://github.com/aajarven/aurfys/tree/master/Delaunay}). Projekti sisältää myös debuggauksessa ja visualisointien luonnissa käytettävää koodia, muun muassa tiedostojen kirjoittamiseen käytetyn IO-luokan. Animaatioita toteuttamani Quickhull-algoritmin toiminnasta on nähtävissä osoitteessa \url{https://www.cs.helsinki.fi/u/aajarven/delaunay/}.
 
 \section{Asteroidin sisäinen rakenne}
 Kun asteroidin pinta on kolmioitu, voidaan asteroidin sisärakenne kattaa tetraedreillä yksinkertaisesti käyttämällä kutakin kolmiota yhden tetraedrin pohjana ja ellipsoidin keskipistettä tetraedrin neljäntenä kärkenä. Paikkaresoluution parantamiseksi voidaan nämä tetraedrit edelleen jakaa ellipsoidin säteen suunnassa katkaistuihin kartioihin.
@@ -176,18 +206,33 @@ Asetetaan yhtälössä \ref{katkaistukartio} esitetyn katkaistun kartion tilavuu
 	1 + 1-\frac{h}{R} + 1-2\frac{h}{R}+\left(\frac{h}{R}\right)^2 &= \frac{1}{n} &\nonumber\\
 	3 - 3\frac{h}{R} +\left(\frac{h}{R}\right)^2 &= \frac{1}{n} &
 \end{align}
-Yhtälö \ref{katkaistunkorkeus} on yksinkertainen toisen asteen yhtälö, jonka ratkaisuna saadaan $h$:lle seuraava lauseke
+
+Yhtälö \ref{katkaistunkorkeus} on yksinkertainen toisen asteen yhtälö, josta voidaan helposti ratkaista h. Seuraavan katkaistun kartion korkeus saadaan käyttämänä suuremman pohjan alana $A$ ulomman kartion osan pienempää pohjaa $A'$, kokonaisen kartion korkeutena matkaa $R-h$ ja tämä pienempi kartio jaetaan nyt $n-1$ osaan. Näin voidaan käyttää samaa lähestymistapaa myös seuraavaan kerrokseen.
 	
 \section{Asteroidin integroitu kirkkaus}
+Kolmioidun asteroidin integroitu kirkkaus saadaan yksinkertaisesti laskemalla yhteen havaitsijan havaitsemat kirkkaudet eri kolmioista. Toteutin tämän siten, että aluksi lasketaan kolmion normaali, joka suuntautuu poispäin origosta. Kolmion kärkipisteiden perusteella mahdollisia normaaleja on kaksi, ja näistä valitaan se, jonka pistetulo origon (origo on väistämättä origokeskisen ellipsoidin sisällä) ja jonkin kolmion kärkipisteen välisen paikkavektorin kanssa on yli nolla eli vektorien välinen kulma ei ole yli 90$^\circ$. Tämän normaalivektorin ja Auringon sekä havaitsijan paikkavektorien (asteroidikeskeisessä koordinaatistossa) välisistä kulmista saadaan kulmat $\epsilon$ ja $\iota$. Mikäli kumpi tahansa kulmista $\epsilon$ ja $\iota$ on välin $[-\pi/2, \pi/2]$ ulkopuolella, voidaan kirkkaus asettaa suoraan nollaan, sillä kolmio ei joko ole havaittavissa tai se ei ole valaistu. Muussa tapauksessa näistä voidaan edelleen laskea yhtälön \ref{lommel-seeliger} mukaisesti heijastuskerroin.
 
+Kirkkauden laskemisen yksinkertaisuudesta huolimatta jäi toteutukseeni bugi, jonka takia sen antamat kirkkauksien arvot eivät ole fysikaalisia, eikä minulla valitettavasti ole aikaa etsiä enää tätä bugia. Rajoitutaan tästä syystä tarkastelemaan teoreettista mallia kirkkaudelle.
 
+Analyyttisen mallin perusteella Lommel-Seeliger -heijastuslain mukaan valoa heijastavan asteroidin kirkkaus määräytyy seuraavasti:
+\begin{align}
+	L_{Lommel-Seeliger} &= \frac{1}{8} \pi F_0 \widetilde{\omega} P(\alpha)abc\frac{S_{\astrosun} S_{\oplus}}{S} \{ \cos(\lambda'-\alpha') + \cos\lambda' + \sin \lambda' \sin(\lambda'-\alpha') \times\nonumber\\
+	&\times\ln\left[\cot(\frac{1}{2}\lambda')\cot\frac{1}{2}(\alpha'-\lambda')\right] \},
+\end{align}
+missä $\alpha$ on havaitsijan ja valonlähteen välinen kulma asteroidilta katsottuna ja muut vakiot on määritelty seuraavasti, kun $\vec{e}_{\astrosun}$ on valonlähteen suunnan kertova yksikkövektori ja $\vec{e}_{\oplus}$ havaitsijan suunnan kertova yksikkövektori: 
+\begin{align*}
+	S_{\astrosun} &= \sqrt{e_{\astrosun}^TCe_{\oplus}} \\
+	S_{\oplus} &= \sqrt{e_{\oplus}^TCe_{\astrosun}} \\
+	\cos(\alpha') &= \frac{e_{\astrosun}^TCe_{\oplus}}{S_{\astrosun}S_{\oplus}} \\
+	\sin(\alpha') &= \sqrt{1-\cos^2(\alpha')} \\
+	S &= \sqrt{S_{\astrosun}^2+S_{\oplus}^2+2S_{\astrosun}S_{\oplus}\cos(\alpha')} \\
+	\cos(\lambda') &= \frac{S_{\astrosun}+S_{\oplus}\cos(\alpha')}{S} \\
+	\sin(\lambda') &= \frac{S_{\oplus}\sin(\alpha')}{S}.
+\end{align*}
+Näissä esiintycä $C$ on määrittää ellipsin muodon. Se on muutoin nollamatriisi, mutta sen diagonaalilla on alkiot $\frac{1}{a^2}$, $\frac{1}{b^2}$ ja $\frac{1}{c^2}$.
 
 %%%%% Sisältö loppuu, lähdeluettelo %%%%%
+\newpage
 \bibliographystyle{plain}
 \bibliography{lahteet} %lähdeluettelon tiedot tiedostossa selkkarilahteet.bib. Esimerkiksi helkasta saa kirjojen tiedot valmiiksi bibtex-muodossa, kannattaa hyödyntää.
-
-\appendix
-\newpage
-\section{Liittyvä liite.} \label{koodi}
-Liian laaja leipätekstiin.
 \end{document}
