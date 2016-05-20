@@ -1,0 +1,1 @@
+150 pistettä, 296 kolmiota, 1.1, 0.8, 0.2, tasaisuuskerroin 1.1
